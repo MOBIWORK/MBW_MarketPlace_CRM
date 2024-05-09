@@ -119,7 +119,7 @@ const addValue = (value) => {
 
 function updateAssignees() {
   if (assignees.value.length === 0) {
-    error.value = 'Please select at least one assignee'
+    error.value = __('Please select at least one assignee')
     return
   }
   const removedAssignees = oldAssignees.value
