@@ -96,7 +96,7 @@ export const statusesStore = defineStore('crm-statuses', () => {
     let options = []
     for (const status in statusesByName) {
       options.push({
-        label: statusesByName[status].name,
+        label: __(statusesByName[status].name),
         value: statusesByName[status].name,
         icon: () =>
           h(IndicatorIcon, {

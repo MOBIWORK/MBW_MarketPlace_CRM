@@ -115,7 +115,7 @@
                 (event) => emit('applyFilter', { event, idx, column, item })
               "
             >
-              {{ label }}
+            {{ __(label) }}
             </div>
           </template>
         </ListRowItem>

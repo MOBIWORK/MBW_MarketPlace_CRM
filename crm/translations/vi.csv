@@ -1,0 +1,580 @@
+A Lead requires either a person's name or an organization's name,Lead yêu cầu tên cá nhân hoặc tên công ty Lead yêu cầu tên cá nhân hoặc tên tổ chức
+API Key,API Key
+API Secret,API Secret
+About,Về
+About this Deal,Thông tin Deal
+About this Lead,Thông tin Lead
+Accept,Chấp nhận
+Account SID,Tài khoản SID
+Activity,Hoạt động
+Add Column,Thêm cột 
+Add Contact,Thêm liên hệ
+Add Filter,Thêm bộ lọc
+Add Sort,Thêm sắp xếp
+Add Weekly Holidays,Thêm ngày nghỉ hàng tuần
+Add to Holidays,Thêm vào ngày nghỉ
+Agent is unavailable to take the call, please call after some time.,Người hỗ trợ không thể nhận cuộc gọi, vui lòng gọi lại sau
+Amount,Doanh số
+And,Và
+Annual Revenue,Doanh thu hàng năm
+Annual Revenue should be a number,Doanh thu hàng năm phải có định dạng số
+Apply,Áp dụng
+Apply On,Áp dụng vào
+Apply To,Áp dụng cho
+Are you sure you want to delete this contact?,Bạn có chắc muốn xóa liên hệ này không?
+Are you sure you want to delete this organization?,Bạn có chắc muốn xóa tổ chức này không?
+Are you sure you want to delete this task?,Bạn có chắc muốn xóa công việc này không?
+Are you sure you want to delete this view?,Bạn có chắc muốn xóa chế độ xem này không?
+Are you sure you want to delete {0} item(s)?,Bạn có chắc muốn xóa {0} mục?
+Ascending,Từ Z-> A
+Assign To,Phân công cho
+Assigned To,Đã phân công cho
+Auth Token,Mã xác thực
+BCC,BCC
+Backlog,Tồn đọng
+Between,Giữa
+Bulk Edit,Chỉnh sửa hàng loạt
+Busy,Máy bận
+Button,Nút
+CC,CC
+CRM,CRM
+CRM Call Log,CRM lịch sử cuộc gọi
+CRM Communication Status,CRM trạng thái giao tiếp 
+CRM Contacts,CRM liên hệ 
+CRM Deal,CRM Deal 
+CRM Deal Status,CRM Trạng thái Deal 
+CRM Form Script,CRM Kịch bản Form 
+CRM Holiday,CRM kì nghỉ
+CRM Holiday List,CRM Danh sách ngày nghỉ lễ 
+CRM Industry,CRM lĩnh vực 
+CRM Lead,CRM Lead 
+CRM Lead Source,CRM nguồn Lead 
+CRM Lead Status,Trạng thái Lead CRM
+CRM Notification,CRM thông báo 
+CRM Organization,CRM Tổ chức 
+CRM Service Day,
+CRM Service Level Agreement,CRM Thỏa thuận mức dịch vụ 
+CRM Service Level Priority,CRM ưu tiên mức dịch vụ 
+CRM Status Change Log,CRM lịch sử thay đổi trạng thái 
+CRM Task,CRM Công việc
+CRM Territory,CRM khu vực
+CRM View Settings,CRM cài đặt chế độ xem
+CRM-DEAL-.YYYY.-,CRM-DEAL-.YYYY.-
+CRM-LEAD-.YYYY.-,CRM-LEAD-.YYYY.-
+CSV,CSV
+Call Details,Chi tiết cuộc gọi
+Call Logs,Lịch sử gọi
+Call Received By,Nghe máy bởi
+Call with customer,Gọi điện với khách hàng
+Caller,Người gọi
+Calling...,Đang gọi
+Calls,Các cuộc gọi
+Cancel,Hủy
+Canceled,Đã hủy
+Change Status,Thay đổi trạng thái
+Change image,Thay đổi hình ảnh
+Choose Existing,Chọn có sẵn
+Choose Existing Contact,Chọn Liên hệ sẵn có
+Choose Existing Organization,Chọn Tổ chức sẵn có
+Clear,Xóa
+Clear Sort,Xóa sắp xếp
+Clear Table,Xóa bảng
+Clear all Filter,Xóa tất cả bộ lọc
+Close,Đóng
+Close Date,Ngày gần
+Collapse,Thu gọn
+Color,Màu sắc
+Columns,Tùy chỉnh cột
+Comment,Bình luận
+Communication Status,Trạng thái giao tiếp
+Completed,Đã hoàn thành
+Computer,Máy tính
+Condition,Điều kiện
+Contact,Liên hệ
+Contact Already Exists,Liên hệ đã tồn tại
+Contact Us,Liên hệ với chúng tôi
+Contact added,Đã thêm liên hệ
+Contact already exists with {0},Địa chỉ liên hệ đã tồn tại với {0}
+Contact not found,Không tìm thấy liên hệ
+Contact removed,Đã xóa liên hệ
+Contacts,Liên hệ
+Content,Nội dung
+Convert,Chuyển đổi
+Convert to Deal,Chuyển đổi thành Deal
+Converted,Đã chuyển đổi
+Create,Tạo mới
+Create Deal,Tạo Deal
+Create Email Template,Tạo mẫu Email
+Create Lead,Tạo Lead
+Create New,Tạo mới
+Create Note,Tạo ghi chú
+Create Task,Tạo công việc
+Create View,Tạo chế độ xem
+Create lead,Tạo Lead
+Date,Ngày
+Deal Owner,Người phụ trách Deal
+Deal not found,Không tìm thấy Deal
+Deal owner,Người phụ trách Deal
+Deal updated,Đã cập nhật Deal
+Deals,Deal
+Dear {{ lead_name }}, ||||||This is a reminder for the payment of {{ grand_total }}. ||||||Thanks, |||Frappé,
+Default,Mặc định
+Default Priority,Mức ưu tiên Mặc định
+Default Service Level Agreement already exists for {0},Thỏa thuận cấp độ dịch vụ mặc định đã tồn tại cho {0}
+Default Views,Chế độ xem mặc định
+Delete,Xóa
+Delete Task,Xóa công việc
+Delete View,Xóa chế độ xem
+Delete contact,Xóa liên hệ
+Delete organization,Xóa tổ chức
+Deleted successfully,Xóa thành công
+Descending,Từ A->Z
+Description,Mô tả
+Details,Chi tiết
+Device,Thiết bị
+Dialog,Hộp thoại
+Discard,Hủy
+DocType,Loại tài liệu
+Docs,Tài liệu
+Doctype,Loại tài liệu
+Document not found,Không tìm thấy tài liệu
+Documentation,Tài liệu
+Done,Đã xong
+Download,Tải xuống
+Due Date,Ngày đáo hạn
+Duplicate,Trùng
+Duplicate View,Sao chép chế độ xem
+Duration,Thời lượng
+Edit,Chỉnh sửa
+Edit Note,Chỉnh sửa Ghi chú
+Edit Task,Chỉnh sửa Công việc
+Edit View,Chỉnh sửa chế độ xem
+Email,Email
+Email Templates,Mẫu Email
+Email from Lead,Email từ Lead
+Emails,Email
+Empty - Choose a field to filter by,Trống - Chọn một trường để lọc theo
+Empty - Choose a field to sort by,Trống - Chọn một trường để sắp xếp theo
+Enabled,
+End Date,Ngày kết thúc
+End Time,Thời gian kết thúc
+Equals,Bằng
+Error,Lỗi
+Error Updating Deal,Lỗi cập nhật Deal
+Error Updating Lead,Lỗi cập nhật Lead
+Error updating deal,Lỗi cập nhật Deal
+Error updating lead,Lỗi cập nhật Lead
+Excel,Excel
+Expand,Mở rộng
+Export,Xuất dữ liệu
+Export All {0} Record(s),Xuất tất cả {0} bản ghi
+Export Type,Kiểu xuất dữ liệu
+FCRM,FCRM
+FCRM Note,Ghi chú FCRM
+Failed,Thất bại
+Failed to capture Twilio recording,Không thể ghi lại cuộc gọi Twilio
+Failed to update Twilio call status,Không thể cập nhật trạng thái cuộc gọi Twilio
+FeatherIcon,
+Field,Trường thông tin
+Filter,Bộ lọc
+Filters,Bộ lọc
+First Name,Họ tên
+First Name is mandatory,Họ tên là trường bắt buộc
+First Responded On,Lần đầu phản hồi vào
+First Response Due,Hạn phản hổi đầu tiên
+First Response TIme,Thời gian phản hồi đầu tiên
+First Response Time,Thời gian phản hồi đầu tiên
+First name,Họ tên
+Form,Biểu mẫu
+FormControl,Điều khiển biểu mẫu
+Frappe School,
+Frappe Support,Frappe hỗ trợ
+Friday,Thứ Sáu
+From,Từ
+From Date,Từ ngày
+From User,Từ người dùng
+Fulfilled,Đã hoàn thành
+Full Name,Họ và tên đầy đủ
+Gender,Giới tính
+Go to website,Đi tới trang web
+Hi John, ||||||Can you please provide more details on this...,Xin chào quý khách, ||||||Bạn có thể cung cấp thêm chi tiết về ...
+Hide Recording,Ẩn ghi âm
+Hide all Changes,Ẩn tất cả các thay đổi
+High,Cao
+Holiday List,Danh sách ngày nghỉ
+Holiday List Name,Tên danh sách ngày nghỉ
+Holidays,Ngày nghỉ
+ID,ID
+Image,Hình ảnh
+In,Trong
+In Progress,Đang tiến hành
+In less than a minute,Trong ít hơn một phút
+Inbound Call,Cuộc gọi đến
+Incoming,Đang gọi đến
+Incoming call...,Cuộc gọi đến...
+Industry,Ngành nghề
+Initiated,Bắt đầu
+Initiating call...,Bắt đầu cuộc gọi...
+Input,Đầu vào
+Invalid Account SID or Auth Token.,Account SID hoặc Auth Token không hợp lệ.
+Invalid Email,Email không hợp lệ
+Is,Là
+Is Default,Là mặc định
+Is Group,Là nhóm
+Is Primary,Là chính
+Job Title,Chức danh
+John Doe,khách hàng
+Keyboard Shortcuts,Phím tắt bàn phím
+Label,Nhãn
+Last 6 Months,Sáu tháng trước
+Last Month,Tháng trước
+Last Name,Họ
+Last Quarter,Quý trước
+Last Status Change Log,Lần cuối thay đổi trạng thái nhật ký
+Last Week,Tuần trước
+Last Year,Năm trước
+Last modified,Được chỉnh sửa lần cuối
+Lead,Lead
+Lead Name,Tên Lead
+Lead Owner,Người phụ trách Lead
+Lead Owner cannot be same as the Lead Email Address,Người phụ trách Lead không thể trùng với địa chỉ Email Lead
+Lead not found,Không tìm thấy Lead
+Lead updated,Lead đã cập nhật
+Leads,Lead
+Left,Bên trái
+Like,Giống
+List,Danh sách
+List View,Danh sách xem
+Listen to Call,Nghe cuộc gọi
+Load Default Columns,Tải cột mặc định
+Loading...,Đang tải...
+Log,Nhật ký
+Log out,Đăng xuất
+Low,Thấp
+Make Call,Thực hiện cuộc gọi
+Make Private,Đặt ở chế độ riêng tư
+Make Public,Công bố công khai
+Make a Call,Thực hiện cuộc gọi
+Make a call,Thực hiện cuộc gọi
+Mark all as read,Đánh dấu tất cả là đã đọc
+Medium,Trung bình
+Mention,Đề cập
+Message,Tin nhắn
+Middle Name,Tên đệm
+Mobile No,Số di động
+Mobile No should be a number,Số di động phải có định dạng số
+Mobile no,Số di động
+Monday,Thứ Hai
+More,Nhiều hơn
+My Open Deals,Các giao dịch của tôi đang mở
+My Profile,Hồ sơ của tôi
+My Settings,Cài đặt của tôi
+Name,Tên
+Naming Series,Đặt tên chuỗi
+New,Mới
+New Email,Email mới
+New Note,Ghi chú mới
+New Organization,Tổ chức mới
+New Task,Công việc mới
+New WhatsApp Message,Tin nhắn WhatsApp mới
+New contact will be created based on the person's details,Địa chỉ liên hệ mới sẽ được tạo dựa trên thông tin cá nhân
+New organization will be created based on the data in details section,Tổ chức mới sẽ được tạo dựa trên dữ liệu trong phần chi tiết
+Next 6 Months,6 tháng kế tiếp
+Next Month,Tháng kế tiếp
+Next Quarter,Quý kế tiếp
+Next Step,Bước tiếp theo
+Next Week,Tuần tới
+Next Year,Năm tới
+No Answer,Không có trả lời
+No Contacts Found,Không tìm thấy danh bạ
+No Deals Found,Không tìm thấy Deal
+No Email Templates Found,Không tìm thấy mẫu email
+No Leads Found,Không tìm thấy Leads
+No Logs Found,Không tìm thấy nhật ký
+No Notes Found,Không tìm thấy ghi chú
+No Organizations Found,Không tìm thấy tổ chức
+No Tasks Found,Không tìm thấy công việc
+No contacts added,Không có danh bạ được thêm
+No email set,Không có email được thiết lập
+No mobile number set,Không có số di động được thiết lập
+No new notifications,Không có thông báo mới
+No phone number set,Không có số điện thoại được thiết lập
+No primary contact set,Không có liên hệ chính được thiết lập
+No results found,Không tìm thấy kết quả
+No templates found,Không tìm thấy mẫu
+No website set,Không có địa chỉ web được thiết lập
+No {0} Available,{0} không có sẵn
+No {0} Found,{0} không tìm thấy
+No. of Employees,Quy mô tổ chức
+Not Equals,Không bằng
+Not In,Không thuộc
+Not Like,Không giống
+Not allowed to add contact to Deal,Không được phép thêm liên hệ vào Deals
+Not allowed to convert Lead to Deal,Không được phép chuyển đổi Leads thành Deals
+Not allowed to remove contact from Deal,Không được phép xóa liên hệ khỏi Deals
+Not allowed to set primary contact for Deal,Không được phép đặt liên hệ chính cho Deals
+Note,Ghi chú
+Notes,Ghi chú
+Notes View,Chế độ xem Ghi chú
+Notification Text,Thông báo chữ
+Notification Type Doc,Tài liệu loại thông báo
+Notification Type Doctype,
+Notifications,Thông báo
+Now,Hiện tại
+Old Parent,
+Only PNG and JPG images are allowed,Chỉ cho phép tải lên hình ảnh PNG và JPG
+Only one {0} can be set as primary.,Chỉ có thể đặt một {0} làm chính.
+Open Deal,Mở Deal
+Open Lead,Mở Lead
+Open in Portal,Mở trong cổng thông tin
+Options,Tùy chọn
+Order By,Sắp xếp theo
+Organization,Tổ chức
+Organization Logo,Logo tổ chức
+Organization Name,Tên tổ chức
+Organization logo,Logo tổ chức
+Organizations,Tổ chức
+Others,Khác
+Outbound Call,Cuộc gọi đi
+Outgoing,Đang gọi đi
+Owner,Chủ sở hữu
+Parent CRM Territory,
+Payment Reminder,Nhắc nhở thanh toán
+Payment Reminder from Frappé - (#{{ name }}),Nhắc nhở thanh toán từ Frappé - (#{{ name }})
+Person,Thông tin cá nhân
+Phone,Điện thoại
+Pin View,Xem ghim
+Pinned,Ghim
+Pinned Views,Ghi chú được ghim
+Please enable twilio settings before making a call.,Vui lòng bật thiết lập twilio trước khi thực hiện cuộc gọi.
+Please select an existing contact,Vui lòng chọn một liên hệ hiện có
+Please select an existing organization,Vui lòng chọn một tổ chức hiện có
+Popover,Cửa sổ bật lên
+Position,Vị trí
+Primary,Chính
+Primary contact set,Đặt liên hệ chính
+Priorities,Ưu tiên
+Priority,Ưu tiên
+Probability,Xác suất
+Public,Công khai
+Public Views,Các chế độ xem công khai
+Queued,Đang chờ
+Read,Đã đọc
+Record Calls,Ghi âm cuộc gọi
+Recording URL,URL Ghi âm
+Reference Doc,Tài liệu tham chiếu
+Reference Doctype,Loại tài liệu tham chiếu
+Reference Document Type,Loại tài liệu tham chiếu
+Reference Name,Tên tài liệu tham chiếu
+Refresh,Làm mới
+Reject,Từ chối
+Reload,Tải lại
+Remove image,Xóa hình ảnh
+Rename,Đổi tên
+Reply,Trả lời
+Reply All,Trả lời tất cả
+Report an Issue,Báo cáo một vấn đề
+Reset Changes,Tái thiết lập các thay đổi
+Reset to Default,Đặt lại thành mặc định
+Response By,Phản hồi bởi
+Response Details,Chi tiết phản hồi
+Response and Follow Up,Phản hồi và theo dõi
+Right,Bên phải
+Ringing,Đang gọi
+Ringing...,Đang gọi...
+Route Name,Tên tuyến đường
+Rows,Hàng
+SLA,SLA
+SLA Creation,Khởi tạo SLA
+SLA Name,Tên SLA
+SLA Status,Trạng thái SLA
+SUBJECT,
+Sales Manager,Quản lý bán hàng
+Sales User,Sales
+Salutation,Xưng hô
+Saturday,Thứ bảy
+Save,Lưu
+Save Changes,Lưu các thay đổi
+Saved Views,Các chế độ xem đã lưu
+Script,Kịch bản
+Script already exists for this doctype and is enabled,Kịch bản đã tồn tại cho loại tài liệu này và đã được kích hoạt
+Search,Tìm kiếm
+Send,Gửi
+Send Template,Gửi mẫu
+Send an email,Gửi email
+Series,Chuỗi
+Session Defaults,Phiên mặc định
+Set as Primary Contact,Đặt làm liên hệ chính
+Show all Changes,Hiển thị tất cả các thay đổi
+Simple Python Expression, Example: doc.status == 'Open' and doc.lead_source == 'Ads',
+Sort,Sắp xếp
+Source,Nguồn
+Source Name,Tên nguồn
+Start Date,Ngày bắt đầu
+Start Time,Giờ bắt đầu
+Status,Trạng thái
+Status Change Log,Lịch sử thay đổi trạng thái
+Subject,Chủ đề
+Subject: {0},Chủ đề: {0}
+Sunday,Chủ nhật
+Support,Hỗ trợ
+Switch to Desk,Chuyển sang trang thiết lập
+System Health,Tình trạng hệ thống
+System Manager,Quản lý hệ thống
+TO,ĐẾN
+Tasks,Công việc
+Territory,Khu vực
+Territory Manager,Quản lý khu vực
+Territory Name,Tên khu vực
+TextInput,Nhập văn bản
+The Condition '{0}' is invalid: {1},Điều kiện '{0}' không hợp lệ: {1}
+There can only be one default priority in Priorities table,Chỉ có một mức ưu tiên mặc định trong bảng ưu tiên
+This Month,Tháng này
+This Quarter,Quý này
+This Week,Tuần này
+This Year,Năm nay
+Thursday,Thứ năm
+Timespan,Khoảng thời gian
+Title,Tiêu đề
+To,Đến
+To Date,Đến ngày
+To User,Đến người dùng
+Today,Hôm nay
+Todo,Phải làm
+Toggle Full Width,Chuyển đổi toàn bộ chiều rộng
+Toggle Theme,Chuyển đổi giao diện
+Tomorrow,Ngày mai
+Took a call with customer and discussed the new project.,Đã thực hiện cuộc gọi với khách hàng và thảo luận về dự án mới.
+Total Holidays,Tổng số ngày nghỉ lễ
+Tuesday,Thứ ba
+TwiML SID,TwiML SID
+Twilio API credential creation error.,Lỗi tạo thông tin xác thực Twilio API
+Twilio Agents,Đại lý Twilio
+Twilio Number,Số Twilio
+Twilio Settings,Cài đặt Twilio
+Type,Loại
+Type your message here...,Nhập tin nhắn của bạn ở đây...
+Unknown,Không xác định
+Unpin View,Bỏ ghim Chế độ xem
+Untitled,Chưa có tiêu đề
+Update,Cập nhật
+Update {0} Records,Cập nhật {0} bản ghi
+Upload Document,Tải tài liệu lên
+Upload Image,Tải ảnh lên
+Upload Video,Tải video lên
+Upload image,Tải ảnh lên
+User,Người dùng
+User Forum,Diễn đàn người dùng
+User Name,Tên người dùng
+Validity,Hiệu lực
+Value,Giá trị
+View Name,Xem tên
+View Website,Xem trang web
+Website,Trang web
+Wednesday,Thứ tư
+Weekly Off,Nghỉ hàng tuần
+Welcome Message,Tin nhắn chào mừng
+WhatsApp,WhatsApp
+WhatsApp Templates,Mẫu WhatsApp
+Where,Nơi
+Width,Chiều rộng
+Width can be in number, pixel or rem (eg. 3, 30px, 10rem),Chiều rộng có thể là số, pixel hoặc rem (ví dụ: 3, 30px, 10rem)
+Workday,Ngày làm việc
+Working Hours,Giờ làm việc
+Yesterday,Hôm qua
+You,Bạn
+added a,đã thêm
+amber,màu vàng
+applyFilter,áp dụng bộ lọc
+black,màu đen
+blue,màu xanh lam
+blur,mờ
+columnWidthUpdated,cột đã cập nhật chiều rộng
+comment,bình luận
+cyan,màu xanh lam nhạt
+div,thẻ div
+gray,màu xám
+green,màu xanh lá cây
+keydown,phím xuống
+label,nhãn
+loadMore,Tải thêm
+mentioned you in {0},đề cập đến bạn trong {0}
+orange,màu cam
+pink,màu hồng
+purple,màu tím
+red,màu đỏ
+showTask,hiển thị công việc
+teal,màu xanh cốm
+to,đến
+updatePageCount,cập nhật số trang
+violet,màu tím than
+yellow,màu vàng
+{0} is a required field,{0} là một trường bắt buộc
+{0} is an invalid email address,{0} là địa chỉ email không hợp lệ
+,
+No results found,Không tìm thấy kết quả
+Add Organization...,Thêm Tổ chức...
+Add Website...,Thêm Trang web...
+Select Industry...,Chọn Lĩnh vực...
+Select Territory...,Chọn Khu vực...
+Add Job Title...,Thêm Chức danh...
+Select Source...,Chọn Nguồn...
+Add Email...,Thêm Email...
+Add Mobile No...,Thêm Số di động...
+Organization 1,Tổ chức 1
+VietNam,Việt Nam
+Technology,Công nghệ
+Mr,Ông
+Male,Nam
+Qualification,Trình độ
+Demo/Making,Demo/Tạo
+Proposal/Quotation,Đề xuất/Báo giá
+Negotiation,Đàm phán
+Ready to Close,Sẵn sàng chốt
+Won,Thắng
+Lost,Thua
+No Activities,Không có hoạt động
+No Email Communications,Không có giao tiếp email
+No Call Logs,Không có nhật ký cuộc gọi
+No Notes,Không có ghi chú
+No Tasks,Không có công việc
+No WhatsApp Messages,Không có tin nhắn WhatsApp
+Add Next Step...,Thêm bước tiếp theo
+Madam,Bà
+Master,Bậc thầy
+Miss,
+Mrs,
+Ms,Cô
+Mx,
+Prof,Anh
+,
+Female,Nữ
+Genderqueer,
+Non - Conforming,
+Other,
+Prefer not to say,Không tiết lộ
+Transgender,
+,
+New,Mới
+Contacted,Đã liên hệ
+Nurture,Đang chăm sóc
+Qualified,Chất lượng
+Unqualified,Chất lượng kém
+Junk,Trùng
+,
+No of Employees,Số lượng nhân viên
+Frappé Technologie,
+https://frappe.io,
+India,
+John,
+Doe,
+john@doe.com,
++91 1234567890',
+https://example.com,
+,
+CEO,
+Add Last Name...,Thêm họ
+created this lead,đã tạo lead này
+created this deal,đã tạo deal này
+Last Modified,Được chỉnh sửa lần cuối
+Add Video,Thêm Video

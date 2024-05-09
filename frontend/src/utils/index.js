@@ -53,7 +53,7 @@ export function taskStatusOptions(action, data) {
     (status) => {
       return {
         icon: () => h(TaskStatusIcon, { status }),
-        label: status,
+        label: __(status),
         onClick: () => action && action(status, data),
       }
     }
@@ -63,7 +63,7 @@ export function taskStatusOptions(action, data) {
 export function taskPriorityOptions(action, data) {
   return ['Low', 'Medium', 'High'].map((priority) => {
     return {
-      label: priority,
+      label: __(priority),
       icon: () => h(TaskPriorityIcon, { priority }),
       onClick: () => action && action(priority, data),
     }

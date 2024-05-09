@@ -44,7 +44,7 @@
           }"
           :type="field.type"
           :value="data[field.name]"
-          :placeholder="field.placeholder"
+          :placeholder="__(field.placeholder)"
           :debounce="500"
           @change.stop="emit('update', field.name, $event.target.value)"
         />
@@ -63,7 +63,7 @@
           :value="data[field.name] && getUser(data[field.name]).full_name"
           doctype="User"
           @change="(data) => emit('update', field.name, data)"
-          :placeholder="'Select' + ' ' + field.label + '...'"
+          :placeholder="__('Select' + ' ' + field.label + '...' )"
           :hideMe="true"
         >
           <template v-if="data[field.name]" #prefix>
@@ -85,7 +85,7 @@
           class="form-control select-text"
           :value="data[field.name]"
           :doctype="field.doctype"
-          :placeholder="field.placeholder"
+          :placeholder="__(field.placeholder)"
           @change="(data) => emit('update', field.name, data)"
           :onCreate="field.create"
         />
@@ -94,7 +94,7 @@
           class="form-control"
           type="text"
           :value="data[field.name]"
-          :placeholder="field.placeholder"
+          :placeholder="__(field.placeholder)"
           :debounce="500"
           @change.stop="emit('update', field.name, $event.target.value)"
         />

@@ -17,7 +17,7 @@
       <Dropdown :options="statusOptions('lead', updateField)">
         <template #default="{ open }">
           <Button
-            :label="lead.data.status"
+            :label="__(lead.data.status)"
             :class="getLeadStatus(lead.data.status).colorClass"
           >
             <template #prefix>

@@ -126,7 +126,7 @@ const options = createResource({
   transform: (data) => {
     let allData = data.map((option) => {
       return {
-        label: option.value,
+        label: __(option.value),
         value: option.value,
       }
     })
