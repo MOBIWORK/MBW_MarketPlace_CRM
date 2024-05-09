@@ -240,7 +240,7 @@ const sections = computed(() => {
           label: 'Salutation',
           name: 'salutation',
           type: 'link',
-          placeholder: 'Mr',
+          placeholder: __('Mr'),
           doctype: 'Salutation',
         },
       ],
@@ -255,13 +255,13 @@ const sections = computed(() => {
           name: 'first_name',
           type: 'data',
           mandatory: true,
-          placeholder: 'John',
+          placeholder: '',
         },
         {
           label: 'Last Name',
           name: 'last_name',
           type: 'data',
-          placeholder: 'Doe',
+          placeholder: '',
         },
       ],
     },
@@ -274,14 +274,14 @@ const sections = computed(() => {
           label: 'Email',
           name: 'email_id',
           type: props.contact?.data?.name ? 'dropdown' : 'data',
-          placeholder: 'john@doe.com',
+          placeholder: 'example@gmail.com',
           options:
             props.contact.data?.email_ids?.map((email) => {
               return {
                 name: email.name,
                 value: email.email_id,
                 selected: email.email_id === props.contact.data.email_id,
-                placeholder: 'john@doe.com',
+                placeholder: 'example@gmail.com',
                 onClick: () => {
                   _contact.value.email_id = email.email_id
                   setAsPrimary('email', email.email_id)
@@ -335,14 +335,14 @@ const sections = computed(() => {
           label: 'Mobile No.',
           name: 'actual_mobile_no',
           type: props.contact?.data?.name ? 'dropdown' : 'data',
-          placeholder: '+91 9876543210',
+          placeholder: '0876543210',
           options:
             props.contact.data?.phone_nos?.map((phone) => {
               return {
                 name: phone.name,
                 value: phone.phone,
                 selected: phone.phone === props.contact.data.actual_mobile_no,
-                placeholder: '+91 1234567890',
+                placeholder: '0876543210',
                 onClick: () => {
                   _contact.value.actual_mobile_no = phone.phone
                   _contact.value.mobile_no = phone.phone
@@ -391,7 +391,7 @@ const sections = computed(() => {
           name: 'gender',
           type: 'link',
           doctype: 'Gender',
-          placeholder: 'Male',
+          placeholder: __('Male'),
         },
       ],
     },
@@ -405,7 +405,7 @@ const sections = computed(() => {
           name: 'company_name',
           type: 'link',
           doctype: 'CRM Organization',
-          placeholder: 'Frappé Technologies',
+          placeholder: __('MBW Technologies'),
         },
       ],
     },
@@ -418,7 +418,7 @@ const sections = computed(() => {
           label: 'Designation',
           name: 'designation',
           type: 'data',
-          placeholder: 'CEO',
+          placeholder: __('CEO'),
         },
       ],
     },
@@ -467,7 +467,7 @@ async function editOption(doctype, name, value) {
   if (d) {
     props.contact.reload()
     createToast({
-      title: 'Contact updated',
+      title: __('Contact updated'),
       icon: 'check',
       iconClasses: 'text-green-600',
     })
@@ -481,7 +481,7 @@ async function deleteOption(doctype, name) {
   })
   await props.contact.reload()
   createToast({
-    title: 'Contact updated',
+    title: __('Contact updated'),
     icon: 'check',
     iconClasses: 'text-green-600',
   })

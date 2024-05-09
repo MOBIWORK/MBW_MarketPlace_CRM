@@ -117,7 +117,7 @@ Deal not found,Không tìm thấy Deal
 Deal owner,Người phụ trách Deal
 Deal updated,Đã cập nhật Deal
 Deals,Deal
-Dear {{ lead_name }}, ||||||This is a reminder for the payment of {{ grand_total }}. ||||||Thanks, |||Frappé,
+Dear {{ lead_name }} \n\nThis is a reminder for the payment of {{ grand_total }}. \n\nThanks \nMBW Cloud,
 Default,Mặc định
 Default Priority,Mức ưu tiên Mặc định
 Default Service Level Agreement already exists for {0},Thỏa thuận cấp độ dịch vụ mặc định đã tồn tại cho {0}
@@ -197,7 +197,6 @@ Fulfilled,Đã hoàn thành
 Full Name,Họ và tên đầy đủ
 Gender,Giới tính
 Go to website,Đi tới trang web
-Hi John, ||||||Can you please provide more details on this...,Xin chào quý khách, ||||||Bạn có thể cung cấp thêm chi tiết về ...
 Hide Recording,Ẩn ghi âm
 Hide all Changes,Ẩn tất cả các thay đổi
 High,Cao

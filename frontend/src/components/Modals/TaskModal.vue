@@ -40,7 +40,7 @@
             ref="title"
             variant="outline"
             v-model="_task.title"
-            :placeholder="__('Call with John Doe')"
+            :placeholder="__('Call with customer')"
           />
         </div>
         <div>
@@ -52,12 +52,12 @@
             :bubbleMenu="true"
             :content="_task.description"
             @change="(val) => (_task.description = val)"
-            :placeholder="__('Took a call with John Doe and discussed the new project.')"
+            :placeholder="__('Took a call with customer and discussed the new project.')"
           />
         </div>
         <div class="flex items-center gap-2">
           <Dropdown :options="taskStatusOptions(updateTaskStatus)">
-            <Button :label="_task.status" class="w-full justify-between">
+            <Button :label="__(_task.status)" class="w-full justify-between">
               <template #prefix>
                 <TaskStatusIcon :status="_task.status" />
               </template>
@@ -68,7 +68,6 @@
             :value="getUser(_task.assigned_to).full_name"
             doctype="User"
             @change="(option) => (_task.assigned_to = option)"
-            :placeholder="__('John Doe')"
             :hideMe="true"
           >
             <template #prefix>
@@ -94,7 +93,7 @@
             input-class="border-none"
           />
           <Dropdown :options="taskPriorityOptions(updateTaskPriority)">
-            <Button :label="_task.priority" class="w-full justify-between">
+            <Button :label="__(_task.priority)" class="w-full justify-between">
               <template #prefix>
                 <TaskPriorityIcon :priority="_task.priority" />
               </template>

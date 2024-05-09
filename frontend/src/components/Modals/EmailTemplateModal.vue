@@ -47,7 +47,7 @@
             ref="subjectRef"
             variant="outline"
             v-model="_emailTemplate.subject"
-            :placeholder="__('Payment Reminder from Frappé - (#{{ name }})')"
+            :placeholder="__('Payment Reminder from - (#{{ name }})')"
           />
         </div>
         <div>
@@ -62,7 +62,7 @@
             :bubbleMenu="true"
             :content="_emailTemplate.response"
             @change="(val) => (_emailTemplate.response = val)"
-            :placeholder="__('Dear {{ lead_name }}, \n\nThis is a reminder for the payment of {{ grand_total }}. \n\nThanks, \nFrappé')"
+            :placeholder="__('Dear {{ lead_name }} \n\nThis is a reminder for the payment of {{ grand_total }}. \n\nThanks \nMBW Cloud')"
           />
         </div>
         <div>
