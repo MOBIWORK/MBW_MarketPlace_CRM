@@ -174,7 +174,6 @@ FCRM Note,Ghi chú FCRM
 Failed,Thất bại
 Failed to capture Twilio recording,Không thể ghi lại cuộc gọi Twilio
 Failed to update Twilio call status,Không thể cập nhật trạng thái cuộc gọi Twilio
-FeatherIcon,
 Field,Trường thông tin
 Filter,Bộ lọc
 Filters,Bộ lọc
@@ -494,7 +493,6 @@ cyan,màu xanh lam nhạt
 div,thẻ div
 gray,màu xám
 green,màu xanh lá cây
-keydown,phím xuống
 label,nhãn
 loadMore,Tải thêm
 mentioned you in {0},đề cập đến bạn trong {0}
