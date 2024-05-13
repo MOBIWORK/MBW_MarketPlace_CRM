@@ -24,6 +24,7 @@
     v-model:resizeColumn="triggerResize"
     v-model:updatedPageCount="updatedPageCount"
     doctype="Contact"
+    :showElement=true
   />
   <ContactsListView
     ref="contactsListView"

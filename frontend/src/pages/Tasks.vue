@@ -20,6 +20,7 @@
     v-model:resizeColumn="triggerResize"
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Task"
+    :showElement=true
   />
   <TasksListView
     ref="tasksListView"

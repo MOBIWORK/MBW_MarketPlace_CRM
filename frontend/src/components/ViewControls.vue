@@ -33,6 +33,10 @@
         <Button :label="__('Save Changes')" @click="saveView" />
       </div>
       <div class="flex items-center gap-2">
+        <SearchBar
+        v-if="showElement"
+        v-model="searchValue" @update:modelValue="updateSearch"
+        />
         <Button :label="__('Refresh')" @click="reload()" :loading="isLoading">
           <template #icon>
             <RefreshIcon class="h-4 w-4" />
@@ -143,6 +147,7 @@ import UnpinIcon from '@/components/Icons/UnpinIcon.vue'
 import ViewModal from '@/components/Modals/ViewModal.vue'
 import SortBy from '@/components/SortBy.vue'
 import Filter from '@/components/Filter.vue'
+import SearchBar from '@/components/SearchBar.vue'
 import ColumnSettings from '@/components/ColumnSettings.vue'
 import { globalStore } from '@/stores/global'
 import { viewsStore } from '@/stores/views'
@@ -168,8 +173,12 @@ const props = defineProps({
       defaultViewName: '',
     },
   },
+  showElement: {
+    type: Boolean,
+    default: false // Giá trị mặc định là true nếu không được truyền từ component cha
+  }
 })
-
+const searchValue = ref('');
 const { $dialog } = globalStore()
 const { reload: reloadView, getView } = viewsStore()
 const { isManager } = usersStore()
@@ -387,7 +396,11 @@ const viewsDropdownOptions = computed(() => {
 
   return _views
 })
-
+// Phương thức được gọi khi giá trị tìm kiếm thay đổi
+const updateSearch = (newValue) => {
+  // Xử lý logic khi giá trị tìm kiếm thay đổi
+  console.log('New search value:', newValue);
+};
 function updateFilter(filters) {
   viewUpdated.value = true
   if (!defaultParams.value) {

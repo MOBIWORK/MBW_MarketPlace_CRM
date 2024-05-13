@@ -24,6 +24,7 @@
     v-model:resizeColumn="triggerResize"
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Organization"
+    :showElement=true
   />
   <OrganizationsListView
     ref="organizationsListView"

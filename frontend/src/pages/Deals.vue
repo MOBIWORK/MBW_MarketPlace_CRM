@@ -24,6 +24,7 @@
     v-model:resizeColumn="triggerResize"
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Deal"
+    :showElement=true
   />
   <DealsListView
     ref="dealsListView"

@@ -125,7 +125,6 @@ const props = defineProps({
 const emit = defineEmits(['update'])
 
 const list = defineModel()
-
 const filterableFields = createResource({
   url: 'crm.api.doc.get_filterable_fields',
   cache: ['filterableFields', props.doctype],

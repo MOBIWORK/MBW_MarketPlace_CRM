@@ -25,6 +25,7 @@
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Lead"
     :filters="{ converted: 0 }"
+    :showElement=true
   />
   <LeadsListView
     ref="leadsListView"
