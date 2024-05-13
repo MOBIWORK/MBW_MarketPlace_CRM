@@ -185,6 +185,7 @@ async function sendMail() {
 }
 
 async function sendComment() {
+  console.log("frappe.desk.form.utils.add_comment");
   let comment = await call('frappe.desk.form.utils.add_comment', {
     reference_doctype: props.doctype,
     reference_name: doc.value.data.name,
@@ -193,6 +194,7 @@ async function sendComment() {
     comment_by: getUser()?.full_name || undefined,
   })
   if (comment && attachments.value.length) {
+    console.log("Vào đây");
     await call('crm.api.comment.add_attachments', {
       name: comment.name,
       attachments: attachments.value.map((x) => x.name),
