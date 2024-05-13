@@ -137,10 +137,10 @@ def get_list_data(
 	rows=None,
 	custom_view_name=None,
 	default_filters=None,
+	searchText: str = None
 ):
 	custom_view = False
 	filters = frappe._dict(filters)
-
 	for key in filters:
 		value = filters[key]
 		if isinstance(value, list):
@@ -153,6 +153,7 @@ def get_list_data(
 		elif value == "@me":
 			filters[key] = frappe.session.user
 
+	or_filters = apply_search_filter(searchText,doctype)
 	if default_filters:
 		default_filters = frappe.parse_json(default_filters)
 		filters.update(default_filters)
@@ -190,15 +191,15 @@ def get_list_data(
 		if column.get("key") not in rows:
 			rows.append(column.get("key"))
 		column["label"] = _(column.get("label"))
-
+	
 	data = frappe.get_list(
 		doctype,
 		fields=rows,
 		filters=filters,
+        or_filters=or_filters,
 		order_by=order_by,
 		page_length=page_length,
 	) or []
-
 	fields = frappe.get_meta(doctype).fields
 	fields = [field for field in fields if field.fieldtype not in no_value_fields]
 	fields = [
@@ -250,6 +251,42 @@ def get_list_data(
 		"form_script": get_form_script(doctype),
 		"list_script": get_form_script(doctype, "List"),
 	}
+
+def apply_search_filter(searchText: str, doctype=None):
+    # Khởi tạo một dict rỗng cho or_filters
+    or_filters = []
+
+    # Kiểm tra xem searchText có tồn tại không
+    if searchText:
+        # Nếu searchText tồn tại, thực hiện xử lý tạo or_filters dựa trên doctype
+        if doctype in ["CRM Lead", "CRM Deal", "CRM Contacts"]:
+            # Tạo các điều kiện OR cho trường "email", "organization", "phone"
+            or_filters = [
+				["email", "=", searchText],	
+    			["organization", "LIKE", f'%{searchText}%'], 
+				["phone", "=", searchText],	
+			]   
+        else:
+            if doctype == "CRM Organization":
+                or_filters = [
+    			["organization_name", "LIKE", f'%{searchText}%']
+			] 
+            elif doctype == "FCRM Note":
+                  or_filters = [
+    			["title", "LIKE", f'%{searchText}%'],
+				["content", "LIKE", f'%{searchText}%']
+			] 
+                
+            elif doctype == "CRM Task":
+                  or_filters = [
+    			["title", "LIKE", f'%{searchText}%'],
+				["description", "LIKE", f'%{searchText}%']
+			] 
+                    
+        # Thêm các trường xử lý cho các doctype khác (nếu có)
+
+    # Trả về or_filters
+    return or_filters
 
 
 def get_doctype_fields(doctype, name):

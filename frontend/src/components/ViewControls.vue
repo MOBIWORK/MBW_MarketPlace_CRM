@@ -214,6 +214,7 @@ const view = ref({
   load_default_columns: false,
   pinned: false,
   public: false,
+  searchText: ''
 })
 
 const pageLength = computed(() => list.value?.data?.page_length)
@@ -240,6 +241,7 @@ function getParams() {
   const order_by = _view?.order_by || 'modified desc'
   const columns = _view?.columns || ''
   const rows = _view?.rows || ''
+  const searchText = _view?.searchText || ''
 
   if (_view) {
     view.value = {
@@ -253,6 +255,7 @@ function getParams() {
       load_default_columns: _view.row,
       pinned: _view.pinned,
       public: _view.public,
+      searchText: searchText
     }
   } else {
     view.value = {
@@ -266,6 +269,7 @@ function getParams() {
       load_default_columns: true,
       pinned: false,
       public: false,
+      searchText: ''
     }
   }
 
@@ -279,6 +283,7 @@ function getParams() {
     page_length_count: pageLengthCount.value,
     custom_view_name: _view?.name || '',
     default_filters: props.filters,
+    searchText: searchText
   }
 }
 
@@ -287,6 +292,7 @@ list.value = createResource({
   params: getParams(),
   cache: [props.doctype, route.query.view],
   transform(data) {
+    console.log('1');
     return {
       ...data,
       params: getParams(),
@@ -399,9 +405,22 @@ const viewsDropdownOptions = computed(() => {
 // Phương thức được gọi khi giá trị tìm kiếm thay đổi
 const updateSearch = (newValue) => {
   // Xử lý logic khi giá trị tìm kiếm thay đổi
-  console.log('New search value:', newValue);
+  viewUpdated.value = true
+  if (!defaultParams.value) {
+    defaultParams.value = getParams()
+  }
+  list.value.params = defaultParams.value
+  if(newValue){
+    list.value.params.searchText = newValue
+    view.value.searchText = newValue
+  }else{
+    list.value.params.searchText = ''
+    view.value.searchText = ''
+  }
+  list.value.reload()
 };
 function updateFilter(filters) {
+
   viewUpdated.value = true
   if (!defaultParams.value) {
     defaultParams.value = getParams()
