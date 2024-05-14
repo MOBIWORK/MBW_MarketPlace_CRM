@@ -18,7 +18,9 @@
       </Dropdown>
       <Dropdown :options="viewActions">
         <template #default>
-          <Button icon="more-horizontal" />
+          <Button>
+            <FeatherIcon name="more-horizontal" class="h-4 w-4" />
+          </Button>
         </template>
       </Dropdown>
     </div>
@@ -71,17 +73,16 @@
                   label: __('Import'),
                   icon: () =>
                     h(FeatherIcon, { name: 'upload', class: 'h-4 w-4' }),
-                  onClick: () => {
-                    console.log(router);
-                    router.push({ name:'ImportData'})
-                    },
+                  onClick: () => hadelClick()
                 },
               ],
             },
           ]"
         >
           <template #default>
-            <Button icon="more-horizontal" />
+            <Button>
+              <FeatherIcon name="more-horizontal" class="h-4 w-4" />
+            </Button>
           </template>
         </Dropdown>
       </div>
@@ -351,7 +352,9 @@ async function exportRows() {
   export_all.value = false
   export_type.value = 'Excel'
 }
-
+function hadelClick(){
+ window.location.href = '/app/data-import/new-data-import'
+}
 const defaultViews = [
   {
     label: __(props.options?.defaultViewName) || __('List View'),
