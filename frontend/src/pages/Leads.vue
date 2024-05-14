@@ -26,6 +26,7 @@
     doctype="CRM Lead"
     :filters="{ converted: 0 }"
     :showElement=true
+    :placeholderText="__('Search customer')"
   />
   <LeadsListView
     ref="leadsListView"

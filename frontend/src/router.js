@@ -99,6 +99,10 @@ const routes = [
     name: 'Login',
     component: () => import('@/pages/Login.vue'),
   },
+  {
+    path: '/app/data-import/new-data-import',
+    name: 'ImportData',
+  },
 ]
 
 const scrollBehavior = (to, from, savedPosition) => {

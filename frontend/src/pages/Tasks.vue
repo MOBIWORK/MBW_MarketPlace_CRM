@@ -21,6 +21,7 @@
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Task"
     :showElement=true
+    :placeholderText="__('Search task')"
   />
   <TasksListView
     ref="tasksListView"

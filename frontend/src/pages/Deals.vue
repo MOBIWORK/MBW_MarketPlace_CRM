@@ -25,6 +25,7 @@
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Deal"
     :showElement=true
+    :placeholderText="__('Search customer')"
   />
   <DealsListView
     ref="dealsListView"

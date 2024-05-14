@@ -1,5 +1,5 @@
 <template>
-    <TextInput v-model= "search"  type="text">
+    <TextInput v-model= "search"  :placeholder=placeholderText type="text">
     <template #suffix>
       <FeatherIcon class="w-4" name="search" />
     </template>
@@ -10,7 +10,10 @@
 import { watch,ref } from 'vue';
 // Định nghĩa props và emits
 const props = defineProps({
-  value: String
+  value: String,
+  placeholderText:{
+    type: String
+  }
 });
 const emits = defineEmits(['update:modelValue']);
 // Biến search được liên kết với giá trị của input

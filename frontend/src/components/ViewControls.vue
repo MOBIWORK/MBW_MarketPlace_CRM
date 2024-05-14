@@ -33,6 +33,7 @@
       <div class="flex items-center gap-2">
         <SearchBar
         v-if="showElement"
+        :placeholderText=placeholderText
         v-model="searchValue" @update:modelValue="updateSearch"
         />
         <Button :label="__('Refresh')" @click="reload()" :loading="isLoading">
@@ -65,6 +66,15 @@
                   icon: () =>
                     h(FeatherIcon, { name: 'download', class: 'h-4 w-4' }),
                   onClick: () => (showExportDialog = true),
+                },
+                {
+                  label: __('Import'),
+                  icon: () =>
+                    h(FeatherIcon, { name: 'upload', class: 'h-4 w-4' }),
+                  onClick: () => {
+                    console.log(router);
+                    router.push({ name:'ImportData'})
+                    },
                 },
               ],
             },
@@ -172,6 +182,9 @@ const props = defineProps({
   showElement: {
     type: Boolean,
     default: false // Giá trị mặc định là true nếu không được truyền từ component cha
+  },
+  placeholderText:{
+    type: String
   }
 })
 const searchValue = ref('');

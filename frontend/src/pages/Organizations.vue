@@ -25,6 +25,7 @@
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Organization"
     :showElement=true
+    :placeholderText="__('Search organization')"
   />
   <OrganizationsListView
     ref="organizationsListView"
