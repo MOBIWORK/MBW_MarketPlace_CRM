@@ -1,6 +1,8 @@
 <template>
-  <div class="flex items-center justify-between px-10 py-5 text-lg font-medium">
-    <div class="flex h-7 items-center text-xl font-semibold text-gray-800">
+  <div
+    class="mx-10 mb-4 mt-8 flex items-center justify-between text-lg font-medium"
+  >
+    <div class="flex h-8 items-center text-xl font-semibold text-gray-800">
       {{ __(title) }}
     </div>
     <Button
@@ -71,8 +73,9 @@
     <LoadingIndicator class="h-6 w-6" />
     <span>{{ __('Loading...') }}</span>
   </div>
-  <div
+  <FadedScrollableDiv
     v-else-if="title == 'WhatsApp' && whatsappMessages.data?.length"
+    :maskHeight="30"
     class="activities flex-1 overflow-y-auto"
   >
     <WhatsAppArea
@@ -81,8 +84,12 @@
       v-model:reply="replyMessage"
       :messages="whatsappMessages.data"
     />
-  </div>
-  <div v-else-if="activities?.length" class="activities flex-1 overflow-y-auto">
+  </FadedScrollableDiv>
+  <FadedScrollableDiv
+    v-else-if="activities?.length"
+    :maskHeight="30"
+    class="activities flex-1 overflow-y-auto"
+  >
     <div
       v-if="title == 'Notes'"
       class="activity grid grid-cols-1 gap-4 px-10 pb-5 lg:grid-cols-2 xl:grid-cols-3"
@@ -240,7 +247,7 @@
             :class="i != activities.length - 1 ? 'after:h-full' : 'after:h-4'"
           >
             <div
-              class="z-10 mt-[15px] flex h-7 w-7 items-center justify-center rounded-full bg-gray-100"
+              class="z-10 mt-[15px] flex h-7 w-7 items-center justify-center rounded bg-gray-100"
             >
               <component
                 :is="
@@ -348,7 +355,7 @@
           ]"
         >
           <div
-            class="z-10 flex h-7 w-7 items-center justify-center rounded-full bg-gray-100"
+            class="z-10 flex h-7 w-7 items-center justify-center rounded bg-gray-100"
             :class="{
               'mt-3': [
                 'communication',
@@ -364,7 +371,7 @@
               :is="activity.icon"
               :class="
                 ['added', 'removed', 'changed'].includes(activity.activity_type)
-                  ? 'text-gray-600'
+                  ? 'text-gray-500'
                   : 'text-gray-800'
               "
             />
@@ -386,6 +393,12 @@
                     {{ __(timeAgo(activity.creation)) }}
                   </div>
                 </Tooltip>
+                <Badge
+                  v-if="activity.communication_type == 'Automated Message'"
+                  :label="__('Notification')"
+                  variant="subtle"
+                  theme="green"
+                />
               </div>
               <div class="flex gap-0.5">
                 <Tooltip :text="__('Reply')">
@@ -433,7 +446,8 @@
               </span>
               <span v-if="activity.data.bcc">{{ activity.data.bcc }}</span>
             </div>
-            <div
+            <FadedScrollableDiv
+              :maskHeight="30"
               class="email-content prose-f max-h-[500px] overflow-y-auto"
               v-html="activity.data.content"
             />
@@ -466,7 +480,7 @@
             </div>
             <div class="ml-auto whitespace-nowrap">
               <Tooltip :text="dateFormat(activity.creation, dateTooltipFormat)">
-                <div class="text-gray-600">
+                <div class="text-sm text-gray-600">
                   {{ __(timeAgo(activity.creation)) }}
                 </div>
               </Tooltip>
@@ -629,7 +643,7 @@
 
             <div class="ml-auto whitespace-nowrap">
               <Tooltip :text="dateFormat(activity.creation, dateTooltipFormat)">
-                <div class="text-gray-600">
+                <div class="text-sm text-gray-600">
                   {{ __(timeAgo(activity.creation)) }}
                 </div>
               </Tooltip>
@@ -693,7 +707,7 @@
 
             <div class="ml-auto whitespace-nowrap">
               <Tooltip :text="dateFormat(activity.creation, dateTooltipFormat)">
-                <div class="text-gray-600">
+                <div class="text-sm text-gray-600">
                   {{ __(timeAgo(activity.creation)) }}
                 </div>
               </Tooltip>
@@ -720,7 +734,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </FadedScrollableDiv>
   <div
     v-else
     class="flex flex-1 flex-col items-center justify-center gap-3 text-xl font-medium text-gray-500"
@@ -782,6 +796,7 @@
   <WhatsappTemplateSelectorModal
     v-if="whatsappEnabled"
     v-model="showWhatsappTemplates"
+    :doctype="doctype"
     @send="(t) => sendTemplate(t)"
   />
 </template>
@@ -795,7 +810,6 @@ import TaskIcon from '@/components/Icons/TaskIcon.vue'
 import WhatsAppIcon from '@/components/Icons/WhatsAppIcon.vue'
 import WhatsAppArea from '@/components/WhatsAppArea.vue'
 import WhatsAppBox from '@/components/WhatsAppBox.vue'
-import RefreshIcon from '@/components/Icons/RefreshIcon.vue'
 import LoadingIndicator from '@/components/Icons/LoadingIndicator.vue'
 import DurationIcon from '@/components/Icons/DurationIcon.vue'
 import CalendarIcon from '@/components/Icons/CalendarIcon.vue'
@@ -812,6 +826,7 @@ import OutboundCallIcon from '@/components/Icons/OutboundCallIcon.vue'
 import ReplyIcon from '@/components/Icons/ReplyIcon.vue'
 import ReplyAllIcon from '@/components/Icons/ReplyAllIcon.vue'
 import AttachmentItem from '@/components/AttachmentItem.vue'
+import FadedScrollableDiv from '@/components/FadedScrollableDiv.vue'
 import CommunicationArea from '@/components/CommunicationArea.vue'
 import NoteModal from '@/components/Modals/NoteModal.vue'
 import TaskModal from '@/components/Modals/TaskModal.vue'
@@ -834,6 +849,7 @@ import {
   Dropdown,
   TextEditor,
   Avatar,
+  Badge,
   createResource,
   call,
 } from 'frappe-ui'

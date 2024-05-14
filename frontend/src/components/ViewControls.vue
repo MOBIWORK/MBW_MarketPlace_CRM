@@ -18,9 +18,7 @@
       </Dropdown>
       <Dropdown :options="viewActions">
         <template #default>
-          <Button>
-            <FeatherIcon name="more-horizontal" class="h-4 w-4" />
-          </Button>
+          <Button icon="more-horizontal" />
         </template>
       </Dropdown>
     </div>
@@ -73,9 +71,7 @@
           ]"
         >
           <template #default>
-            <Button>
-              <FeatherIcon name="more-horizontal" class="h-4 w-4" />
-            </Button>
+            <Button icon="more-horizontal" />
           </template>
         </Dropdown>
       </div>
