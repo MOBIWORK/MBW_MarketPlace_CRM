@@ -263,6 +263,7 @@ def apply_search_filter(searchText: str, doctype=None):
             # Tạo các điều kiện OR cho trường "email", "organization", "phone"
             or_filters = [
 				["email", "=", searchText],	
+   				["first_name", "LIKE", f'%{searchText}%'], 
     			["organization", "LIKE", f'%{searchText}%'], 
 				["phone", "=", searchText],	
 			]   

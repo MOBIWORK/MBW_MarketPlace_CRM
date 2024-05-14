@@ -171,12 +171,12 @@ const sections = computed(() => {
           type: 'data',
           placeholder: '',
         },
-        {
-          label: 'Last Name',
-          name: 'last_name',
-          type: 'data',
-          placeholder: '',
-        },
+        // {
+        //   label: 'Last Name',
+        //   name: 'last_name',
+        //   type: 'data',
+        //   placeholder: '',
+        // },
         {
           label: 'Email',
           name: 'email',
