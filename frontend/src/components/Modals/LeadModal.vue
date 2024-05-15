@@ -27,7 +27,7 @@
 import Fields from '@/components/Fields.vue'
 import { usersStore } from '@/stores/users'
 import { statusesStore } from '@/stores/statuses'
-import { createResource } from 'frappe-ui'
+import { createResource , call} from 'frappe-ui'
 import { computed, onMounted, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -54,6 +54,7 @@ const lead = reactive({
   industry: '',
   status: '',
   lead_owner: '',
+  note:''
 })
 
 const sections = computed(() => {
@@ -156,6 +157,21 @@ const sections = computed(() => {
       ],
     },
     {
+      section: 'Note Details',
+      columns: 3,
+      fields: [
+     
+      {
+          label: '',
+          name: 'note',
+          type: 'dropdownNote',
+          placeholder: '',
+          doctype: '',
+        },
+        
+      ]
+    },
+    {
       section: 'Other Details',
       columns: 2,
       fields: [
@@ -198,7 +214,7 @@ const leadStatuses = computed(() => {
   return statuses
 })
 
-function createNewLead() {
+async function createNewLead() {
   createLead.submit(lead, {
     validate() {
       error.value = null
@@ -226,12 +242,25 @@ function createNewLead() {
       }
       isLeadCreating.value = true
     },
-    onSuccess(data) {
+    async onSuccess(data) {
       isLeadCreating.value = false
       show.value = false
       router.push({ name: 'Lead', params: { leadId: data.name } })
+      const hasContent = /<[^>]>/g.test(lead.note);
+      if(lead.note && hasContent){
+      let d = await call('frappe.client.insert', {
+      doc: {
+        doctype: 'FCRM Note',
+        title: data.name,
+        content: lead.note,
+        reference_doctype: 'CRM Lead',
+        reference_docname:'',
+      },
+    })
+      }
     },
   })
+
 }
 
 onMounted(() => {

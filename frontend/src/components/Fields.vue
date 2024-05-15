@@ -111,6 +111,46 @@
               </template>
             </NestedPopover>
           </div>
+          <div v-else-if="field.type === 'dropdownNote'">
+            <NestedPopover class="relative w-[100px]">
+              <template #target="{ open }">
+                <Button
+                  :label="__('Note')"
+                  class="dropdown-button flex w-full items-center justify-between rounded border border-gray-100 bg-gray-100 px-2 py-1.5 text-base text-gray-800 placeholder-gray-500 transition-colors hover:border-gray-200 hover:bg-gray-200 focus:border-gray-500 focus:bg-white focus:shadow-sm focus:outline-none focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400"
+                >
+                  <!-- <div style="width: 185px;" class="truncate">
+  <span >{{ data[field.name] }}</span>
+</div> -->
+                  <template #suffix>
+                    <FeatherIcon
+                      :name="open ? 'chevron-up' : 'chevron-down'"
+                      class="h-4 text-gray-600"
+                    />
+                  </template>
+                </Button>
+              </template>
+              <template #body>
+                <div
+                  class="my-2 space-y-1.5 divide-y rounded-lg border border-gray-100 bg-white p-1.5 shadow-xl"
+                  style="position: absolute; left: 105px; top: -36px"
+                >
+                  <div class="min-w-[180px]">
+                    <TextEditor
+                      variant="outline"
+                      ref="content"
+                      editor-class="!prose-sm overflow-auto min-h-[180px]  max-h-80 py-1.5 px-2 rounded border border-gray-300 bg-white hover:border-gray-400 hover:shadow-sm focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 text-gray-800 transition-colors"
+                      :bubbleMenu="true"
+                      :value="data[field.name]"
+                      :placeholder="__('Write Content...')"
+                      @change="(v) => (data[field.name] = v)"
+                    />
+                    <!-- Đây là text area -->
+                    <!-- <textarea v-model="data[field.name]" @input="updateLabel($event.target.value,field.name)" class="w-full h-22 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 "></textarea> -->
+                  </div>
+                </div>
+              </template>
+            </NestedPopover>
+          </div>
           <FormControl
             v-else
             type="text"
@@ -124,6 +164,7 @@
 </template>
 
 <script setup>
+import { TextEditor } from 'frappe-ui'
 import NestedPopover from '@/components/NestedPopover.vue'
 import DropdownItem from '@/components/DropdownItem.vue'
 import IndicatorIcon from '@/components/Icons/IndicatorIcon.vue'
@@ -133,11 +174,18 @@ import { usersStore } from '@/stores/users'
 import { Tooltip } from 'frappe-ui'
 
 const { getUser } = usersStore()
+import { ref } from 'vue'
 
+// Khai báo biến data
 const props = defineProps({
   sections: Array,
   data: Object,
 })
+// const updateLabel = (value, field) => {
+//   props.data[field] = value
+//   console.log(props.data[field]);
+  
+// }
 </script>
 
 <style scoped>

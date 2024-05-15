@@ -302,7 +302,6 @@ list.value = createResource({
   params: getParams(),
   cache: [props.doctype, route.query.view],
   transform(data) {
-    console.log('1');
     return {
       ...data,
       params: getParams(),

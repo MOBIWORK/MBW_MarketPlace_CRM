@@ -262,16 +262,15 @@ def apply_search_filter(searchText: str, doctype=None):
         if doctype == "CRM Lead":
             # Tạo các điều kiện OR cho trường "email", "first_name", "organization", "phone"
             or_filters = [
-                ["email", "=", searchText],   
-                ["first_name", "LIKE", f'%{searchText}%'], 
-                ["organization", "LIKE", f'%{searchText}%'], 
+                ["email", "LIKE", f'%{searchText}%'],   
+                ["first_name", "LIKE", f'%{searchText}%'],
                 ["phone", "=", searchText],  
                 ["mobile_no", "=", searchText]   
             ]   
         elif doctype == "CRM Deal":
             # Tạo các điều kiện OR cho trường "email", "organization", "phone"
             or_filters = [
-                ["email", "=", searchText],
+                ["email", "LIKE", f'%{searchText}%'],
                 ["organization", "LIKE", f'%{searchText}%'], 
                 ["phone", "=", searchText],
                 ["mobile_no", "=", searchText]  
@@ -279,7 +278,7 @@ def apply_search_filter(searchText: str, doctype=None):
         elif doctype == "Contact":
             # Tạo các điều kiện OR cho trường "email", "first_name", "organization", "phone"
             or_filters = [
-                ["email_id", "=", searchText],   
+                ["email_id", "LIKE", f'%{searchText}%'],   
                 ["first_name", "LIKE", f'%{searchText}%'],  
                 ["phone", "=", searchText], 
                 ["mobile_no", "=", searchText],   
