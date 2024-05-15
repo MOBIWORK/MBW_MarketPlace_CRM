@@ -253,38 +253,57 @@ def get_list_data(
 	}
 
 def apply_search_filter(searchText: str, doctype=None):
-    # Khởi tạo một dict rỗng cho or_filters
+    # Khởi tạo một list rỗng cho or_filters
     or_filters = []
 
     # Kiểm tra xem searchText có tồn tại không
     if searchText:
         # Nếu searchText tồn tại, thực hiện xử lý tạo or_filters dựa trên doctype
-        if doctype in ["CRM Lead", "CRM Deal", "CRM Contacts"]:
+        if doctype == "CRM Lead":
+            # Tạo các điều kiện OR cho trường "email", "first_name", "organization", "phone"
+            or_filters = [
+                ["email", "=", searchText],   
+                ["first_name", "LIKE", f'%{searchText}%'], 
+                ["organization", "LIKE", f'%{searchText}%'], 
+                ["phone", "=", searchText],  
+                ["mobile_no", "=", searchText]   
+            ]   
+        elif doctype == "CRM Deal":
             # Tạo các điều kiện OR cho trường "email", "organization", "phone"
             or_filters = [
-				["email", "=", searchText],	
-   				["first_name", "LIKE", f'%{searchText}%'], 
-    			["organization", "LIKE", f'%{searchText}%'], 
-				["phone", "=", searchText],	
-			]   
+                ["email", "=", searchText],
+                ["organization", "LIKE", f'%{searchText}%'], 
+                ["phone", "=", searchText],
+                ["mobile_no", "=", searchText]  
+            ]   
+        elif doctype == "Contact":
+            # Tạo các điều kiện OR cho trường "email", "first_name", "organization", "phone"
+            or_filters = [
+                ["email_id", "=", searchText],   
+                ["first_name", "LIKE", f'%{searchText}%'],  
+                ["phone", "=", searchText], 
+                ["mobile_no", "=", searchText],   
+            ]   
+        elif doctype == "CRM Organization":
+            # Tạo điều kiện OR cho trường "organization_name"
+            or_filters = [
+                ["organization_name", "LIKE", f'%{searchText}%']
+            ] 
+        elif doctype == "FCRM Note":
+            # Tạo các điều kiện OR cho trường "title", "content"
+            or_filters = [
+                ["title", "LIKE", f'%{searchText}%'],
+                ["content", "LIKE", f'%{searchText}%']
+            ] 
+        elif doctype == "CRM Task":
+            # Tạo các điều kiện OR cho trường "title", "description"
+            or_filters = [
+                ["title", "LIKE", f'%{searchText}%'],
+                ["description", "LIKE", f'%{searchText}%']
+            ] 
         else:
-            if doctype == "CRM Organization":
-                or_filters = [
-    			["organization_name", "LIKE", f'%{searchText}%']
-			] 
-            elif doctype == "FCRM Note":
-                  or_filters = [
-    			["title", "LIKE", f'%{searchText}%'],
-				["content", "LIKE", f'%{searchText}%']
-			] 
-                
-            elif doctype == "CRM Task":
-                  or_filters = [
-    			["title", "LIKE", f'%{searchText}%'],
-				["description", "LIKE", f'%{searchText}%']
-			] 
-                    
-        # Thêm các trường xử lý cho các doctype khác (nếu có)
+            # Thêm các trường xử lý cho các doctype khác (nếu có)
+            pass
 
     # Trả về or_filters
     return or_filters
