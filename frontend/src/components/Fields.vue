@@ -156,7 +156,10 @@
             type="text"
             :placeholder="__(field.placeholder)"
             v-model="data[field.name]"
+            @focus="handleFocus(data[field.name],field.name)"
+            @blur="handleBlur(data[field.name],field.name)"
           />
+          <!-- <div v-if="invalidFields[field.name]" class="text-red-500">Invalid input for {{ field.name }}, please try again.</div> -->
         </div>
       </div>
     </div>
@@ -174,7 +177,6 @@ import { usersStore } from '@/stores/users'
 import { Tooltip } from 'frappe-ui'
 
 const { getUser } = usersStore()
-import { ref } from 'vue'
 
 // Khai báo biến data
 const props = defineProps({
@@ -186,6 +188,14 @@ const props = defineProps({
 //   console.log(props.data[field]);
   
 // }
+const handleFocus = (v , f) => {
+  
+};
+const handleBlur = (v, f) => {
+  console.log(v);
+  console.log(f);
+}
+
 </script>
 
 <style scoped>
