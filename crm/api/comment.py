@@ -6,7 +6,43 @@ from bs4 import BeautifulSoup
 
 def on_update(self, method):
     notify_mentions(self)
+    if self.comment_type == "Comment":
+        notify_rely_comment(self)
 
+def notify_rely_comment(doc):
+    info_doc = frappe.get_doc(doc.reference_doctype, doc.reference_name)
+    owner_lead_deal = ""
+    if doc.reference_doctype == "CRM Lead":
+        owner_lead_deal = info_doc.lead_owner
+    elif doc.reference_doctype == "CRM Deal":
+        owner_lead_deal = info_doc.deal_owner
+    owner_comment = doc.owner
+    if owner_lead_deal != owner_comment:
+        doctype = doc.reference_doctype
+        if doctype.startswith("CRM "):
+            doctype = doctype[4:].lower()
+        notification_text = f"""
+            <div class="mb-2 leading-5 text-gray-600">
+                <span class="font-medium text-gray-900">{ owner_comment }</span>
+                <span>{ _('đã bình luận về {0}').format(doctype) }</span>
+                <span> của bạn</span>
+            </div>
+        """
+        values = frappe._dict(
+            doctype="CRM Notification",
+            from_user=owner_comment,
+            to_user=owner_lead_deal,
+            type="RelyComment",
+            message=doc.content,
+            notification_text=notification_text,
+            notification_type_doctype="Comment",
+            notification_type_doc=doc.name,
+            reference_doctype=doc.reference_doctype,
+            reference_name=doc.reference_name,
+        )
+        if frappe.db.exists("CRM Notification", values):
+            return
+        frappe.get_doc(values).insert()
 
 def notify_mentions(doc):
     """
@@ -25,8 +61,7 @@ def notify_mentions(doc):
         notification_text = f"""
             <div class="mb-2 leading-5 text-gray-600">
                 <span class="font-medium text-gray-900">{ owner }</span>
-                <span>{ _('mentioned you in {0}').format(doctype) }</span>
-                <span class="font-medium text-gray-900">{ doc.reference_name }</span>
+                <span>{ _('đã đề cập đến bạn trong một bình luận') }</span>
             </div>
         """
         values = frappe._dict(

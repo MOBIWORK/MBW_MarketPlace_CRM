@@ -142,8 +142,8 @@ Documentation,Tài liệu
 Done,Đã xong
 Download,Tải xuống
 Due Date,Ngày đáo hạn
-Duplicate,Trùng
-Duplicate View,Sao chép chế độ xem
+Duplicate,Tạo bản sao
+Duplicate View,Chế độ xem bản sao
 Duration,Thời lượng
 Edit,Chỉnh sửa
 Edit Note,Chỉnh sửa Ghi chú
@@ -203,7 +203,7 @@ Holiday List Name,Tên danh sách ngày nghỉ
 Holidays,Ngày nghỉ
 ID,ID
 Image,Hình ảnh
-In,Trong
+In,Chứa
 In Progress,Đang tiến hành
 In less than a minute,Trong ít hơn một phút
 Inbound Call,Cuộc gọi đến
@@ -250,7 +250,7 @@ Log out,Đăng xuất
 Low,Thấp
 Make Call,Thực hiện cuộc gọi
 Make Private,Đặt ở chế độ riêng tư
-Make Public,Công bố công khai
+Make Public,Đặt công khai
 Make a Call,Thực hiện cuộc gọi
 Make a call,Thực hiện cuộc gọi
 Mark all as read,Đánh dấu tất cả là đã đọc
@@ -304,7 +304,7 @@ No {0} Available,{0} không có sẵn
 No {0} Found,{0} không tìm thấy
 No. of Employees,Quy mô tổ chức
 Not Equals,Không bằng
-Not In,Không thuộc
+Not In,Không chứa
 Not Like,Không giống
 Not allowed to add contact to Deal,Không được phép thêm liên hệ vào Deals
 Not allowed to convert Lead to Deal,Không được phép chuyển đổi Leads thành Deals
@@ -350,8 +350,8 @@ Popover,Cửa sổ bật lên
 Position,Vị trí
 Primary,Chính
 Primary contact set,Đặt liên hệ chính
-Priorities,Ưu tiên
-Priority,Ưu tiên
+Priorities,Mức ưu tiên
+Priority,Mức ưu tiên
 Probability,Xác suất
 Public,Công khai
 Public Views,Các chế độ xem công khai
@@ -437,7 +437,7 @@ To,Đến
 To Date,Đến ngày
 To User,Đến người dùng
 Today,Hôm nay
-Todo,Phải làm
+Todo,Cần làm
 Toggle Full Width,Chuyển đổi toàn bộ chiều rộng
 Toggle Theme,Chuyển đổi giao diện
 Tomorrow,Ngày mai
@@ -473,7 +473,7 @@ Weekly Off,Nghỉ hàng tuần
 Welcome Message,Tin nhắn chào mừng
 WhatsApp,WhatsApp
 WhatsApp Templates,Mẫu WhatsApp
-Where,Nơi
+Where,Khi
 Width,Chiều rộng
 Width can be in number, pixel or rem (eg. 3, 30px, 10rem),Chiều rộng có thể là số, pixel hoặc rem (ví dụ: 3, 30px, 10rem)
 Workday,Ngày làm việc
@@ -555,7 +555,7 @@ New,Mới
 Contacted,Đã liên hệ
 Nurture,Đang chăm sóc
 Qualified,Chất lượng
-Unqualified,Chất lượng kém
+Unqualified,Không chất lượng
 Junk,Trùng
 ,
 No of Employees,Số lượng nhân viên

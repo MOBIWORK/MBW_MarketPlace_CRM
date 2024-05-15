@@ -129,6 +129,7 @@ override_doctype_class = {
 doc_events = {
 	"Contact": {
 		"validate": ["crm.api.contact.validate"],
+		"before_save": ["crm.api.task.notify_change_contact_deal"]
 	},
 	"ToDo": {
 		"after_insert": ["crm.api.todo.after_insert"],
@@ -140,6 +141,14 @@ doc_events = {
 		"validate": ["crm.api.whatsapp.validate"],
 		"on_update": ["crm.api.whatsapp.on_update"],
 	},
+	"CRM Deal": {
+		"after_insert": ["crm.api.task.notify_asign_contact"],
+		"before_save": ["crm.api.task.notify_unasign_contact", "crm.api.task.notify_change_info_deal"]
+	},
+	"CRM Lead": {
+		"after_insert": ["crm.api.task.notify_asign_contact"],
+		"before_save": ["crm.api.task.notify_unasign_contact", "crm.api.task.notify_change_info_lead"]
+	}
 }
 
 # Scheduled Tasks
