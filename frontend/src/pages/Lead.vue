@@ -344,6 +344,10 @@ onMounted(() => {
 const reload = ref(false)
 const showAssignmentModal = ref(false)
 
+function onChangeStatusLead(evt){
+  console.log("change lead", evt);
+}
+
 function updateLead(fieldname, value, callback) {
   value = Array.isArray(fieldname) ? '' : value
 
@@ -460,6 +464,9 @@ function updateField(name, value, callback) {
     lead.data[name] = value
     callback?.()
   })
+  if(name == "status" && value == "Qualified"){
+    showConvertToDealModal.value = true;
+  }
 }
 
 async function deleteLead(name) {
