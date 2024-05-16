@@ -13,10 +13,16 @@
         "
       >
         <div v-for="field in section.fields" :key="field.name">
-          <div class="mb-2 text-sm text-gray-600">
+          
+            <div class="mb-2 text-sm text-gray-600" style="display: flex; justify-content: space-between;">
             {{ __(field.label) }}
             <span class="text-red-500" v-if="field.mandatory">*</span>
+            
+            <FeatherIcon v-if="error[field.name]" name="alert-triangle" class="h-4 w-4 text-red-500" />
           </div>
+          
+         
+          
           <FormControl
             v-if="field.type === 'select'"
             type="select"
@@ -156,10 +162,10 @@
             type="text"
             :placeholder="__(field.placeholder)"
             v-model="data[field.name]"
-            @focus="handleFocus(data[field.name],field.name)"
-            @blur="handleBlur(data[field.name],field.name)"
+            @focus="handleFocus(data[field.name], field.name)"
+            @blur="handleBlur(data[field.name], field.name)"
           />
-          <!-- <div v-if="invalidFields[field.name]" class="text-red-500">Invalid input for {{ field.name }}, please try again.</div> -->
+          <!-- <span v-if="error[field.name]" class="error-message">{{ error[field.name] }}</span> -->
         </div>
       </div>
     </div>
@@ -174,32 +180,58 @@ import IndicatorIcon from '@/components/Icons/IndicatorIcon.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
 import Link from '@/components/Controls/Link.vue'
 import { usersStore } from '@/stores/users'
-import { Tooltip } from 'frappe-ui'
+import { Tooltip ,FeatherIcon} from 'frappe-ui'
+import { reactive } from 'vue';
+const { getUser } = usersStore();
 
-const { getUser } = usersStore()
-
-// Khai báo biến data
 const props = defineProps({
   sections: Array,
   data: Object,
-})
-// const updateLabel = (value, field) => {
-//   props.data[field] = value
-//   console.log(props.data[field]);
-  
-// }
-const handleFocus = (v , f) => {
+});
+
+const error = reactive({}); // object to store validation errors
+
+const handleFocus = (value, fieldName) => {
+  // Clear error message when the field is focused
   
 };
-const handleBlur = (v, f) => {
-  console.log(v);
-  console.log(f);
-}
 
+const handleBlur = (value, fieldName) => {
+  // Perform validation based on your requirements
+  // For example, check if the value is empty
+  const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
+  
+  if(value !=''){
+    if(fieldName == 'email'){
+    if (!value.match(emailRegex)) {
+      error[fieldName] = 'Invalid email format';
+    }else{
+      error[fieldName] = '';
+    }
+    }else if(fieldName == 'mobile_no'){
+      const cleanedValue = value.replace(/\s+/g, '').replace(/^(\+?84|0)/, '0');
+      props.data[fieldName] = cleanedValue
+      if (isNaN(cleanedValue) || cleanedValue.length !== 10) {
+    error[fieldName] = __('Mobile No should be a number');
+  } else {
+    error[fieldName] = ''; // Số điện thoại hợp lệ
+  }
+     
+    }
+  }else{
+    error[fieldName] = '';
+  }
+  
+  
+};
 </script>
 
 <style scoped>
 :deep(.form-control.prefix select) {
   padding-left: 2rem;
+}
+.error-message {
+  color: red;
+  font-size: 0.8rem;
 }
 </style>
