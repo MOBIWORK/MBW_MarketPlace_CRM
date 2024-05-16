@@ -27,6 +27,7 @@
     :filters="{ converted: 0 }"
     :showElement=true
     :placeholderText="__('Search customer')"
+    @showImportModal="show"
   />
   <LeadsListView
     ref="leadsListView"
@@ -58,6 +59,7 @@
     </div>
   </div>
   <LeadModal v-model="showLeadModal" />
+  <ImportModal v-model="showImportModal" />
 </template>
 
 <script setup>
@@ -66,6 +68,7 @@ import LeadsIcon from '@/components/Icons/LeadsIcon.vue'
 import LayoutHeader from '@/components/LayoutHeader.vue'
 import LeadsListView from '@/components/ListViews/LeadsListView.vue'
 import LeadModal from '@/components/Modals/LeadModal.vue'
+import ImportModal from '@/components/Modals/ImportModal.vue'
 import ViewControls from '@/components/ViewControls.vue'
 import { usersStore } from '@/stores/users'
 import { organizationsStore } from '@/stores/organizations'
@@ -81,6 +84,7 @@ import { createResource, Breadcrumbs } from 'frappe-ui'
 import { useRouter } from 'vue-router'
 import { ref, computed, reactive } from 'vue'
 
+
 const breadcrumbs = [{ label: __('Leads'), route: { name: 'Leads' } }]
 
 const { getUser } = usersStore()
@@ -91,7 +95,7 @@ const router = useRouter()
 
 const leadsListView = ref(null)
 const showLeadModal = ref(false)
-
+const showImportModal = ref(false)
 // leads data is loaded in the ViewControls component
 const leads = ref({})
 const loadMore = ref(1)
@@ -232,5 +236,28 @@ function createNewLead(close) {
       },
     })
     .then(close)
+}
+function show(){
+      showImportModal.value = true;
+      setTimeout(() => {
+        const iframe = document.getElementById('myFrame');
+        if (iframe) {
+    const iframeWindow = iframe.contentWindow
+    if (iframeWindow) {
+      console.log(iframeWindow);
+      // Thêm event listener để đảm bảo rằng nội dung trong iframe đã được load
+      iframeWindow.addEventListener('load', () => {
+        // Truy cập vào phần tử header của body trong iframe
+        const header = iframeWindow.document.querySelector(".navbar.navbar-expand");
+        console.log(header);
+        if (header) {
+          // Thêm class 'hidden' để ẩn phần tử header
+          header.style.display = 'none'
+        }
+      })
+    }
+  }
+      }, 100);
+      
 }
 </script>

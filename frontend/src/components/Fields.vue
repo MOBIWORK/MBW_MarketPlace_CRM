@@ -202,13 +202,13 @@ const handleBlur = (value, fieldName) => {
   const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
   
   if(value !=''){
-    if(fieldName == 'email'){
+    if(fieldName == 'email' || fieldName == 'email_id'){
     if (!value.match(emailRegex)) {
       error[fieldName] = 'Invalid email format';
     }else{
       error[fieldName] = '';
     }
-    }else if(fieldName == 'mobile_no'){
+    }else if(fieldName == 'mobile_no'||fieldName == 'actual_mobile_no'){
       const cleanedValue = value.replace(/\s+/g, '').replace(/^(\+?84|0)/, '0');
       props.data[fieldName] = cleanedValue
       if (isNaN(cleanedValue) || cleanedValue.length !== 10) {

@@ -144,6 +144,7 @@
       </div>
     </template>
   </Dialog>
+  
 </template>
 <script setup>
 import RefreshIcon from '@/components/Icons/RefreshIcon.vue'
@@ -186,7 +187,8 @@ const props = defineProps({
   },
   placeholderText:{
     type: String
-  }
+  },
+ 
 })
 const searchValue = ref('');
 const { $dialog } = globalStore()
@@ -351,8 +353,11 @@ async function exportRows() {
   export_all.value = false
   export_type.value = 'Excel'
 }
+const emit = defineEmits(['showImportModal'])
 function hadelClick(){
- window.location.href = '/app/data-import/new-data-import'
+  emit('showImportModal', true)
+
+  //window.location.href = '/app/data-import/new-data-import'
 }
 const defaultViews = [
   {
