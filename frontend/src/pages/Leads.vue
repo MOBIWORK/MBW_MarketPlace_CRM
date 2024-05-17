@@ -113,7 +113,7 @@ const rows = computed(() => {
 
       if (row == 'lead_name') {
         _rows[row] = {
-          label: lead.lead_name,
+          label: lead.first_name,
           image: lead.image,
           image_label: lead.first_name,
         }

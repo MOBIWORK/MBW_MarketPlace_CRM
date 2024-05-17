@@ -108,6 +108,13 @@ const triggerResize = ref(1)
 const updatedPageCount = ref(20)
 const viewControls = ref(null)
 
+const columns = computed(() => {
+  return contacts.value?.data.columns.forEach(field => {
+    if (field.key === 'full_name') {
+        field.key = 'first_name';
+    }
+});
+})
 const rows = computed(() => {
   if (!contacts.value?.data?.data) return []
   return contacts.value?.data.data.map((contact) => {
@@ -115,10 +122,10 @@ const rows = computed(() => {
     contacts.value?.data.rows.forEach((row) => {
       _rows[row] = contact[row]
 
-      if (row == 'full_name') {
+      if (row == 'first_name') {
         _rows[row] = {
-          label: contact.full_name,
-          image_label: contact.full_name,
+          label: contact.first_name,
+          image_label: contact.first_name,
           image: contact.image,
         }
       } else if (row == 'company_name') {
@@ -136,4 +143,5 @@ const rows = computed(() => {
     return _rows
   })
 })
+
 </script>

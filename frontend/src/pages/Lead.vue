@@ -400,7 +400,7 @@ function validateRequired(fieldname, value) {
 const breadcrumbs = computed(() => {
   let items = [{ label: __('Leads'), route: { name: 'Leads' } }]
   items.push({
-    label: lead.data.lead_name || __('Untitled'),
+    label: lead.data.first_name || __('Untitled'),
     route: { name: 'Lead', params: { leadId: lead.data.name } },
   })
   return items
