@@ -21,6 +21,7 @@
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Task"
     :showElement=true
+    :showFuncConvertTaskCustomer="showConvertTaskCustomer"
     :placeholderText="__('Search task')"
   />
   <TasksListView
@@ -66,13 +67,26 @@ import TaskModal from '@/components/Modals/TaskModal.vue'
 import { usersStore } from '@/stores/users'
 import { dateFormat, dateTooltipFormat, timeAgo } from '@/utils'
 import { Breadcrumbs } from 'frappe-ui'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
+import { sessionStore } from '@/stores/session'
 
 const breadcrumbs = [{ label: __('Tasks'), route: { name: 'Tasks' } }]
 
 const { getUser } = usersStore()
+const { roles } = sessionStore()
 
 const tasksListView = ref(null)
+const showConvertTaskCustomer = ref(false)
+
+onMounted(()=>{
+  let arrRole = roles.data;
+  for(let i = 0; i < arrRole.length; i++){
+    if(arrRole[i] == "System Manager"){
+      showConvertTaskCustomer.value = true;
+      break;
+    }
+  }
+})
 
 // tasks data is loaded in the ViewControls component
 const tasks = ref({})

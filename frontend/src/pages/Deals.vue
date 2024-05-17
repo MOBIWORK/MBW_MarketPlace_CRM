@@ -25,6 +25,7 @@
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Deal"
     :showElement=true
+    :showFuncConvertTaskCustomer="showConvertTaskCustomer"
     :placeholderText="__('Search customer')"
   />
   <DealsListView
@@ -77,16 +78,30 @@ import {
   formatTime,
 } from '@/utils'
 import { Breadcrumbs } from 'frappe-ui'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { sessionStore } from '@/stores/session'
 
 const breadcrumbs = [{ label: __('Deals'), route: { name: 'Deals' } }]
 
 const { getUser } = usersStore()
 const { getOrganization } = organizationsStore()
 const { getDealStatus } = statusesStore()
+const { roles } = sessionStore()
 
 const dealsListView = ref(null)
 const showDealModal = ref(false)
+
+const showConvertTaskCustomer = ref(false)
+
+onMounted(()=>{
+  let arrRole = roles.data;
+  for(let i = 0; i < arrRole.length; i++){
+    if(arrRole[i] == "System Manager"){
+      showConvertTaskCustomer.value = true;
+      break;
+    }
+  }
+})
 
 // deals data is loaded in the ViewControls component
 const deals = ref({})

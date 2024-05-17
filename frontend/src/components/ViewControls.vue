@@ -62,20 +62,7 @@
             {
               group: __('Options'),
               hideLabel: true,
-              items: [
-                {
-                  label: __('Export'),
-                  icon: () =>
-                    h(FeatherIcon, { name: 'download', class: 'h-4 w-4' }),
-                  onClick: () => (showExportDialog = true),
-                },
-                {
-                  label: __('Import'),
-                  icon: () =>
-                    h(FeatherIcon, { name: 'upload', class: 'h-4 w-4' }),
-                  onClick: () => hadelClick()
-                },
-              ],
+              items: arrItem,
             },
           ]"
         >
@@ -161,7 +148,7 @@ import { globalStore } from '@/stores/global'
 import { viewsStore } from '@/stores/views'
 import { usersStore } from '@/stores/users'
 import { createResource, Dropdown, call, FeatherIcon } from 'frappe-ui'
-import { computed, ref, onMounted, watch, h } from 'vue'
+import { computed, ref, onMounted, watch, h, reactive, toRefs } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDebounceFn } from '@vueuse/core'
 
@@ -188,7 +175,42 @@ const props = defineProps({
   placeholderText:{
     type: String
   },
- 
+  showFuncImport: {
+    type: Boolean,
+    default: false
+  },
+  showFuncConvertTaskCustomer: {
+    type: Boolean,
+    default: false
+  }
+})
+const {showFuncImport, showFuncConvertTaskCustomer} = toRefs(props);
+const arrItem = computed(() => {
+  let arrItem = [
+  {
+    label: __('Export'),
+    icon: () =>
+      h(FeatherIcon, { name: 'download', class: 'h-4 w-4' }),
+    onClick: () => onShowExportDialog(),
+  }
+]
+  if(showFuncImport.value) {
+    arrItem.push({
+      label: __('Import'),
+      icon: () =>
+        h(FeatherIcon, { name: 'upload', class: 'h-4 w-4' }),
+      onClick: () => hadelClick(),
+    })
+  }
+  if(showFuncConvertTaskCustomer.value){
+    arrItem.push({
+      label: __('Bàn giao công việc'),
+      icon: () =>
+        h(FeatherIcon, { name: 'arrow-right', class: 'h-4 w-4' }),
+      onClick: () => hadelClickConvertTask(),
+    })
+  }
+  return arrItem;
 })
 const searchValue = ref('');
 const { $dialog } = globalStore()
@@ -207,6 +229,7 @@ const defaultParams = ref('')
 
 const viewUpdated = ref(false)
 const showViewModal = ref(false)
+const showConvertTaskCustomerModal = ref(false)
 
 const currentView = computed(() => {
   let _view = getView(route.query.view)
@@ -339,6 +362,14 @@ const showExportDialog = ref(false)
 const export_type = ref('Excel')
 const export_all = ref(false)
 
+function onShowExportDialog(){
+  showExportDialog.value = true;
+}
+
+function hadelClickConvertTask(){
+  showConvertTaskCustomerModal.value = true;
+}
+
 async function exportRows() {
   let fields = JSON.stringify(list.value.data.columns.map((f) => f.key))
   let filters = JSON.stringify(list.value.params.filters)
@@ -353,7 +384,7 @@ async function exportRows() {
   export_all.value = false
   export_type.value = 'Excel'
 }
-const emit = defineEmits(['showImportModal'])
+const emit = defineEmits(['showImportModal', 'onAfterConvertTaskCustomer'])
 function hadelClick(){
   emit('showImportModal', true)
 

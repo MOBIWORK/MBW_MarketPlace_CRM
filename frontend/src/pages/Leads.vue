@@ -26,6 +26,8 @@
     doctype="CRM Lead"
     :filters="{ converted: 0 }"
     :showElement=true
+    :showFuncImport=true
+    :showFuncConvertTaskCustomer="showConvertTaskCustomer"
     :placeholderText="__('Search customer')"
     @showImportModal="show"
   />
@@ -82,7 +84,8 @@ import {
 } from '@/utils'
 import { createResource, Breadcrumbs } from 'frappe-ui'
 import { useRouter } from 'vue-router'
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, onMounted } from 'vue'
+import { sessionStore } from '@/stores/session'
 
 
 const breadcrumbs = [{ label: __('Leads'), route: { name: 'Leads' } }]
@@ -90,8 +93,21 @@ const breadcrumbs = [{ label: __('Leads'), route: { name: 'Leads' } }]
 const { getUser } = usersStore()
 const { getOrganization } = organizationsStore()
 const { getLeadStatus } = statusesStore()
+const { roles } = sessionStore()
 
 const router = useRouter()
+
+const showConvertTaskCustomer = ref(false)
+
+onMounted(()=>{
+  let arrRole = roles.data;
+  for(let i = 0; i < arrRole.length; i++){
+    if(arrRole[i] == "System Manager"){
+      showConvertTaskCustomer.value = true;
+      break;
+    }
+  }
+})
 
 const leadsListView = ref(null)
 const showLeadModal = ref(false)

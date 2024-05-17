@@ -87,3 +87,9 @@ def get_organizations():
 	).run(as_dict=1)
 
 	return organizations
+
+@frappe.whitelist()
+def get_roles(methods=["GET"]):
+	usr = frappe.session.user
+	user_roles = frappe.get_roles(usr)
+	return user_roles

@@ -41,10 +41,26 @@ export const sessionStore = defineStore('crm-session', () => {
     },
   })
 
+  const roles = createResource({
+    url: 'crm.api.session.get_roles',
+    cache: 'roles',
+    initialData: [],
+    auto: true,
+    transform(roles) {
+      return roles
+    },
+    onError(error) {
+      if (error && error.exc_type === 'AuthenticationError') {
+        router.push('/login')
+      }
+    },
+  })
+
   return {
     user,
     isLoggedIn,
     login,
     logout,
+    roles
   }
 })
