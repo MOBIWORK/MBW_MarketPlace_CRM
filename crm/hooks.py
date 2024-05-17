@@ -250,5 +250,5 @@ def load_custom_translations():
         for row in translation_reader:
             frappe._dict(row)
 
-def after_install():
+def before_install():
     load_custom_translations()
