@@ -131,7 +131,7 @@
       </div>
     </template>
   </Dialog>
-  
+  <ConvertTaskCustomerModal v-model="showConvertTaskCustomerModal" />
 </template>
 <script setup>
 import RefreshIcon from '@/components/Icons/RefreshIcon.vue'
@@ -151,6 +151,7 @@ import { createResource, Dropdown, call, FeatherIcon } from 'frappe-ui'
 import { computed, ref, onMounted, watch, h, reactive, toRefs } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDebounceFn } from '@vueuse/core'
+import ConvertTaskCustomerModal from '@/components/Modals/ConvertTaskCustomerModal.vue'
 
 const props = defineProps({
   doctype: {
