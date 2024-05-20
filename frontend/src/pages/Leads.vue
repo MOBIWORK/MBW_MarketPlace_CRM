@@ -28,7 +28,7 @@
     :showElement=true
     :showFuncImport=true
     :showFuncConvertTaskCustomer="showConvertTaskCustomer"
-    :placeholderText="__('Search customer')"
+    :placeholderText="__('Search customer')"  
     @showImportModal="show"
   />
   <LeadsListView
@@ -48,6 +48,7 @@
     @columnWidthUpdated="() => triggerResize++"
     @updatePageCount="(count) => (updatedPageCount = count)"
     @applyFilter="(data) => viewControls.applyFilter(data)"
+    @rating="(data) => rating(data)"
   />
   <div v-else-if="leads.data" class="flex h-full items-center justify-center">
     <div
@@ -203,7 +204,36 @@ const rows = computed(() => {
     return _rows
   })
 })
-
+const rating = (data) => {
+  createResource({
+    url: 'frappe.client.set_value',
+    params: {
+      doctype: 'CRM Lead',
+      name: data.row?.name,
+      fieldname:data.fieldname,
+      value:data.value,
+    },
+    auto: true,
+    onSuccess: () => {
+      leads.value.reload()
+      createToast({
+        title: __('Lead updated'),
+        icon: 'check',
+        iconClasses: 'text-green-600',
+      })
+      
+    },
+    onError: (err) => {
+      createToast({
+        title: __('Error updating lead'),
+        text: __(err.messages?.[0]),
+        icon: 'x',
+        iconClasses: 'text-red-600',
+      })
+    },
+  })
+  
+}
 let newLead = reactive({
   salutation: '',
   first_name: '',

@@ -108,38 +108,141 @@
                 class="text-gray-900"
               />
             </div>
-            <div v-else-if="column.key === 'rating'" class="flex space-x-1">
+            <div v-else-if="column.key === 'rating'" class="flex space-x-1" @click="(evt) => {
+              handleStarClick(evt.target.title,row)
+              evt.stopPropagation()
+              evt.preventDefault()
+            }">
               <div id="rating">
-                <input type="radio" :id="row.name + 'star5'" name="rating5" value="5" @click="handleStarClick(row.name, 5)" />
-<label class="full" :for="row.name + 'star5'" title="5 stars"></label>
+                <input
+                  type="radio"
+                  :id="row.name + 'star5'"
+                  name="rating5"
+                  value="5"
+                />
+                <label
+                  class="full"
+                  :for="row.name + 'star5'"
+                  title="5"
+                ></label>
 
-<input type="radio" :id="row.name + 'star4half'" name="rating4haft" value="4.5" @click="handleStarClick(row.name, 4.5)"/>
-<label class="half" :for="row.name + 'star4half'" title="4.5 stars"></label>
+                <input
+                  type="radio"
+                  :id="row.name + 'star4half'"
+                  name="rating4haft"
+                  value="4.5"
+                  
+                />
+                <label
+                  class="half"
+                  :for="row.name + 'star4half'"
+                  title="4.5"
+                ></label>
 
-<input type="radio" :id="row.name + 'star4'" name="rating4" value="4" @click="handleStarClick(row.name, 4)"/>
-<label class="full" :for="row.name + 'star4'" title="4 stars"></label>
+                <input
+                  type="radio"
+                  :id="row.name + 'star4'"
+                  name="rating4"
+                  value="4"
+                  
+                />
+                <label
+                  class="full"
+                  :for="row.name + 'star4'"
+                  title="4"
+                ></label>
 
-<input type="radio" :id="row.name + 'star3half'" name="rating3haft" value="3.5" @click="handleStarClick(row.name, 3.5)"/>
-<label class="half" :for="row.name + 'star3half'" title="3.5 stars"></label>
+                <input
+                  type="radio"
+                  :id="row.name + 'star3half'"
+                  name="rating3haft"
+                  value="3.5"
+                
+                />
+                <label
+                  class="half"
+                  :for="row.name + 'star3half'"
+                  title="3.5"
+                ></label>
 
-<input type="radio" :id="row.name + 'star3'" name="rating3" value="3" @click="handleStarClick(row.name, 3)"/>
-<label class="full" :for="row.name + 'star3'" title="3 stars"></label>
+                <input
+                  type="radio"
+                  :id="row.name + 'star3'"
+                  name="rating3"
+                  value="3"
+                  
+                />
+                <label
+                  class="full"
+                  :for="row.name + 'star3'"
+                  title="3"
+                ></label>
 
-<input type="radio" :id="row.name + 'star2half'" name="rating2haft" value="2.5" @click="handleStarClick(row.name, 2.5)"/>
-<label class="half" :for="row.name + 'star2half'" title="2.5 stars"></label>
+                <input
+                  type="radio"
+                  :id="row.name + 'star2half'"
+                  name="rating2haft"
+                  value="2.5"
+                  
+                />
+                <label
+                  class="half"
+                  :for="row.name + 'star2half'"
+                  title="2.5"
+                ></label>
 
-<input type="radio" :id="row.name + 'star2'" name="rating2" value="2" @click="handleStarClick(row.name, 2)"/>
-<label class="full" :for="row.name + 'star2'" title="2 stars"></label>
+                <input
+                  type="radio"
+                  :id="row.name + 'star2'"
+                  name="rating2"
+                  value="2"
+                  
+                />
+                <label
+                  class="full"
+                  :for="row.name + 'star2'"
+                  title="2"
+                ></label>
 
-<input type="radio" :id="row.name + 'star1half'" name="rating1haft" value="1.5" @click="handleStarClick(row.name, 1.5)"/>
-<label class="half" :for="row.name + 'star1half'" title="1.5 stars"></label>
+                <input
+                  type="radio"
+                  :id="row.name + 'star1half'"
+                  name="rating1haft"
+                  value="1.5"
+                 
+                />
+                <label
+                  class="half"
+                  :for="row.name + 'star1half'"
+                  title="1.5"
+                ></label>
 
-<input type="radio" :id="row.name + 'star1'" name="rating1" value="1" @click="handleStarClick(row.name, 1)"/>
-<label class="full" :for="row.name + 'star1'" title="1 star"></label>
+                <input
+                  type="radio"
+                  :id="row.name + 'star1'"
+                  name="rating1"
+                  value="1"
+                  
+                />
+                <label
+                  class="full"
+                  :for="row.name + 'star1'"
+                  title="1"
+                ></label>
 
-<input type="radio" :id="row.name + 'starhalf'" name="rating0haft" value="0.5" @click="handleStarClick(row.name, 0.5)"/>
-<label class="half" :for="row.name + 'starhalf'" title="0.5 stars"></label>
-</div>
+                <input
+                  type="radio"
+                  :id="row.name + 'starhalf'"
+                  name="rating0haft"
+                  value="0.5"
+                  
+                />
+                <label
+                  class="half"
+                  :for="row.name + 'starhalf'"
+                  title="0.5"
+                ></label>
+              </div>
             </div>
             <div
               v-else
@@ -148,7 +251,7 @@
                 (event) => emit('applyFilter', { event, idx, column, item })
               "
             >
-            {{ __(label) }}
+              {{ __(label) }}
             </div>
           </template>
         </ListRowItem>
@@ -201,7 +304,7 @@ import {
 } from 'frappe-ui'
 import { setupListActions, createToast } from '@/utils'
 import { globalStore } from '@/stores/global'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch,computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 const props = defineProps({
@@ -224,12 +327,16 @@ const props = defineProps({
     }),
   },
 })
-
+watch(props, (newProps) => {
+  newProps.rows.forEach((row) => calcRate(row))
+  // Perform necessary actions when props change
+});
 const emit = defineEmits([
   'loadMore',
   'updatePageCount',
   'columnWidthUpdated',
   'applyFilter',
+  'rating'
 ])
 
 const pageLengthCount = defineModel()
@@ -318,16 +425,16 @@ function bulkActions(selections, unselectAll) {
   return actions
 }
 const calcRate = (row) => {
-  const r = row.rating * 5; // Chuyển đổi rating thành dải từ 0 đến 5
-  const f = Math.floor(r);
-  const id = row.name + 'star' + (f === 0 ? '' : f) + (r % f !== 0 ? 'half' : '');
-  console.log(id);
+  const r = row.rating * 5 // Chuyển đổi rating thành dải từ 0 đến 5
+  const f = Math.floor(r)
+  const id =
+    row.name + 'star' + (f === 0 ? '' : f) + (r % f !== 0 ? 'half' : '')
   if (id) {
-    const radioButton = document.getElementById(id);
-    console.log(radioButton);
-    if (radioButton) radioButton.checked = true;
+    console.log(id);
+    const radioButton = document.getElementById(id)
+    if (radioButton) radioButton.checked = true
   }
-};
+}
 onMounted(() => {
   if (!list.value?.data) return
   setupListActions(list.value.data, {
@@ -339,31 +446,55 @@ onMounted(() => {
   })
   customBulkActions.value = list.value?.data?.bulkActions || []
   customListActions.value = list.value?.data?.listActions || []
-  props.rows.forEach(row => calcRate(row)); // Cập nhật giá trị mặc định cho mỗi dòng
+  props.rows.forEach((row) => calcRate(row))
+   // Cập nhật giá trị mặc định cho mỗi dòng
 })
-const handleStarClick = (rowName, starValue) => {
-    console.log(`Row: ${rowName}, Star value: ${starValue}`);
-    return
-    // Thực hiện các xử lý khác tại đây
-};
+const handleStarClick = (value , row  ) => {
+  let fieldname = 'rating'
+  value = parseFloat(value)/5;
+  emit('rating', {fieldname,value,row} )
+
+}
 defineExpose({
   customListActions,
 })
 </script>
 <style scoped>
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-#rating{border:none;float:left;cursor: pointer;}
-#rating>input{display:none;}/*ẩn input radio - vì chúng ta đã có label là GUI*/
-#rating>label:before{margin:5px;font-size:1.25em;font-family:FontAwesome;display:inline-block;content:"\f005";}/*1 ngôi sao*/
-#rating>.half:before{content:"\f089";position:absolute;}/*0.5 ngôi sao*/
-#rating>label{color:#ddd;float:right;}/*float:right để lật ngược các ngôi sao lại đúng theo thứ tự trong thực tế*/
+#rating {
+  border: none;
+  float: left;
+  cursor: pointer;
+}
+#rating > input {
+  display: none;
+} /*ẩn input radio - vì chúng ta đã có label là GUI*/
+#rating > label:before {
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: '\f005';
+} /*1 ngôi sao*/
+#rating > .half:before {
+  content: '\f089';
+  position: absolute;
+} /*0.5 ngôi sao*/
+#rating > label {
+  color: #ddd;
+  float: right;
+} /*float:right để lật ngược các ngôi sao lại đúng theo thứ tự trong thực tế*/
 /*thêm màu cho sao đã chọn và các ngôi sao phía trước*/
-#rating>input:checked~label,
-#rating:not(:checked)>label:hover, 
-#rating:not(:checked)>label:hover~label{color:#FFD700;}
+#rating > input:checked ~ label,
+#rating:not(:checked) > label:hover,
+#rating:not(:checked) > label:hover ~ label {
+  color: #ffd700;
+}
 /* Hover vào các sao phía trước ngôi sao đã chọn*/
-#rating>input:checked+label:hover,
-#rating>input:checked~label:hover,
-#rating>label:hover~input:checked~label,
-#rating>input:checked~label:hover~label{color:#FFED85;}
+#rating > input:checked + label:hover,
+#rating > input:checked ~ label:hover,
+#rating > label:hover ~ input:checked ~ label,
+#rating > input:checked ~ label:hover ~ label {
+  color: #ffed85;
+}
 </style>
