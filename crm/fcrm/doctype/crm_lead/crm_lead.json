@@ -41,6 +41,7 @@
   "sla",
   "sla_creation",
   "column_break_ffnp",
+  "rating",
   "sla_status",
   "communication_status",
   "response_details_section",
@@ -286,12 +287,17 @@
    "fieldtype": "Table",
    "label": "Status Change Log",
    "options": "CRM Status Change Log"
+  },
+  {
+   "fieldname": "rating",
+   "fieldtype": "Rating",
+   "label": "Rating"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-05 00:58:07.321058",
+ "modified": "2024-05-18 08:01:34.778016",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Lead",
