@@ -328,6 +328,7 @@ const props = defineProps({
   },
 })
 watch(props, (newProps) => {
+  
   newProps.rows.forEach((row) => calcRate(row))
   // Perform necessary actions when props change
 });
@@ -425,16 +426,28 @@ function bulkActions(selections, unselectAll) {
   return actions
 }
 const calcRate = (row) => {
-  const r = row.rating * 5 // Chuyển đổi rating thành dải từ 0 đến 5
-  const f = Math.floor(r)
-  const id =
-    row.name + 'star' + (f === 0 ? '' : f) + (r % f !== 0 ? 'half' : '')
+  // Chuyển đổi rating thành dải từ 0 đến 5
+  const r = row.rating * 5;
+  const f = Math.floor(r);
+
+  // Tạo ID của nút radio cần đánh dấu
+  const id = row.name + 'star' + (f === 0 ? '' : f) + (r % 1 !== 0 ? 'half' : '');
+
+    // Lấy tất cả các nút radio liên quan đến row.name
+  const radioButtons = document.querySelectorAll(`input[name^='rating'][id^='${row.name}']`);
+  
+  // Đặt tất cả các nút radio về trạng thái không được chọn
+  radioButtons.forEach(radio => {
+    radio.checked = false;
+  });
+  // Đánh dấu nút radio đúng
   if (id) {
-    console.log(id);
-    const radioButton = document.getElementById(id)
-    if (radioButton) radioButton.checked = true
+    const radioButton = document.getElementById(id);
+    if (radioButton) {
+      radioButton.checked = true;
+    }
   }
-}
+};
 onMounted(() => {
   if (!list.value?.data) return
   setupListActions(list.value.data, {
@@ -452,6 +465,7 @@ onMounted(() => {
 const handleStarClick = (value , row  ) => {
   let fieldname = 'rating'
   value = parseFloat(value)/5;
+  console.log(value);
   emit('rating', {fieldname,value,row} )
 
 }

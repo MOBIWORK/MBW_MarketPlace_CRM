@@ -247,13 +247,28 @@ function createDeal() {
           return error.value
         }
       }
-      if (deal.mobile_no && isNaN(deal.mobile_no.replace(/[-+() ]/g, ''))) {
-        error.value = __('Mobile No should be a number')
-        return error.value
+      if (deal.mobile_no) {
+        // Loại bỏ các ký tự không phải số
+        const cleanedMobileNo = deal.mobile_no.replace(/[-+() ]/g, '')
+
+        // Kiểm tra nếu không phải là số
+        if (isNaN(cleanedMobileNo)) {
+          error.value = __('Mobile No should be a number')
+          return error.value
+        }
+
+        // Kiểm tra nếu độ dài không phải là 10 chữ số
+        if (cleanedMobileNo.length !== 10) {
+          error.value = __('Mobile No should be 10 digits')
+          return error.value
+        }
       }
-      if (deal.email && !deal.email.includes('@')) {
-        error.value = __('Invalid Email')
-        return error.value
+      if (deal.email) {
+        const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
+        if (!deal.email.match(emailRegex)) {
+         error.value = __('Invalid Email')
+         return error.value
+         }
       }
       isDealCreating.value = true
     },

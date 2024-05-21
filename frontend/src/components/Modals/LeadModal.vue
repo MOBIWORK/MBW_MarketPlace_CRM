@@ -27,7 +27,7 @@
 import Fields from '@/components/Fields.vue'
 import { usersStore } from '@/stores/users'
 import { statusesStore } from '@/stores/statuses'
-import { createResource , call} from 'frappe-ui'
+import { createResource, call } from 'frappe-ui'
 import { computed, onMounted, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -54,7 +54,7 @@ const lead = reactive({
   industry: '',
   status: '',
   lead_owner: '',
-  note:''
+  note: '',
 })
 
 const sections = computed(() => {
@@ -160,16 +160,14 @@ const sections = computed(() => {
       section: 'Note Details',
       columns: 3,
       fields: [
-     
-      {
+        {
           label: '',
           name: 'note',
           type: 'dropdownNote',
           placeholder: '',
           doctype: '',
         },
-        
-      ]
+      ],
     },
     {
       section: 'Other Details',
@@ -232,13 +230,28 @@ async function createNewLead() {
           return error.value
         }
       }
-      if (lead.mobile_no && isNaN(lead.mobile_no.replace(/[-+() ]/g, ''))) {
-        error.value = __('Mobile No should be a number')
-        return error.value
+      if (lead.mobile_no) {
+        // Loại bỏ các ký tự không phải số
+        const cleanedMobileNo = lead.mobile_no.replace(/[-+() ]/g, '')
+
+        // Kiểm tra nếu không phải là số
+        if (isNaN(cleanedMobileNo)) {
+          error.value = __('Mobile No should be a number')
+          return error.value
+        }
+
+        // Kiểm tra nếu độ dài không phải là 10 chữ số
+        if (cleanedMobileNo.length !== 10) {
+          error.value = __('Mobile No should be 10 digits')
+          return error.value
+        }
       }
-      if (lead.email && !lead.email.includes('@')) {
-        error.value = __('Invalid Email')
-        return error.value
+      if (lead.email) {
+        const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
+        if (!lead.email.match(emailRegex)) {
+         error.value = __('Invalid Email')
+         return error.value
+         }
       }
       isLeadCreating.value = true
     },
@@ -246,21 +259,20 @@ async function createNewLead() {
       isLeadCreating.value = false
       show.value = false
       router.push({ name: 'Lead', params: { leadId: data.name } })
-      const hasContent = /<[^>]>/g.test(lead.note);
-      if(lead.note && hasContent){
-      let d = await call('frappe.client.insert', {
-      doc: {
-        doctype: 'FCRM Note',
-        title: data.name,
-        content: lead.note,
-        reference_doctype: 'CRM Lead',
-        reference_docname:'',
-      },
-    })
+      const hasContent = /<[^>]>/g.test(lead.note)
+      if (lead.note && hasContent) {
+        let d = await call('frappe.client.insert', {
+          doc: {
+            doctype: 'FCRM Note',
+            title: data.name,
+            content: lead.note,
+            reference_doctype: 'CRM Lead',
+            reference_docname: '',
+          },
+        })
       }
     },
   })
-
 }
 
 onMounted(() => {
