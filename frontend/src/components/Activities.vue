@@ -37,6 +37,12 @@
       </template>
       <span>{{ __('New Task') }}</span>
     </Button>
+    <Button v-else-if="title == 'Comment'" variant="solid" @click="showNote()">
+      <template #prefix>
+        <FeatherIcon name="plus" class="h-4 w-4" />
+      </template>
+      <span>{{ __('New Comment') }}</span>
+    </Button>
     <div class="flex gap-2" v-else-if="title == 'WhatsApp'">
       <Button
         :label="__('Send Template')"
@@ -892,7 +898,7 @@ const all_activities = createResource({
   params: { name: doc.value.data.name },
   cache: ['activity', doc.value.data.name],
   auto: true,
-  transform: ([versions, calls, notes, tasks]) => {
+  transform: ([versions, calls, notes, tasks , comments]) => {
     if (calls?.length) {
       calls.forEach((doc) => {
         doc.show_recording = false
@@ -927,7 +933,8 @@ const all_activities = createResource({
         }
       })
     }
-    return { versions, calls, notes, tasks }
+    console.log(versions,comments);
+    return { versions, calls, notes, tasks , comments }
   },
 })
 
@@ -1033,6 +1040,11 @@ const activities = computed(() => {
   } else if (props.title == 'Tasks') {
     if (!all_activities.data?.tasks) return []
     return sortByCreation(all_activities.data.tasks)
+  }else if (props.title == 'Comment') {
+    if (!all_activities.data?.comments) return []
+    activities = all_activities.data.comments.filter(
+      (activity) => activity.activity_type === 'comment'
+    )
   } else if (props.title == 'Notes') {
     if (!all_activities.data?.notes) return []
     return sortByCreation(all_activities.data.notes)
@@ -1095,7 +1107,9 @@ const emptyText = computed(() => {
     text = 'No Notes'
   } else if (props.title == 'Tasks') {
     text = 'No Tasks'
-  } else if (props.title == 'WhatsApp') {
+  } else if (props.title == 'Comment') {
+    text = 'No Comment'
+  }  else if (props.title == 'WhatsApp') {
     text = 'No WhatsApp Messages'
   }
   return text
@@ -1111,6 +1125,8 @@ const emptyTextIcon = computed(() => {
     icon = NoteIcon
   } else if (props.title == 'Tasks') {
     icon = TaskIcon
+  }else if (props.title == 'Comment') {
+    icon = CommentIcon
   } else if (props.title == 'WhatsApp') {
     icon = WhatsAppIcon
   }

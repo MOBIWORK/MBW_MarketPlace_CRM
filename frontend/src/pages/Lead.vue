@@ -264,6 +264,7 @@ import PhoneIcon from '@/components/Icons/PhoneIcon.vue'
 import TaskIcon from '@/components/Icons/TaskIcon.vue'
 import NoteIcon from '@/components/Icons/NoteIcon.vue'
 import WhatsAppIcon from '@/components/Icons/WhatsAppIcon.vue'
+import CommentIcon from '@/components/Icons/CommentIcon.vue'
 import IndicatorIcon from '@/components/Icons/IndicatorIcon.vue'
 import CameraIcon from '@/components/Icons/CameraIcon.vue'
 import LinkIcon from '@/components/Icons/LinkIcon.vue'
@@ -435,6 +436,11 @@ const tabs = computed(() => {
       name: 'Notes',
       label: __('Notes'),
       icon: NoteIcon,
+    },
+    {
+      name: 'Comment',
+      label: __('Comment'),
+      icon: CommentIcon,
     },
     {
       name: 'WhatsApp',

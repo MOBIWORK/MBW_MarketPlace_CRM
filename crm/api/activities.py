@@ -210,7 +210,7 @@ def get_lead_activities(name):
 			"options": field_option,
 		}
 		activities.append(activity)
-
+	comments = []
 	for comment in docinfo.comments:
 		activity = {
 			"name": comment.name,
@@ -221,7 +221,7 @@ def get_lead_activities(name):
 			"attachments": get_attachments('Comment', comment.name),
 			"is_lead": True,
 		}
-		activities.append(activity)
+		comments.append(activity)
 
 	for communication in docinfo.communications + docinfo.automated_messages:
 		activity = {
@@ -250,7 +250,7 @@ def get_lead_activities(name):
 	activities.sort(key=lambda x: x["creation"], reverse=True)
 	activities = handle_multiple_versions(activities)
 
-	return activities, calls, notes, tasks
+	return activities, calls, notes, tasks , comments
 
 @redis_cache()
 def get_attachments(doctype, name):
