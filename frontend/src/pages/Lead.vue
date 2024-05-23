@@ -470,7 +470,7 @@ function updateField(name, value, callback) {
     lead.data[name] = value
     callback?.()
   })
-  if(name == "status" && value == "Qualified"){
+  if(name == "status" && value == "Chất lượng"){
     showConvertToDealModal.value = true;
   }
 }

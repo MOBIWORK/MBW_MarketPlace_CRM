@@ -127,7 +127,7 @@
    "options": "Phone"
   },
   {
-   "default": "Qualification",
+   "default": "Trình độ",
    "fieldname": "status",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -210,7 +210,7 @@
    "read_only": 1
   },
   {
-   "default": "Open",
+   "default": "Mở",
    "fieldname": "communication_status",
    "fieldtype": "Link",
    "label": "Communication Status",

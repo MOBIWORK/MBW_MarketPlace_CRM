@@ -19,27 +19,27 @@ def after_install():
 
 def add_default_lead_statuses():
 	statuses = {
-		"New": {
+		"Mới": {
 			"color": "gray",
 			"position": 1,
 		},
-		"Contacted": {
+		"Đã liên hệ": {
 			"color": "orange",
 			"position": 2,
 		},
-		"Nurture": {
+		"Đang chăm sóc": {
 			"color": "blue",
 			"position": 3,
 		},
-		"Qualified": {
+		"Chất lượng": {
 			"color": "green",
 			"position": 4,
 		},
-		"Unqualified": {
+		"Không chất lượng": {
 			"color": "red",
 			"position": 5,
 		},
-		"Junk": {
+		"Trùng": {
 			"color": "purple",
 			"position": 6,
 		},
@@ -57,31 +57,31 @@ def add_default_lead_statuses():
 
 def add_default_deal_statuses():
 	statuses = {
-		"Qualification": {
+		"Trình độ": {
 			"color": "gray",
 			"position": 1,
 		},
-		"Demo/Making": {
+		"Demo/Tạo": {
 			"color": "orange",
 			"position": 2,
 		},
-		"Proposal/Quotation": {
+		"Đề xuất/Báo giá": {
 			"color": "blue",
 			"position": 3,
 		},
-		"Negotiation": {
+		"Đàm phán": {
 			"color": "yellow",
 			"position": 4,
 		},
-		"Ready to Close": {
+		"Sẵn sàng chốt": {
 			"color": "purple",
 			"position": 5,
 		},
-		"Won": {
+		"Thắng": {
 			"color": "green",
 			"position": 6,
 		},
-		"Lost": {
+		"Thua": {
 			"color": "red",
 			"position": 7,
 		},
@@ -98,7 +98,7 @@ def add_default_deal_statuses():
 		doc.insert()
 
 def add_default_communication_statuses():
-	statuses = ["Open", "Replied"]
+	statuses = ["Mở", "Đã trả lời"]
 
 	for status in statuses:
 		if frappe.db.exists("CRM Communication Status", status):

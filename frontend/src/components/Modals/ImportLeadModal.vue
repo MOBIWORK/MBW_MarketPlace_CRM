@@ -283,7 +283,7 @@ async function onDownloadTemplateExcel() {
         { 'label': "Định dạng: dd/mm/yyyy. VD: 06/03/2024", 'cell': "D2" },
         { 'label': "Tên user được phân công. VD: Dieu Dieu", 'cell': "E2" },
         { 'label': `Các nguồn contact được admin thiết lập. VD: Zalo`, 'cell': "F2" },
-        { 'label': `Bao gồm các trạng thái chăm sóc của khách hàng được admin thiết lập. Giá trị thiết lập bao gồm: New, Nurture, Qualification.VD: New`, 'cell': "G2" },
+        { 'label': `Bao gồm các trạng thái chăm sóc của khách hàng được admin thiết lập. Giá trị thiết lập bao gồm: Mới, Đang chăm sóc, Chất lượng.VD: Mới`, 'cell': "G2" },
         { 'label': "Quận huyện, thành phố của khách hàng. VD: Hà Nội", 'cell': "H2" },
         { 'label': "Ngành nghề khách hàng. VD: Bán lẻ", 'cell': "I2" }
     ];

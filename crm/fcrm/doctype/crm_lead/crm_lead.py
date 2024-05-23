@@ -326,10 +326,10 @@ def convert_to_deal(lead, doc=None):
 		frappe.throw(_("Not allowed to convert Lead to Deal"), frappe.PermissionError)
 
 	lead = frappe.get_cached_doc("CRM Lead", lead)
-	lead.status = "Qualified"
+	lead.status = "Chất lượng"
 	lead.converted = 1
 	if lead.sla:
-		lead.communication_status = 'Replied'
+		lead.communication_status = 'Đã trả lời'
 	lead.save(ignore_permissions=True)
 	contact = lead.create_contact(False)
 	organization = lead.create_organization()
