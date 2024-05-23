@@ -12,7 +12,9 @@
     "@twilio/voice-sdk": "^2.10.2",
     "@vueuse/core": "^10.3.0",
     "@vueuse/integrations": "^10.3.0",
+    "exceljs": "^4.4.0",
     "feather-icons": "^4.28.0",
+    "file-saver": "^2.0.5",
     "frappe-ui": "^0.1.53",
     "gemoji": "^8.1.0",
     "mime": "^4.0.1",
@@ -23,7 +25,8 @@
     "vite": "^4.4.9",
     "vue": "^3.4.12",
     "vue-router": "^4.2.2",
-    "vuedraggable": "^4.1.0"
+    "vuedraggable": "^4.1.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",

@@ -143,7 +143,7 @@ Done,Đã xong
 Download,Tải xuống
 Due Date,Ngày đáo hạn
 Duplicate,Tạo bản sao
-Duplicate View,Chế độ xem bản sao
+Duplicate View,Sao chép chế độ xem
 Duration,Thời lượng
 Edit,Chỉnh sửa
 Edit Note,Chỉnh sửa Ghi chú
@@ -587,3 +587,15 @@ Search task,Tìm kiếm công việc
 Write Content...,Nhập nội dung...
 Mobile No should be 10 digits,Số điện thoại phải bao gồm 10 số
 New Comment,Thêm bình luận
+Drive,Drive
+Preview,Xem trước dữ liệu
+Next, Tiếp theo
+Back, Quay lại
+Mapping Columns,Trường ánh xạ
+Select the mapping field,Chọn trường ánh xạ
+Map columns from file to fields in Lead, Ánh xạ các trường từ tệp dữ liệu tới các trường trong Lead
+Creation,Ngày tạo
+Don't Import,Không nhập
+Name,Tên
+Assign To,Phân công cho
+Invalid phone number,Số điện thoại không hợp lệ

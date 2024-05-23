@@ -25,8 +25,10 @@
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Deal"
     :showElement=true
+    :showFuncImport=false
     :showFuncConvertTaskCustomer="showConvertTaskCustomer"
     :placeholderText="__('Search customer')"
+    @afterConvertTaskCustomer="onAfterConvertTaskCustomer()"
   />
   <DealsListView
     ref="dealsListView"
@@ -190,4 +192,7 @@ const rows = computed(() => {
     return _rows
   })
 })
+function onAfterConvertTaskCustomer(){
+  deals.value.reload();
+}
 </script>

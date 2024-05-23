@@ -6,7 +6,12 @@ from pypika import Criterion
 
 from crm.api.views import get_views
 from crm.fcrm.doctype.crm_form_script.crm_form_script import get_form_script
-
+from crm.api.common import (gen_response)
+from frappe.utils.csvutils import get_csv_content_from_google_sheets, read_csv_content
+from frappe.utils.xlsxutils import (
+	read_xls_file_from_attached_file,
+	read_xlsx_file_from_attached_file,
+)
 
 @frappe.whitelist()
 def sort_options(doctype: str):
@@ -446,3 +451,52 @@ def get_fields(doctype: str):
 			})
 
 	return _fields
+
+@frappe.whitelist(methods=["POST"])
+def import_data_leads(source_leads, fields_dict):
+	try:
+		for lead in source_leads:
+			doc_lead = frappe.new_doc('CRM Lead')
+			for field_dict in fields_dict:
+				if field_dict.get('field_dict') != "none":
+					field_name = field_dict.get('field_dict')
+					field_value = lead.get(field_dict.get('key'))
+					if field_name == "source":
+						if not frappe.db.exists('CRM Lead Source', {'name': field_value}):
+							doc_source = frappe.new_doc('CRM Lead Source')
+							doc_source.source_name = field_value
+							doc_source.insert()
+					if field_name == "territory":
+						if not frappe.db.exists('CRM Territory', {'name': field_value}):
+							doc_territory = frappe.new_doc('CRM Territory')
+							doc_territory.territory_name = field_value
+							doc_territory.insert()
+					if field_name == "industry":
+						if not frappe.db.exists('CRM Industry', {'name': field_value}):
+							doc_industry = frappe.new_doc('CRM Industry')
+							doc_industry.industry = field_value
+							doc_industry.insert()
+					setattr(doc_lead, field_name, field_value)
+			doc_lead.insert()
+		return gen_response(200, "ok", "Thành công")
+	except Exception as e:
+		return gen_response(500, "error", str(e))
+
+@frappe.whitelist(methods=["POST"])
+def get_content_by_google_sheet(google_sheet_url):
+	content = get_csv_content_from_google_sheets(google_sheet_url)
+	extension = "csv"
+	if content:
+		return read_content(content, extension)
+
+def read_content(content, extension):
+	error_title = _("Template Error")
+	if extension not in ("csv", "xlsx", "xls"):
+		frappe.throw(_("Import template should be of type .csv, .xlsx or .xls"), title=error_title)
+	if extension == "csv":
+		data = read_csv_content(content)
+	elif extension == "xlsx":
+		data = read_xlsx_file_from_attached_file(fcontent=content)
+	elif extension == "xls":
+		data = read_xls_file_from_attached_file(content)
+	return data

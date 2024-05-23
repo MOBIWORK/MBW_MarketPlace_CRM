@@ -131,7 +131,7 @@
       </div>
     </template>
   </Dialog>
-  <ConvertTaskCustomerModal v-model="showConvertTaskCustomerModal" />
+  <ConvertTaskCustomerModal v-model="showConvertTaskCustomerModal" @afterConvertTask="onAfterConvertTask()"/>
 </template>
 <script setup>
 import RefreshIcon from '@/components/Icons/RefreshIcon.vue'
@@ -152,7 +152,6 @@ import { computed, ref, onMounted, watch, h, reactive, toRefs } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDebounceFn } from '@vueuse/core'
 import ConvertTaskCustomerModal from '@/components/Modals/ConvertTaskCustomerModal.vue'
-
 const props = defineProps({
   doctype: {
     type: String,
@@ -196,7 +195,7 @@ const arrItem = computed(() => {
   }
 ]
   if(showFuncImport.value) {
-    arrItem.push({
+    arrItem.unshift({
       label: __('Import'),
       icon: () =>
         h(FeatherIcon, { name: 'upload', class: 'h-4 w-4' }),
@@ -255,6 +254,7 @@ const view = ref({
 
 const pageLength = computed(() => list.value?.data?.page_length)
 const pageLengthCount = computed(() => list.value?.data?.page_length_count)
+
 
 watch(loadMore, (value) => {
   if (!value) return
@@ -385,7 +385,7 @@ async function exportRows() {
   export_all.value = false
   export_type.value = 'Excel'
 }
-const emit = defineEmits(['showImportModal', 'onAfterConvertTaskCustomer'])
+const emit = defineEmits(['showImportModal', 'afterConvertTaskCustomer'])
 function hadelClick(){
   emit('showImportModal', true)
 
@@ -759,4 +759,8 @@ watch(
     reload()
   }
 )
+
+function onAfterConvertTask(){
+  emit('afterConvertTaskCustomer')
+}
 </script>

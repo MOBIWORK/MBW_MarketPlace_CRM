@@ -58,6 +58,7 @@
             </div>
           </div>
           <Fields v-else :sections="sections" :data="_contact" />
+          <ErrorMessage class="mt-4" v-if="error" :message="__(error)" />
         </div>
       </div>
       <div v-if="!detailMode" class="px-4 pb-7 pt-4 sm:px-6">
@@ -87,7 +88,7 @@ import AddressIcon from '@/components/Icons/AddressIcon.vue'
 import CertificateIcon from '@/components/Icons/CertificateIcon.vue'
 import EditIcon from '@/components/Icons/EditIcon.vue'
 import Dropdown from '@/components/frappe-ui/Dropdown.vue'
-import { call } from 'frappe-ui'
+import { call, ErrorMessage } from 'frappe-ui'
 import { ref, nextTick, watch, computed, h } from 'vue'
 import { createToast } from '@/utils'
 import { useRouter } from 'vue-router'
@@ -106,6 +107,7 @@ const props = defineProps({
     },
   },
 })
+const error = ref(null)
 
 const router = useRouter()
 const show = defineModel()
@@ -137,6 +139,21 @@ async function callSetValue(values) {
 }
 
 async function callInsertDoc() {
+  console.log(_contact);
+  if(_contact.value.first_name == null || _contact.value.first_name == ""){
+    error.value = __('First Name is mandatory');
+    return;
+  }
+  let phoneRegex = /^(\+84|0)\d{9}$/;
+  if(_contact.actual_mobile_no && !phoneRegex.test(_contact.actual_mobile_no)){
+    error.value = __('Invalid phone number');
+    return;
+  }
+  const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
+  if(_contact.email_id && !emailRegex.test(_contact.email_id)){
+    error.value = __('Invalid Email');
+    return;
+  }
   if (_contact.value.email_id) {
     _contact.value.email_ids = [{ email_id: _contact.value.email_id }]
     delete _contact.value.email_id

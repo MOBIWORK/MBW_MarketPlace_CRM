@@ -30,6 +30,7 @@
     :showFuncConvertTaskCustomer="showConvertTaskCustomer"
     :placeholderText="__('Search customer')"  
     @showImportModal="show"
+    @afterConvertTaskCustomer="onAfterConvertTaskCustomer()"
   />
   <LeadsListView
     ref="leadsListView"
@@ -62,7 +63,7 @@
     </div>
   </div>
   <LeadModal v-model="showLeadModal" />
-  <ImportModal v-model="showImportModal" />
+  <ImportLeadModal v-model="showImportModal" @afterImportData="onAfterImportData()"/>
 </template>
 
 <script setup>
@@ -71,7 +72,7 @@ import LeadsIcon from '@/components/Icons/LeadsIcon.vue'
 import LayoutHeader from '@/components/LayoutHeader.vue'
 import LeadsListView from '@/components/ListViews/LeadsListView.vue'
 import LeadModal from '@/components/Modals/LeadModal.vue'
-import ImportModal from '@/components/Modals/ImportModal.vue'
+import ImportLeadModal from '@/components/Modals/ImportLeadModal.vue'
 import ViewControls from '@/components/ViewControls.vue'
 import { usersStore } from '@/stores/users'
 import { organizationsStore } from '@/stores/organizations'
@@ -284,26 +285,12 @@ function createNewLead(close) {
     .then(close)
 }
 function show(){
-      showImportModal.value = true;
-      setTimeout(() => {
-        const iframe = document.getElementById('myFrame');
-        if (iframe) {
-    const iframeWindow = iframe.contentWindow
-    if (iframeWindow) {
-      console.log(iframeWindow);
-      // Thêm event listener để đảm bảo rằng nội dung trong iframe đã được load
-      iframeWindow.addEventListener('load', () => {
-        // Truy cập vào phần tử header của body trong iframe
-        const header = iframeWindow.document.querySelector(".navbar.navbar-expand");
-        console.log(header);
-        if (header) {
-          // Thêm class 'hidden' để ẩn phần tử header
-          header.style.display = 'none'
-        }
-      })
-    }
-  }
-      }, 100);
-      
+  showImportModal.value = true;    
+}
+function onAfterConvertTaskCustomer(){
+  leads.value.reload();
+}
+function onAfterImportData(){
+  leads.value.reload();
 }
 </script>

@@ -4,41 +4,46 @@ from bs4 import BeautifulSoup
 from crm.api.contact import get_linked_deals
 
 def notify_asign_contact(self, method):
-    reference_doctype = ""
-    owner = self.owner
-    tasker = ""
-    if "CRM-DEAL" in self.name:
-        reference_doctype = "CRM Deal"
-        tasker = self.deal_owner
-    elif "CRM-LEAD" in self.name:
-        reference_doctype = "CRM Lead"
-        tasker = self.lead_owner
-    if owner != tasker:
-        doctype = reference_doctype
-        if doctype.startswith("CRM "):
-            doctype = doctype[4:].lower()
-        notification_text = f"""
-            <div class="mb-2 leading-5 text-gray-600">
-                <span class="font-medium text-gray-900">{ owner }</span>
-                <span>{ _('đã giao cho bạn làm {0} Owner cho {0}').format(doctype.capitalize()) }</span>
-                <span class="font-medium text-gray-900"> {self.name}</span>
-            </div>
-        """
-        values = frappe._dict(
-            doctype="CRM Notification",
-            from_user=owner,
-            to_user=tasker,
-            type="Task",
-            message= _('{0} đã giao cho bạn làm {1} Owner cho {1} {2}').format(owner, doctype.capitalize(), self.name),
-            notification_text=notification_text,
-            notification_type_doctype=reference_doctype,
-            notification_type_doc=self.name,
-            reference_doctype=reference_doctype,
-            reference_name=self.name,
-        )
-        if frappe.db.exists("CRM Notification", values):
+    try:
+        reference_doctype = ""
+        owner = self.owner
+        tasker = ""
+        if "CRM-DEAL" in self.name:
+            reference_doctype = "CRM Deal"
+            tasker = self.deal_owner
+        elif "CRM-LEAD" in self.name:
+            reference_doctype = "CRM Lead"
+            tasker = self.lead_owner
+        if tasker is None:
             return
-        frappe.get_doc(values).insert()
+        if owner != tasker: 
+            doctype = reference_doctype
+            if doctype.startswith("CRM "):
+                doctype = doctype[4:].lower()
+            notification_text = f"""
+                <div class="mb-2 leading-5 text-gray-600">
+                    <span class="font-medium text-gray-900">{ owner }</span>
+                    <span>{ _('đã giao cho bạn làm {0} Owner cho {0}').format(doctype.capitalize()) }</span>
+                    <span class="font-medium text-gray-900"> {self.name}</span>
+                </div>
+            """
+            values = frappe._dict(
+                doctype="CRM Notification",
+                from_user=owner,
+                to_user=tasker,
+                type="Task",
+                message= _('{0} đã giao cho bạn làm {1} Owner cho {1} {2}').format(owner, doctype.capitalize(), self.name),
+                notification_text=notification_text,
+                notification_type_doctype=reference_doctype,
+                notification_type_doc=self.name,
+                reference_doctype=reference_doctype,
+                reference_name=self.name,
+            )
+            if frappe.db.exists("CRM Notification", values):
+                return
+            frappe.get_doc(values).insert()
+    except Exception as e:
+        pass
 
 def notify_unasign_contact(self, method):
     try:
@@ -111,6 +116,7 @@ def notify_unasign_contact(self, method):
 def notify_change_info_lead(self, method):
     try:
         if self.name is not None:
+            name_lead = frappe.db.get_value('CRM Lead', self.name, 'name')
             doc_old = frappe.get_doc("CRM Lead", self.name)
             owner = self.owner
             tasker = self.lead_owner

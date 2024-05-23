@@ -14,11 +14,16 @@
       >
         <div v-for="field in section.fields" :key="field.name">
           
-            <div class="mb-2 text-sm text-gray-600" style="display: flex; justify-content: space-between;">
+          <div class="mb-2 text-sm text-gray-600" style="display: flex; justify-content: space-between;">
             {{ __(field.label) }}
             <span class="text-red-500" v-if="field.mandatory">*</span>
-            
-            <FeatherIcon v-if="error[field.name]" name="alert-triangle" class="h-4 w-4 text-red-500" />
+            <div v-if="invalid[field.name]">
+              <Tooltip
+                :text="invalid[field.name]"
+                :placement="'top'">
+                  <FeatherIcon  name="alert-triangle" class="h-4 w-4 text-red-500" />
+              </Tooltip>
+            </div>
           </div>
           
          
@@ -191,6 +196,8 @@ const props = defineProps({
 
 const error = reactive({}); // object to store validation errors
 
+const invalid = reactive({});
+
 const handleFocus = (value, fieldName) => {
   // Clear error message when the field is focused
   
@@ -200,29 +207,28 @@ const handleBlur = (value, fieldName) => {
   // Perform validation based on your requirements
   // For example, check if the value is empty
   const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
-  
-  if(value !=''){
+  const phoneRegex = /^(\+84|0)\d{9}$/;
+  if(value != ""){
     if(fieldName == 'email' || fieldName == 'email_id'){
-    if (!value.match(emailRegex)) {
-      error[fieldName] = 'Invalid email format';
-    }else{
-      error[fieldName] = '';
+      if(!emailRegex.test(value)){
+        invalid[fieldName] = __('Invalid Email');
+      }else{
+        delete invalid[fieldName];
+      }
     }
-    }else if(fieldName == 'mobile_no'||fieldName == 'actual_mobile_no'){
+    if(fieldName == 'mobile_no' || fieldName == 'actual_mobile_no'){
+      if(!phoneRegex.test(value)){
+        invalid[fieldName] = __('Invalid phone number');
+      }else{
+        delete invalid[fieldName];
+      }
       const cleanedValue = value.replace(/\s+/g, '').replace(/^(\+?84|0)/, '0');
       props.data[fieldName] = cleanedValue
-      if (isNaN(cleanedValue) || cleanedValue.length !== 10) {
-    error[fieldName] = __('Mobile No should be a number');
-  } else {
-    error[fieldName] = ''; // Số điện thoại hợp lệ
-  }
-     
     }
   }else{
-    error[fieldName] = '';
+    if(fieldName == 'email' || fieldName == 'email_id') delete invalid[fieldName];
+    if(fieldName == 'mobile_no' || fieldName == 'actual_mobile_no') delete invalid[fieldName];
   }
-  
-  
 };
 </script>
 

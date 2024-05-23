@@ -21,8 +21,10 @@
     v-model:updatedPageCount="updatedPageCount"
     doctype="CRM Task"
     :showElement=true
+    :showFuncImport=false
     :showFuncConvertTaskCustomer="showConvertTaskCustomer"
     :placeholderText="__('Search task')"
+    @afterConvertTaskCustomer="onAfterConvertTaskCustomer()"
   />
   <TasksListView
     ref="tasksListView"
@@ -161,5 +163,9 @@ function createTask() {
     reference_docname: '',
   }
   showTaskModal.value = true
+}
+
+function onAfterConvertTaskCustomer(){
+  tasks.value.reload();
 }
 </script>

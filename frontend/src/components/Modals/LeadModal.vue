@@ -230,28 +230,15 @@ async function createNewLead() {
           return error.value
         }
       }
-      if (lead.mobile_no) {
-        // Loại bỏ các ký tự không phải số
-        const cleanedMobileNo = lead.mobile_no.replace(/[-+() ]/g, '')
-
-        // Kiểm tra nếu không phải là số
-        if (isNaN(cleanedMobileNo)) {
-          error.value = __('Mobile No should be a number')
-          return error.value
-        }
-
-        // Kiểm tra nếu độ dài không phải là 10 chữ số
-        if (cleanedMobileNo.length !== 10) {
-          error.value = __('Mobile No should be 10 digits')
-          return error.value
-        }
+      const phoneRegex = /^(\+84|0)\d{9}$/;
+      if (lead.mobile_no && !phoneRegex.test(lead.mobile_no)) {
+        error.value = __('Mobile No should be a number')
+        return error.value
       }
-      if (lead.email) {
-        const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
-        if (!lead.email.match(emailRegex)) {
-         error.value = __('Invalid Email')
-         return error.value
-         }
+      const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
+      if (lead.email && !emailRegex.test(lead.email)) {
+        error.value = __('Invalid Email')
+        return error.value
       }
       isLeadCreating.value = true
     },
