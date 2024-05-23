@@ -43,7 +43,7 @@ export function dateFormat(date, format) {
 }
 
 export function timeAgo(date) {
-  return useTimeAgo(date).value
+  return useTimeAgo(date).value;
 }
 
 export const dateTooltipFormat = 'ddd, MMM D, YYYY h:mm A'

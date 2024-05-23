@@ -318,7 +318,6 @@ Notification Type Doc,Tài liệu loại thông báo
 Notification Type Doctype,
 Notifications,Thông báo
 Now,Hiện tại
-Old Parent,
 Only PNG and JPG images are allowed,Chỉ cho phép tải lên hình ảnh PNG và JPG
 Only one {0} can be set as primary.,Chỉ có thể đặt một {0} làm chính.
 Open Deal,Mở Deal
@@ -385,7 +384,7 @@ SLA,SLA
 SLA Creation,Khởi tạo SLA
 SLA Name,Tên SLA
 SLA Status,Trạng thái SLA
-SUBJECT,
+SUBJECT,Chủ đề
 Sales Manager,Quản lý bán hàng
 Sales User,Sales
 Salutation,Xưng hô
@@ -507,7 +506,6 @@ violet,màu tím than
 yellow,màu vàng
 {0} is a required field,{0} là một trường bắt buộc
 {0} is an invalid email address,{0} là địa chỉ email không hợp lệ
-,
 No results found,Không tìm thấy kết quả
 Add Organization...,Thêm Tổ chức...
 Add Website...,Thêm Trang web...
@@ -538,37 +536,25 @@ No WhatsApp Messages,Không có tin nhắn WhatsApp
 Add Next Step...,Thêm bước tiếp theo
 Madam,Bà
 Master,Bậc thầy
-Miss,
-Mrs,
+Miss,Chị
+Mrs,Mrs
 Ms,Cô
-Mx,
+Mx,Mx
 Prof,Anh
-,
 Female,Nữ
-Genderqueer,
-Non - Conforming,
-Other,
+Genderqueer,Genderqueer
+Non - Conforming,Non - Conforming
+Other,Khác
 Prefer not to say,Không tiết lộ
-Transgender,
-,
+Transgender,Transgender
 New,Mới
 Contacted,Đã liên hệ
 Nurture,Đang chăm sóc
 Qualified,Chất lượng
 Unqualified,Không chất lượng
 Junk,Trùng
-,
 No of Employees,Số lượng nhân viên
-Frappé Technologie,
-https://frappe.io,
-India,
-John,
-Doe,
-john@doe.com,
-+91 1234567890',
-https://example.com,
-,
-CEO,
+https://example.com,https://example.com
 Add Last Name...,Thêm họ
 created this lead,đã tạo lead này
 created this deal,đã tạo deal này
@@ -589,8 +575,8 @@ Mobile No should be 10 digits,Số điện thoại phải bao gồm 10 số
 New Comment,Thêm bình luận
 Drive,Drive
 Preview,Xem trước dữ liệu
-Next, Tiếp theo
-Back, Quay lại
+Next,Tiếp theo
+Back,Quay lại
 Mapping Columns,Trường ánh xạ
 Select the mapping field,Chọn trường ánh xạ
 Map columns from file to fields in Lead, Ánh xạ các trường từ tệp dữ liệu tới các trường trong Lead
@@ -599,5 +585,20 @@ Don't Import,Không nhập
 Name,Tên
 Assign To,Phân công cho
 Invalid phone number,Số điện thoại không hợp lệ
-Open,Mở,
+Open,Mở
 Replied,Đã trả lời
+{0} minutes ago,{0} phút trước
+Select all,Chọn tất cả
+Load More,Tải thêm
+of,của
+Row,Bản ghi
+Rows,Các bản ghi
+selected,được chọn,
+Select Organization...,Chọn tổ chức...
+Text Color,Màu chữ
+Background Color,Màu nền
+Add Image,Thêm ảnh
+Select another image,Chọn ảnh khác
+Select an image,Chọn một ảnh
+Insert Image,Thêm ảnh
+Set Link,Đặt liên kết
