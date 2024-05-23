@@ -353,7 +353,6 @@ async function onFileSelected(event){
                     }
                     arrLeadImport.push(leadImport);
                 }
-                console.log(arrLeadImport);
                 rowsDataPreview.value = arrLeadImport;
                 show.value = false;
                 showPreviewData.value = true;
@@ -382,8 +381,6 @@ function onBackModalChooseActionFromDriver(){
 }
 
 function onNextModalPreviewFromDriver(){
-    console.log("on next");
-    console.log(txtLinkFile);
     loadingReadLinkSheet.value = true;
     let linkFile = createResource({
         url: 'crm.api.doc.get_content_by_google_sheet',
