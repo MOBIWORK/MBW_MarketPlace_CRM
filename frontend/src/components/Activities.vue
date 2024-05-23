@@ -37,7 +37,7 @@
       </template>
       <span>{{ __('New Task') }}</span>
     </Button>
-    <Button v-else-if="title == 'Comment'" variant="solid" @click="showNote()">
+    <Button v-else-if="title == 'Comment'" variant="solid" @click="$refs.emailBox.showComment = true">
       <template #prefix>
         <FeatherIcon name="plus" class="h-4 w-4" />
       </template>
@@ -471,8 +471,10 @@
           class="mb-4"
           :id="activity.name"
           v-else-if="activity.activity_type == 'comment'"
+          @mouseover="hoveredComment = activity.name"
+          @mouseleave="hoveredComment = null"
         >
-          <div
+          <div style="width: 90%;"
             class="mb-0.5 flex items-start justify-stretch gap-2 py-1.5 text-base"
           >
             <div class="inline-flex flex-wrap gap-1 text-gray-600">
@@ -484,7 +486,8 @@
                 {{ __('comment') }}
               </span>
             </div>
-            <div class="ml-auto whitespace-nowrap">
+            <div class="ml-auto whitespace-nowrap flex " style="justify-content: center;align-items: center;">
+             
               <Tooltip :text="dateFormat(activity.creation, dateTooltipFormat)">
                 <div class="text-sm text-gray-600">
                   {{ __(timeAgo(activity.creation)) }}
@@ -492,7 +495,8 @@
               </Tooltip>
             </div>
           </div>
-          <div
+          <div style="display: flex; align-items: center;">
+            <div style="width: 90%;"
             class="cursor-pointer rounded bg-gray-50 px-4 py-3 text-base leading-6 transition-all duration-300 ease-in-out"
           >
             <div class="prose-f" v-html="activity.content" />
@@ -506,8 +510,36 @@
                 :label="a.file_name"
                 :url="a.file_url"
               />
+      
             </div>
+          
           </div>
+          
+          <Button
+                v-if="hoveredComment === activity.name"
+                style="margin-left: 10px;"
+                class="reply-button"
+                :variant="'subtle'"
+                theme="gray"
+                size="sm"
+                label="Reply"
+                :loading="false"
+                :loadingText="null"
+                :disabled="false"
+                :link="null"
+              >
+                {{__('Reply')}}
+              </Button>
+          </div>
+          <CommentNewBox
+    ref="whatsappBox"
+    v-if="title == 'Comment'"
+    v-model="doc"
+    v-model:reply="replyMessage"
+    v-model:whatsapp="whatsappMessages"
+    :doctype="doctype"
+    @scroll="scroll"
+  />
         </div>
         <div
           v-else-if="
@@ -770,11 +802,12 @@
   </div>
   <CommunicationArea
     ref="emailBox"
-    v-if="['Emails', 'Activity'].includes(title)"
+    v-if="['Emails', 'Activity', 'Comment'].includes(title)"
     v-model="doc"
     v-model:reload="reload_email"
     :doctype="doctype"
     @scroll="scroll"
+    :isComment= "title == 'Comment' ? false : true"
   />
   <WhatsAppBox
     ref="whatsappBox"
@@ -816,6 +849,7 @@ import TaskIcon from '@/components/Icons/TaskIcon.vue'
 import WhatsAppIcon from '@/components/Icons/WhatsAppIcon.vue'
 import WhatsAppArea from '@/components/WhatsAppArea.vue'
 import WhatsAppBox from '@/components/WhatsAppBox.vue'
+import CommentNewBox from '@/components/CommentNewBox.vue'
 import LoadingIndicator from '@/components/Icons/LoadingIndicator.vue'
 import DurationIcon from '@/components/Icons/DurationIcon.vue'
 import CalendarIcon from '@/components/Icons/CalendarIcon.vue'
@@ -898,7 +932,7 @@ const all_activities = createResource({
   params: { name: doc.value.data.name },
   cache: ['activity', doc.value.data.name],
   auto: true,
-  transform: ([versions, calls, notes, tasks , comments]) => {
+  transform: ([versions, calls, notes, tasks, comments]) => {
     if (calls?.length) {
       calls.forEach((doc) => {
         doc.show_recording = false
@@ -933,8 +967,8 @@ const all_activities = createResource({
         }
       })
     }
-    console.log(versions,comments);
-    return { versions, calls, notes, tasks , comments }
+    console.log(versions, comments)
+    return { versions, calls, notes, tasks, comments }
   },
 })
 
@@ -1040,7 +1074,7 @@ const activities = computed(() => {
   } else if (props.title == 'Tasks') {
     if (!all_activities.data?.tasks) return []
     return sortByCreation(all_activities.data.tasks)
-  }else if (props.title == 'Comment') {
+  } else if (props.title == 'Comment') {
     if (!all_activities.data?.comments) return []
     activities = all_activities.data.comments.filter(
       (activity) => activity.activity_type === 'comment'
@@ -1109,7 +1143,7 @@ const emptyText = computed(() => {
     text = 'No Tasks'
   } else if (props.title == 'Comment') {
     text = 'No Comment'
-  }  else if (props.title == 'WhatsApp') {
+  } else if (props.title == 'WhatsApp') {
     text = 'No WhatsApp Messages'
   }
   return text
@@ -1125,7 +1159,7 @@ const emptyTextIcon = computed(() => {
     icon = NoteIcon
   } else if (props.title == 'Tasks') {
     icon = TaskIcon
-  }else if (props.title == 'Comment') {
+  } else if (props.title == 'Comment') {
     icon = CommentIcon
   } else if (props.title == 'WhatsApp') {
     icon = WhatsAppIcon
@@ -1165,7 +1199,8 @@ function timelineIcon(activity_type, is_lead) {
 const showNoteModal = ref(false)
 const note = ref({})
 const emailBox = ref(null)
-
+const commentBox = ref(null)
+const hoveredComment = ref(null);
 function showNote(n) {
   note.value = n || {
     title: '',
@@ -1173,7 +1208,9 @@ function showNote(n) {
   }
   showNoteModal.value = true
 }
-
+function triggerToggleCommentBox(){
+  
+}
 async function deleteNote(name) {
   await call('frappe.client.delete', {
     doctype: 'FCRM Note',
@@ -1285,7 +1322,7 @@ function scroll(hash) {
   }, 500)
 }
 
-defineExpose({ emailBox })
+defineExpose({ emailBox, commentBox })
 
 const route = useRoute()
 
@@ -1314,14 +1351,19 @@ nextTick(() => {
 .email-content {
   word-break: break-word;
 }
-:deep(.email-content
-    :is(:where(table):not(:where([class~='not-prose'], [class~='not-prose']
-          *)))) {
+:deep(
+    .email-content
+      :is(
+        :where(table):not(:where([class~='not-prose'], [class~='not-prose'] *))
+      )
+  ) {
   table-layout: auto;
 }
 
-:deep(.email-content
-    :where(table):not(:where([class~='not-prose'], [class~='not-prose'] *))) {
+:deep(
+    .email-content
+      :where(table):not(:where([class~='not-prose'], [class~='not-prose'] *))
+  ) {
   width: unset;
   table-layout: auto;
   text-align: unset;
@@ -1333,54 +1375,74 @@ nextTick(() => {
 
 /* tr */
 
-:deep(.email-content
-    :where(tbody tr):not(:where([class~='not-prose'], [class~='not-prose']
-        *))) {
+:deep(
+    .email-content
+      :where(tbody tr):not(:where([class~='not-prose'], [class~='not-prose'] *))
+  ) {
   border-bottom-width: 0;
   border-bottom-color: transparent;
 }
 
 /* td */
 
-:deep(.email-content
-    :is(:where(td):not(:where([class~='not-prose'], [class~='not-prose'] *)))) {
+:deep(
+    .email-content
+      :is(:where(td):not(:where([class~='not-prose'], [class~='not-prose'] *)))
+  ) {
   position: unset;
   border-width: 0;
   border-color: transparent;
   padding: 0;
 }
 
-:deep(.email-content
-    :where(tbody td):not(:where([class~='not-prose'], [class~='not-prose']
-        *))) {
+:deep(
+    .email-content
+      :where(tbody td):not(:where([class~='not-prose'], [class~='not-prose'] *))
+  ) {
   vertical-align: revert;
 }
 
 /* image */
-:deep(.email-content
-    :is(:where(img):not(:where([class~='not-prose'], [class~='not-prose']
-          *)))) {
+:deep(
+    .email-content
+      :is(:where(img):not(:where([class~='not-prose'], [class~='not-prose'] *)))
+  ) {
   border-width: 0;
 }
 
-:deep(.email-content
-    :where(img):not(:where([class~='not-prose'], [class~='not-prose'] *))) {
+:deep(
+    .email-content
+      :where(img):not(:where([class~='not-prose'], [class~='not-prose'] *))
+  ) {
   margin: 0;
 }
 
 /* before & after */
 
-:deep(.email-content
-    :where(blockquote
-      p:first-of-type):not(:where([class~='not-prose'], [class~='not-prose']
-        *))::before) {
+:deep(
+    .email-content
+      :where(blockquote p:first-of-type):not(
+        :where([class~='not-prose'], [class~='not-prose'] *)
+      )::before
+  ) {
   content: none;
 }
 
-:deep(.email-content
-    :where(blockquote
-      p:last-of-type):not(:where([class~='not-prose'], [class~='not-prose']
-        *))::after) {
+:deep(
+    .email-content
+      :where(blockquote p:last-of-type):not(
+        :where([class~='not-prose'], [class~='not-prose'] *)
+      )::after
+  ) {
   content: none;
+}
+.reply-button {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  right: 10px;
+}
+
+.activity:hover .reply-button {
+  opacity: 1;
 }
 </style>

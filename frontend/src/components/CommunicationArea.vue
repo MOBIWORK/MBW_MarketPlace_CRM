@@ -2,6 +2,7 @@
   <div class="flex justify-between gap-3 border-t px-10 py-2.5">
     <div class="flex gap-1.5">
       <Button
+        v-if="isComment != false"
         ref="sendEmailRef"
         variant="ghost"
         :class="[showEmailBox ? '!bg-gray-300 hover:!bg-gray-200' : '']"
@@ -110,6 +111,10 @@ const props = defineProps({
     type: String,
     default: 'CRM Lead',
   },
+  isComment: {
+    type: Boolean,
+    default : false
+  }
 })
 
 const doc = defineModel()
@@ -141,6 +146,7 @@ const subject = computed(() => {
 watch(
   () => showEmailBox.value,
   (value) => {
+    console.log(value);
     if (value) {
       newEmailEditor.value.editor.commands.focus()
     }
@@ -250,5 +256,5 @@ function toggleCommentBox() {
   showCommentBox.value = !showCommentBox.value
 }
 
-defineExpose({ show: showEmailBox, editor: newEmailEditor })
+defineExpose({ show: showEmailBox, editor: newEmailEditor , showComment: showCommentBox})
 </script>
