@@ -37,7 +37,11 @@
       </template>
       <span>{{ __('New Task') }}</span>
     </Button>
-    <Button v-else-if="title == 'Comment'" variant="solid" @click="$refs.emailBox.showComment = true">
+    <Button
+      v-else-if="title == 'Comment'"
+      variant="solid"
+      @click="$refs.emailBox.showComment = true"
+    >
       <template #prefix>
         <FeatherIcon name="plus" class="h-4 w-4" />
       </template>
@@ -474,7 +478,8 @@
           @mouseover="hoveredComment = activity.name"
           @mouseleave="hoveredComment = null"
         >
-          <div style="width: 90%;"
+          <div
+            style="width: 90%"
             class="mb-0.5 flex items-start justify-stretch gap-2 py-1.5 text-base"
           >
             <div class="inline-flex flex-wrap gap-1 text-gray-600">
@@ -486,8 +491,10 @@
                 {{ __('comment') }}
               </span>
             </div>
-            <div class="ml-auto whitespace-nowrap flex " style="justify-content: center;align-items: center;">
-             
+            <div
+              class="ml-auto whitespace-nowrap flex"
+              style="justify-content: center; align-items: center"
+            >
               <Tooltip :text="dateFormat(activity.creation, dateTooltipFormat)">
                 <div class="text-sm text-gray-600">
                   {{ __(timeAgo(activity.creation)) }}
@@ -495,51 +502,51 @@
               </Tooltip>
             </div>
           </div>
-          <div style="display: flex; align-items: center;">
-            <div style="width: 90%;"
-            class="cursor-pointer rounded bg-gray-50 px-4 py-3 text-base leading-6 transition-all duration-300 ease-in-out"
-          >
-            <div class="prose-f" v-html="activity.content" />
+          <div style="display: flex; align-items: center">
             <div
-              v-if="activity.attachments.length"
-              class="mt-2 flex flex-wrap gap-2"
+              style="width: 90%"
+              class="cursor-pointer rounded bg-gray-50 px-4 py-3 text-base leading-6 transition-all duration-300 ease-in-out"
             >
-              <AttachmentItem
-                v-for="a in activity.attachments"
-                :key="a.file_url"
-                :label="a.file_name"
-                :url="a.file_url"
-              />
-      
-            </div>
-          
-          </div>
-          
-          <Button
-                v-if="hoveredComment === activity.name"
-                style="margin-left: 10px;"
-                class="reply-button"
-                :variant="'subtle'"
-                theme="gray"
-                size="sm"
-                label="Reply"
-                :loading="false"
-                :loadingText="null"
-                :disabled="false"
-                :link="null"
+              <div class="prose-f" v-html="activity.content" />
+              <div
+                v-if="activity.attachments.length"
+                class="mt-2 flex flex-wrap gap-2"
               >
-                {{__('Reply')}}
-              </Button>
+                <AttachmentItem
+                  v-for="a in activity.attachments"
+                  :key="a.file_url"
+                  :label="a.file_name"
+                  :url="a.file_url"
+                />
+              </div>
+            </div>
+
+            <Button
+              v-if="hoveredComment === activity.name"
+              @click="showCommentBoxForActivity(activity)"
+              style="margin-left: 10px"
+              class="reply-button"
+              :variant="'subtle'"
+              theme="gray"
+              size="sm"
+              label="Reply"
+              :loading="false"
+              :loadingText="null"
+              :disabled="false"
+              :link="null"
+            >
+              {{ __('Reply') }}
+            </Button>
           </div>
           <CommentNewBox
-    ref="whatsappBox"
-    v-if="title == 'Comment'"
-    v-model="doc"
-    v-model:reply="replyMessage"
-    v-model:whatsapp="whatsappMessages"
-    :doctype="doctype"
-    @scroll="scroll"
-  />
+            ref="whatsappBox"
+            v-if="title == 'Comment' && idxComment == activity.name"
+            v-model="doc"
+            v-model:reply="replyMessage"
+            v-model:whatsapp="whatsappMessages"
+            :doctype="doctype"
+            @scroll="scroll"
+          />
         </div>
         <div
           v-else-if="
@@ -807,7 +814,7 @@
     v-model:reload="reload_email"
     :doctype="doctype"
     @scroll="scroll"
-    :isComment= "title == 'Comment' ? false : true"
+    :isComment="title == 'Comment' ? false : true"
   />
   <WhatsAppBox
     ref="whatsappBox"
@@ -1200,7 +1207,8 @@ const showNoteModal = ref(false)
 const note = ref({})
 const emailBox = ref(null)
 const commentBox = ref(null)
-const hoveredComment = ref(null);
+const hoveredComment = ref(null)
+const idxComment = ref(null)
 function showNote(n) {
   note.value = n || {
     title: '',
@@ -1208,9 +1216,7 @@ function showNote(n) {
   }
   showNoteModal.value = true
 }
-function triggerToggleCommentBox(){
-  
-}
+function triggerToggleCommentBox() {}
 async function deleteNote(name) {
   await call('frappe.client.delete', {
     doctype: 'FCRM Note',
@@ -1223,6 +1229,10 @@ async function deleteNote(name) {
 const showTaskModal = ref(false)
 const task = ref({})
 
+function showCommentBoxForActivity(activity) {
+  // Hiển thị CommentNewBox tương ứng với hoạt động được chọn
+  idxComment.value = activity.name
+}
 function showTask(t) {
   task.value = t || {
     title: '',
