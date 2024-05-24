@@ -538,6 +538,31 @@
               {{ __('Reply') }}
             </Button>
           </div>
+          <div style="width: 100%;" v-if="activity.child_comment && activity.show_childcomment" v-for="(activity, index) in activity.child_comment" class="relative">
+    <div class="absolute left-0 top-0 -z-10 border-l border-gray-200" style="width: 1px; height: 100%; border-radius: 5px;"></div>
+    <div style="max-width: 500px; word-wrap: break-word;margin-top: 10px;margin-left: 20px;" class="relative z-10 text-base rounded py-1.5 px-2 border border-gray-100 bg-gray-50 placeholder-gray-500 hover:border-gray-200 focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 text-gray-800 transition-colors block min-h-8">
+        <span class="font-bold block mb-1">Admin</span>
+        <span class="block">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+    </div>
+</div>
+          <div v-if="activity.child_comment" style="margin-top: 10px;">
+            <Button
+              :label="
+                activity.show_childcomment
+                  ? __('Hide all reply comments')
+                  : __('Show all reply comments')
+              "
+              variant="outline"
+              @click="activity.show_childcomment = !activity.show_childcomment"
+            >
+              <template #suffix>
+                <FeatherIcon
+                  :name="activity.show_childcomment ? 'chevron-up' : 'chevron-down'"
+                  class="h-4 text-gray-600"
+                />
+              </template>
+            </Button>
+          </div>
           <CommentNewBox
             ref="whatsappBox"
             v-if="title == 'Comment' && idxComment == activity.name"
@@ -776,6 +801,7 @@
               </template>
             </Button>
           </div>
+       
         </div>
       </div>
     </div>
@@ -1086,6 +1112,22 @@ const activities = computed(() => {
     activities = all_activities.data.comments.filter(
       (activity) => activity.activity_type === 'comment'
     )
+    activities.forEach((item) => {
+      item['show_childcomment'] = false
+    })
+    let child_comment = [{
+      id: 1,
+      name:'qwqwq',
+      text:'1212'
+    },
+    {
+      id: 1,
+      name:'qwqwq',
+      text:'1212'
+    },]
+   activities[3]['child_comment']  = child_comment
+   activities[0]['child_comment']  = child_comment
+   //
   } else if (props.title == 'Notes') {
     if (!all_activities.data?.notes) return []
     return sortByCreation(all_activities.data.notes)
