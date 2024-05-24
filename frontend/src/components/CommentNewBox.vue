@@ -65,14 +65,14 @@
   <script setup>
   import IconPicker from '@/components/IconPicker.vue'
   import SmileIcon from '@/components/Icons/SmileIcon.vue'
-  import { createResource, Textarea, FileUploader, Dropdown } from 'frappe-ui'
+  import { createResource, Textarea, FileUploader, Dropdown , call } from 'frappe-ui'
   import FeatherIcon from 'frappe-ui/src/components/FeatherIcon.vue'
   import { ref, computed, nextTick, watch } from 'vue'
   
   const props = defineProps({
-    doctype: String,
+    idcommentparent: String,
   })
-  
+  const reload = defineModel('reload')
   const doc = defineModel()
   const whatsapp = defineModel('whatsapp')
   const reply = defineModel('reply')
@@ -103,24 +103,30 @@
   
   async function sendWhatsAppMessage() {
     let args = {
-      reference_doctype: props.doctype,
-      reference_name: doc.value.data.name,
-      message: content.value,
-      to: doc.value.data.mobile_no,
-      attach: whatsapp.value.attach || '',
-      reply_to: reply.value?.name || '',
-      content_type: whatsapp.value.content_type,
+      id_comment_parent: props.idcommentparent,
+      content: content.value,
+      doctype:"Comment Child"
     }
+    let d = await call('frappe.client.insert', {
+      doc: {
+        doctype: 'Comment Child',
+        content: content.value,
+        id_comment_parent: props.idcommentparent,
+      },
+    })
     content.value = ''
     fileType.value = ''
     whatsapp.value.attach = ''
     whatsapp.value.content_type = 'text'
     reply.value = {}
-    createResource({
-      url: 'crm.api.whatsapp.create_whatsapp_message',
-      params: args,
-      auto: true,
-    })
+    reload.value = true
+    // createResource({
+    //   url: 'frappe.client.insert',
+    //   params: args,
+    //   makeParams(values) {
+
+    //   }
+    // })
   }
   
   function uploadOptions(openFileSelector) {

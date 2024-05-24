@@ -538,14 +538,14 @@
               {{ __('Reply') }}
             </Button>
           </div>
-          <div style="width: 100%;" v-if="activity.child_comment && activity.show_childcomment" v-for="(activity, index) in activity.child_comment" class="relative">
+          <div style="width: 100%;" v-if="activity.child_comment && activity.child_comment.length > 0 && activity.show_childcomment" v-for="(activity, index) in activity.child_comment" class="relative">
     <div class="absolute left-0 top-0 -z-10 border-l border-gray-200" style="width: 1px; height: 100%; border-radius: 5px;"></div>
     <div style="max-width: 500px; word-wrap: break-word;margin-top: 10px;margin-left: 20px;" class="relative z-10 text-base rounded py-1.5 px-2 border border-gray-100 bg-gray-50 placeholder-gray-500 hover:border-gray-200 focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 text-gray-800 transition-colors block min-h-8">
-        <span class="font-bold block mb-1">Admin</span>
-        <span class="block">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</span>
+        <span class="font-bold block mb-1">{{ activity.owner }}</span>
+        <span class="block">{{ activity.content }}</span>
     </div>
 </div>
-          <div v-if="activity.child_comment" style="margin-top: 10px;">
+          <div v-if="activity.child_comment && activity.child_comment.length > 0" style="margin-top: 10px;">
             <Button
               :label="
                 activity.show_childcomment
@@ -569,7 +569,8 @@
             v-model="doc"
             v-model:reply="replyMessage"
             v-model:whatsapp="whatsappMessages"
-            :doctype="doctype"
+            v-model:reload="reload_commentchild"
+            :idcommentparent="activity.name"
             @scroll="scroll"
           />
         </div>
@@ -959,6 +960,7 @@ const reload = defineModel('reload')
 const tabIndex = defineModel('tabIndex')
 
 const reload_email = ref(false)
+const reload_commentchild = ref(false)
 
 const all_activities = createResource({
   url: 'crm.api.activities.get_activities',
@@ -1000,7 +1002,6 @@ const all_activities = createResource({
         }
       })
     }
-    console.log(versions, comments)
     return { versions, calls, notes, tasks, comments }
   },
 })
@@ -1112,22 +1113,7 @@ const activities = computed(() => {
     activities = all_activities.data.comments.filter(
       (activity) => activity.activity_type === 'comment'
     )
-    activities.forEach((item) => {
-      item['show_childcomment'] = false
-    })
-    let child_comment = [{
-      id: 1,
-      name:'qwqwq',
-      text:'1212'
-    },
-    {
-      id: 1,
-      name:'qwqwq',
-      text:'1212'
-    },]
-   activities[3]['child_comment']  = child_comment
-   activities[0]['child_comment']  = child_comment
-   //
+    console.log(activities);
   } else if (props.title == 'Notes') {
     if (!all_activities.data?.notes) return []
     return sortByCreation(all_activities.data.notes)
@@ -1350,11 +1336,12 @@ function reply(email, reply_all = false) {
     .run()
 }
 
-watch([reload, reload_email], ([reload_value, reload_email_value]) => {
-  if (reload_value || reload_email_value) {
+watch([reload, reload_email,reload_commentchild], ([reload_value, reload_email_value,reload_commentchild_value]) => {
+  if (reload_value || reload_email_value || reload_commentchild_value) {
     all_activities.reload()
     reload.value = false
     reload_email.value = false
+    reload_commentchild.value = false
   }
 })
 

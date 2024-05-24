@@ -220,6 +220,7 @@ def get_lead_activities(name):
 			"content": comment.content,
 			"attachments": get_attachments('Comment', comment.name),
 			"is_lead": True,
+   			"child_comment": get_child_comments(comment.name)
 		}
 		comments.append(activity)
 
@@ -340,3 +341,13 @@ def get_linked_tasks(name):
 		],
 	)
 	return tasks or []
+# Giả sử bạn có một hàm để lấy các comment con từ doctype Comment Child
+def get_child_comments(parent_comment_name):
+    # Truy vấn hoặc lấy danh sách các comment con từ doctype Comment Child
+    # Đây là một ví dụ, bạn cần thay thế nó bằng truy vấn thực tế của bạn
+    return frappe.get_all(
+        'Comment Child',
+        filters={'id_comment_parent': parent_comment_name},
+        fields=['creation', 'owner', 'content']
+    )
+
