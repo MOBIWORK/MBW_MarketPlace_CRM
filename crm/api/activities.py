@@ -345,9 +345,10 @@ def get_linked_tasks(name):
 def get_child_comments(parent_comment_name):
     # Truy vấn hoặc lấy danh sách các comment con từ doctype Comment Child
     # Đây là một ví dụ, bạn cần thay thế nó bằng truy vấn thực tế của bạn
-    return frappe.get_all(
+    child_comments = frappe.get_all(
         'Comment Child',
         filters={'id_comment_parent': parent_comment_name},
         fields=['creation', 'owner', 'content']
     )
+    return child_comments[::-1]
 

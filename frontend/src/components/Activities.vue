@@ -540,9 +540,9 @@
           </div>
           <div style="width: 100%;" v-if="activity.child_comment && activity.child_comment.length > 0 && activity.show_childcomment" v-for="(activity, index) in activity.child_comment" class="relative">
     <div class="absolute left-0 top-0 -z-10 border-l border-gray-200" style="width: 1px; height: 100%; border-radius: 5px;"></div>
-    <div style="max-width: 500px; word-wrap: break-word;margin-top: 10px;margin-left: 20px;" class="relative z-10 text-base rounded py-1.5 px-2 border border-gray-100 bg-gray-50 placeholder-gray-500 hover:border-gray-200 focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 text-gray-800 transition-colors block min-h-8">
-        <span class="font-bold block mb-1">{{ activity.owner }}</span>
-        <span class="block">{{ activity.content }}</span>
+    <div style="max-width: 500px; word-wrap: break-word;margin-top: 10px;margin-left: 20px;padding:10px" class="relative z-10 text-base rounded py-1.5 px-2 border border-gray-100 bg-gray-50 placeholder-gray-500 hover:border-gray-200 focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 text-gray-800 transition-colors block min-h-8">
+        <span class="font-medium text-gray-800 mb-1">{{ activity.owner }}</span>
+        <p class="block">{{ activity.content }}</p>
     </div>
 </div>
           <div v-if="activity.child_comment && activity.child_comment.length > 0" style="margin-top: 10px;">
@@ -1113,7 +1113,13 @@ const activities = computed(() => {
     activities = all_activities.data.comments.filter(
       (activity) => activity.activity_type === 'comment'
     )
-    console.log(activities);
+    let targetNames = JSON.parse(localStorage.getItem('statusComment'));
+    activities.forEach(activity => {
+  if (targetNames && targetNames.includes(activity.name)) {
+    activity['show_childcomment'] = true;
+  }
+});
+localStorage.removeItem('statusComment');
   } else if (props.title == 'Notes') {
     if (!all_activities.data?.notes) return []
     return sortByCreation(all_activities.data.notes)
@@ -1335,14 +1341,18 @@ function reply(email, reply_all = false) {
     .focus('start')
     .run()
 }
-
 watch([reload, reload_email,reload_commentchild], ([reload_value, reload_email_value,reload_commentchild_value]) => {
   if (reload_value || reload_email_value || reload_commentchild_value) {
+  const filteredNames = all_activities.data.comments
+  .filter(activity => activity.hasOwnProperty('show_childcomment') && activity.show_childcomment)
+  .map(activity => activity.name);
+  localStorage.setItem('statusComment', JSON.stringify(filteredNames)); // lưu trạng thái đóng mở comment
     all_activities.reload()
     reload.value = false
     reload_email.value = false
     reload_commentchild.value = false
   }
+  
 })
 
 function scroll(hash) {
