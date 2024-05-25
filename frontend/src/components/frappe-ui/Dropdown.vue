@@ -6,7 +6,7 @@
       :placement="popoverPlacement"
     >
       <template #target>
-        <MenuButton as="div">
+        <MenuButton as="div" style="width:100%">
           <slot v-if="$slots.default" v-bind="{ open }" />
           <Button v-else :active="open" v-bind="button">
             {{ button ? button?.label || null : 'Options' }}
@@ -101,7 +101,7 @@ const props = defineProps({
 
 const router = useRouter()
 const slots = useSlots()
-
+console.log("Vào đây")
 const dropdownTransition = {
   enterActiveClass: 'transition duration-100 ease-out',
   enterFromClass: 'transform scale-95 opacity-0',

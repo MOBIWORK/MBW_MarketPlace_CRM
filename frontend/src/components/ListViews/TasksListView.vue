@@ -19,7 +19,7 @@
         v-slot="{ idx, column, item }"
         :row="row"
       >
-        <div v-if="column.key === 'due_date'">
+        <div v-if="column.key === 'due_date' || column.key === 'remind_task'">
           <Tooltip :text="dateFormat(item, 'ddd, MMM D, YYYY | hh:mm a')">
             <div class="flex items-center gap-2 truncate text-base">
               <CalendarIcon />

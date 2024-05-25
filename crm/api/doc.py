@@ -186,7 +186,6 @@ def get_list_data(
 		is_default = False
 	elif not custom_view or is_default:
 		_list = get_controller(doctype)
-
 		if hasattr(_list, "default_list_data"):
 			columns = _list.default_list_data().get("columns")
 			rows = _list.default_list_data().get("rows")

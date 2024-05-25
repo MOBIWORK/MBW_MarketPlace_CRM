@@ -86,9 +86,21 @@
           </div>
         </div>
         <div class="flex items-center justify-around gap-2 p-1">
-          <div>
-            {{ twoDigit(hour) }} : {{ twoDigit(minute) }} :
-            {{ twoDigit(second) }}
+          <div class="flex items-center">
+            <Select 
+              :options="arrHour"
+              v-model="hour"
+            />
+            <span class="mx-1"> : </span>
+            <Select
+              :options="arrMinute"
+              v-model="minute"
+            />
+            <span class="mx-1"> : </span>
+            <Select
+              :options="arrSecond"
+              v-model="second"
+            />
           </div>
           <div class="flex flex-col items-center justify-center">
             <div class="slider flex min-h-4 items-center justify-center">
@@ -144,21 +156,35 @@
 </template>
 
 <script>
-import { Popover } from 'frappe-ui'
+import { Popover, Select } from 'frappe-ui'
 export default {
   name: 'DatePicker',
   props: ['value', 'placeholder', 'formatter', 'readonly', 'inputClass'],
   emits: ['change'],
   components: {
     Popover,
+    Select
   },
   data() {
+    let arrHour = [];
+    let arrMinute = [];
+    let arrSecond = [];
+    for(let i = 0; i < 24; i++){
+      arrHour.push({label: i<10? `0${i}` : `${i}`, value: i});
+    }
+    for(let i = 0; i < 60; i++){
+      arrMinute.push({label: i<10? `0${i}` : `${i}`, value: i});
+      arrSecond.push({label: i<10? `0${i}` : `${i}`, value: i});
+    }
     return {
       currentYear: null,
       currentMonth: null,
       hour: 0,
       minute: 0,
       second: 0,
+      arrHour: arrHour,
+      arrMinute: arrMinute,
+      arrSecond: arrSecond
     }
   },
   created() {
@@ -375,5 +401,8 @@ export default {
   pointer-events: all;
   appearance: none;
   z-index: 1;
+}
+:deep(select){
+  background-image: none !important;
 }
 </style>

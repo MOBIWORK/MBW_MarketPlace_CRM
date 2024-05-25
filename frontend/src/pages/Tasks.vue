@@ -128,10 +128,11 @@ const task = ref({
   description: '',
   assigned_to: '',
   due_date: '',
+  remind_task: '',
   status: 'Backlog',
   priority: 'Low',
   reference_doctype: 'CRM Lead',
-  reference_docname: '',
+  reference_docname: ''
 })
 
 function showTask(name) {
@@ -142,6 +143,7 @@ function showTask(name) {
     description: t.description,
     assigned_to: t.assigned_to?.email || '',
     due_date: t.due_date,
+    remind_task: t.remind_task,
     status: t.status,
     priority: t.priority,
     reference_doctype: t.reference_doctype,
@@ -157,6 +159,7 @@ function createTask() {
     description: '',
     assigned_to: '',
     due_date: '',
+    remind_task: '',
     status: 'Backlog',
     priority: 'Low',
     reference_doctype: 'CRM Lead',

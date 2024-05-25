@@ -146,8 +146,8 @@ Duplicate,Tạo bản sao
 Duplicate View,Sao chép chế độ xem
 Duration,Thời lượng
 Edit,Chỉnh sửa
-Edit Note,Chỉnh sửa Ghi chú
-Edit Task,Chỉnh sửa Công việc
+Edit Note,Chỉnh sửa ghi chú
+Edit Task,Chỉnh sửa công việc
 Edit View,Chỉnh sửa chế độ xem
 Email,Email
 Email Templates,Mẫu Email
@@ -578,12 +578,11 @@ Preview,Xem trước dữ liệu
 Next,Tiếp theo
 Back,Quay lại
 Mapping Columns,Trường ánh xạ
-Select the mapping field,Chọn trường ánh xạ
+Select the mapping field,Chọn trường tương ứng
 Map columns from file to fields in Lead, Ánh xạ các trường từ tệp dữ liệu tới các trường trong Lead
 Creation,Ngày tạo
 Don't Import,Không nhập
 Name,Tên
-Assign To,Phân công cho
 Invalid phone number,Số điện thoại không hợp lệ
 Open,Mở
 Replied,Đã trả lời
@@ -601,6 +600,8 @@ Add Image,Thêm ảnh
 Select another image,Chọn ảnh khác
 Select an image,Chọn một ảnh
 Insert Image,Thêm ảnh
-Set Link,Đặt liên kết
+Set Link,Đặt liên kết,
+Due Date: 01/04/2024 11:30 PM,Ngày đáo hạn: 01/04/2024 11:30 PM
+Remind task,Nhắc nhở công việc,
 Hide all reply comments,Ẩn tất cả các bình luận
 Show all reply comments,Hiển thị tất cả các bình luận

@@ -20,13 +20,12 @@
         v-slot="{ idx, column, item }"
         :row="row"
       >
-        <div v-if="column.key === '_assign'" class="flex items-center">
+        <div v-if="column.key === '_assign'" class="flex items-center" @click="
+              (event) => applyFilterByCell(event, idx, column, item )
+            ">
           <MultipleAvatar
             :avatars="item"
             size="sm"
-            @click="
-              (event) => emit('applyFilter', { event, idx, column, item })
-            "
           />
         </div>
         <ListRowItem v-else :item="item">
@@ -43,7 +42,9 @@
                 size="sm"
               />
             </div>
-            <div v-else-if="column.key === 'organization'">
+            <div v-else-if="column.key === 'organization'" @click="
+                  (event) => applyFilterByCell(event, idx, column, item )
+                ">
               <Avatar
                 v-if="item.label"
                 class="flex items-center"
@@ -52,7 +53,9 @@
                 size="sm"
               />
             </div>
-            <div v-else-if="column.key === 'lead_owner'">
+            <div v-else-if="column.key === 'lead_owner'" @click="
+                (event) => applyFilterByCell(event, idx, column, item )
+              ">
               <Avatar
                 v-if="item.full_name"
                 class="flex items-center"
@@ -62,7 +65,9 @@
               />
             </div>
             <div v-else-if="column.key === 'mobile_no'">
-              <PhoneIcon class="h-4 w-4" />
+              <PhoneIcon class="h-4 w-4" @click="
+                (event) => applyFilterByCell(event, idx, column, item )
+              "/>
             </div>
           </template>
           <template #default="{ label }">
@@ -78,7 +83,7 @@
               "
               class="truncate text-base"
               @click="
-                (event) => emit('applyFilter', { event, idx, column, item })
+                (event) => applyFilterByCell(event, idx, column, item )
               "
             >
               <Tooltip :text="item.label">
@@ -96,7 +101,7 @@
                 size="md"
                 :label="item.value"
                 @click="
-                  (event) => emit('applyFilter', { event, idx, column, item })
+                  (event) => applyFilterByCell(event, idx, column, item )
                 "
               />
             </div>
@@ -248,7 +253,7 @@
               v-else
               class="truncate text-base"
               @click="
-                (event) => emit('applyFilter', { event, idx, column, item })
+                (event) => applyFilterByCell(event, idx, column, item )
               "
             >
               {{ __(label) }}
@@ -355,6 +360,12 @@ watch(pageLengthCount, (val, old_value) => {
 const showEditModal = ref(false)
 const selectedValues = ref([])
 const unselectAllAction = ref(() => {})
+
+function applyFilterByCell(event, idx, column, item){
+  let arrField = ["lead_name","email","mobile_no","first_name"];
+  if(arrField.includes(column.key)) return; 
+  emit('applyFilter', { event, idx, column, item });
+}
 
 function editValues(selections, unselectAll) {
   selectedValues.value = selections

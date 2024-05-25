@@ -55,50 +55,73 @@
             :placeholder="__('Took a call with customer and discussed the new project.')"
           />
         </div>
-        <div class="flex items-center gap-2">
-          <Dropdown :options="taskStatusOptions(updateTaskStatus)">
-            <Button :label="__(_task.status)" class="w-full justify-between">
+        <div class="flex items-center gap-4 grid grid-cols-3">
+          <div class="w-full">
+            <div class="mb-1.5 text-sm text-gray-600">{{ __('Status') }}</div>
+            <Dropdown :options="taskStatusOptions(updateTaskStatus)">
+              <Button :label="__(_task.status)" style="width: 165px;justify-content:flex-start;">
+                <template #prefix>
+                  <TaskStatusIcon :status="_task.status" />
+                </template>
+              </Button>
+            </Dropdown>
+          </div>
+          <div>
+            <div class="mb-1.5 text-sm text-gray-600">{{ __('Assign To') }}</div>
+            <Link
+              class="form-control"
+              :value="getUser(_task.assigned_to).full_name"
+              doctype="User"
+              @change="(option) => (_task.assigned_to = option)"
+              :hideMe="true"
+            >
               <template #prefix>
-                <TaskStatusIcon :status="_task.status" />
+                <UserAvatar class="mr-2 !h-4 !w-4" :user="_task.assigned_to" />
               </template>
-            </Button>
-          </Dropdown>
-          <Link
-            class="form-control"
-            :value="getUser(_task.assigned_to).full_name"
-            doctype="User"
-            @change="(option) => (_task.assigned_to = option)"
-            :hideMe="true"
-          >
-            <template #prefix>
-              <UserAvatar class="mr-2 !h-4 !w-4" :user="_task.assigned_to" />
-            </template>
-            <template #item-prefix="{ option }">
-              <UserAvatar class="mr-2" :user="option.value" size="sm" />
-            </template>
-            <template #item-label="{ option }">
-              <Tooltip :text="option.value">
-                <div class="cursor-pointer">
-                  {{ getUser(option.value).full_name }}
-                </div>
-              </Tooltip>
-            </template>
-          </Link>
-          <DatetimePicker
-            class="datepicker w-36"
-            icon-left="calendar"
-            :value="_task.due_date"
-            @change="(val) => (_task.due_date = val)"
-            :placeholder="__('01/04/2024 11:30 PM')"
-            input-class="border-none"
-          />
-          <Dropdown :options="taskPriorityOptions(updateTaskPriority)">
-            <Button :label="__(_task.priority)" class="w-full justify-between">
-              <template #prefix>
-                <TaskPriorityIcon :priority="_task.priority" />
+              <template #item-prefix="{ option }">
+                <UserAvatar class="mr-2" :user="option.value" size="sm" />
               </template>
-            </Button>
-          </Dropdown>
+              <template #item-label="{ option }">
+                <Tooltip :text="option.value">
+                  <div class="cursor-pointer">
+                    {{ getUser(option.value).full_name }}
+                  </div>
+                </Tooltip>
+              </template>
+            </Link>
+          </div>
+          <div class="w-full">
+            <div class="mb-1.5 text-sm text-gray-600">{{ __('Priority') }}</div>
+            <Dropdown :options="taskPriorityOptions(updateTaskPriority)">
+              <Button :label="__(_task.priority)" style="width: 165px;justify-content:flex-start;">
+                <template #prefix>
+                  <TaskPriorityIcon :priority="_task.priority" />
+                </template>
+              </Button>
+            </Dropdown>
+          </div>
+        </div>
+        <div class="flex items-center gap-4 grid grid-cols-2">
+          <div>
+            <DatetimePicker
+              class="datepicker" style="width: 100%"
+              icon-left="calendar"
+              :value="_task.due_date"
+              @change="(val) => (_task.due_date = val)"
+              :placeholder="__('Due Date')"
+              input-class="border-none"
+            />
+          </div>
+          <div>
+            <DatetimePicker
+              class="datepicker" style="width: 100%"
+              icon-left="calendar"
+              :value="_task.remind_task"
+              @change="(val) => (_task.remind_task = val)"
+              :placeholder="__('Remind task')"
+              input-class="border-none"
+            />
+          </div>
         </div>
       </div>
     </template>
@@ -114,7 +137,7 @@ import Link from '@/components/Controls/Link.vue'
 import { taskStatusOptions, taskPriorityOptions } from '@/utils'
 import { usersStore } from '@/stores/users'
 import DatetimePicker from '@/components/Controls/DatetimePicker.vue'
-import { TextEditor, Dropdown, Tooltip, call } from 'frappe-ui'
+import { TextEditor, Dropdown, Tooltip, call,Select } from 'frappe-ui'
 import { ref, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -148,6 +171,7 @@ const _task = ref({
   description: '',
   assigned_to: '',
   due_date: '',
+  remind_task: '',
   status: 'Backlog',
   priority: 'Low',
   reference_doctype: props.doctype,

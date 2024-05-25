@@ -6,6 +6,25 @@ from frappe.model.document import Document
 
 
 class CRMTask(Document):
+
+	def before_save(self):
+		task_exists = frappe.get_list("CRM Task", filters={"name": self.name}, limit=1)
+		if task_exists:
+			#Update remind
+			pass
+		else:
+			self.insert_remind()
+
+	def insert_remind():
+		reminder = frappe.new_doc("Reminder")
+		reminder.description = "Bạn phải hoàn thành công việc"
+		reminder.remind_at = self.remind_task
+		reminder.user = self.assigned_to
+		reminder.reminder_doctype = "CRM Task"
+		reminder.reminder_docname = ""
+		reminder.insert()
+
+	
 	@staticmethod
 	def default_list_data():
 		columns = [
@@ -34,6 +53,12 @@ class CRMTask(Document):
 				'width': '8rem',
 			},
 			{
+				'label': 'Remind Task',
+				'type': 'Date',
+				'key': 'remind_task',
+				'width': '8rem',
+			},
+			{
 				'label': 'Assigned To',
 				'type': 'Link',
 				'key': 'assigned_to',
@@ -53,6 +78,7 @@ class CRMTask(Document):
 			"description",
 			"assigned_to",
 			"due_date",
+			"remind_task",
 			"status",
 			"priority",
 			"reference_doctype",
