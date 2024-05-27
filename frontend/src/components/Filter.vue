@@ -203,9 +203,9 @@ function getOperators(fieldtype, fieldname) {
         { label: __('Not Equals'), value: 'not equals' },
         { label: __('Like'), value: 'like' },
         { label: __('Not Like'), value: 'not like' },
-        { label: __('In'), value: 'in' },
+        /*{ label: __('In'), value: 'in' },
         { label: __('Not In'), value: 'not in' },
-        { label: __('Is'), value: 'is' },
+        { label: __('Is'), value: 'is' },*/
       ]
     )
   }
@@ -214,7 +214,7 @@ function getOperators(fieldtype, fieldname) {
     options = [
       { label: __('Like'), value: 'like' },
       { label: __('Not Like'), value: 'not like' },
-      { label: __('Is'), value: 'is' },
+      //{ label: __('Is'), value: 'is' },
     ]
   }
   if (typeNumber.includes(fieldtype)) {
@@ -224,9 +224,9 @@ function getOperators(fieldtype, fieldname) {
         { label: __('Not Equals'), value: 'not equals' },
         { label: __('Like'), value: 'like' },
         { label: __('Not Like'), value: 'not like' },
-        { label: __('In'), value: 'in' },
+        /*{ label: __('In'), value: 'in' },
         { label: __('Not In'), value: 'not in' },
-        { label: __('Is'), value: 'is' },
+        { label: __('Is'), value: 'is' },*/
         { label: __('<'), value: '<' },
         { label: __('>'), value: '>' },
         { label: __('<='), value: '<=' },
@@ -239,9 +239,9 @@ function getOperators(fieldtype, fieldname) {
       ...[
         { label: __('Equals'), value: 'equals' },
         { label: __('Not Equals'), value: 'not equals' },
-        { label: __('In'), value: 'in' },
+        /*{ label: __('In'), value: 'in' },
         { label: __('Not In'), value: 'not in' },
-        { label: __('Is'), value: 'is' },
+        { label: __('Is'), value: 'is' },*/
       ]
     )
   }
@@ -252,9 +252,9 @@ function getOperators(fieldtype, fieldname) {
         { label: __('Not Equals'), value: 'not equals' },
         { label: __('Like'), value: 'like' },
         { label: __('Not Like'), value: 'not like' },
-        { label: __('In'), value: 'in' },
+        /*{ label: __('In'), value: 'in' },
         { label: __('Not In'), value: 'not in' },
-        { label: __('Is'), value: 'is' },
+        { label: __('Is'), value: 'is' },*/
       ]
     )
   }
@@ -266,22 +266,22 @@ function getOperators(fieldtype, fieldname) {
       ...[
         { label: __('Like'), value: 'like' },
         { label: __('Not Like'), value: 'not like' },
-        { label: __('In'), value: 'in' },
+        /*{ label: __('In'), value: 'in' },
         { label: __('Not In'), value: 'not in' },
-        { label: __('Is'), value: 'is' },
+        { label: __('Is'), value: 'is' },*/
       ]
     )
   }
   if (typeDate.includes(fieldtype)) {
     options.push(
       ...[
-        { label: __('Is'), value: 'is' },
+        //{ label: __('Is'), value: 'is' },
         { label: __('>'), value: '>' },
         { label: __('<'), value: '<' },
         { label: __('>='), value: '>=' },
         { label: __('<='), value: '<=' },
         { label: __('Between'), value: 'between' },
-        { label: __('Timespan'), value: 'timespan' },
+        //{ label: __('Timespan'), value: 'timespan' },
       ]
     )
   }

@@ -3,6 +3,9 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils import cint
 from frappe.utils.data import add_to_date, get_datetime, now_datetime
+import json
+from datetime import datetime
+import math
 
 
 class Reminder(Document):
@@ -44,26 +47,57 @@ class Reminder(Document):
 		try:
             if self.reminder_doctype == "CRM Task":
                 doc_task = frappe.get_doc('CRM Task', self.reminder_docname)
-                notification_text_task = f"""
-                    <div class="mb-2 leading-5 text-gray-600">
-                        <span>Chỉ còn 30 phút để hoàn thành công việc</span>
-                        <span class="font-medium text-gray-900"> {doc_task.title}</span>
-                    </div>
-                """
-                values_notify_task = frappe._dict(
-                    doctype="CRM Notification",
-                    from_user=doc_task.assigned_to,
-                    to_user=doc_task.assigned_to,
-                    type="Task",
-                    message= _('Chỉ còn {0} để hoàn thành công việc {1}').format('30 phút', doc_task.title),
-                    notification_text=notification_text_task,
-                    notification_type_doctype="CRM Task",
-                    notification_type_doc="",
-                    reference_doctype="CRM Task",
-                    reference_name="",
-                )
-                if frappe.db.exists("CRM Notification", values_notify_task) is None:
-                    frappe.get_doc(values_notify_task).insert()
+				date_remind_task = datetime.strptime(doc_task.remind_task, '%Y-%m-%d %H:%M:%S')
+				date_due_date = datetime.strptime(doc_task.due_date, '%Y-%m-%d %H:%M:%S')
+				if date_remind_task <= date_due_date:
+					delta = date_due_date - date_remind_task
+					minutes = delta.total_seconds() / 60
+					hours = delta.total_seconds() / 3600
+					days = delta.days
+					notification_text_task = ''
+					message = ''
+					if days < 1:
+						if hours < 1:
+							rounded_minutes = math.ceil(minutes) if minutes < 1 else math.floor(minutes)
+							notification_text_task = f"""
+								<div class="mb-2 leading-5 text-gray-600">
+									<span>Chỉ còn {rounded_minutes} phút để hoàn thành công việc</span>
+									<span class="font-medium text-gray-900"> {doc_task.title}</span>
+								</div>
+							"""
+							message = f'Chỉ còn {rounded_minutes} phút để hoàn thành công việc {doc_task.title}'
+						else:
+							rounded_hours = math.ceil(hours) if hours < 1 else math.floor(hours)
+							notification_text_task = f"""
+								<div class="mb-2 leading-5 text-gray-600">
+									<span>Chỉ còn {rounded_hours} giờ để hoàn thành công việc</span>
+									<span class="font-medium text-gray-900"> {doc_task.title}</span>
+								</div>
+							"""
+							message = f'Chỉ còn {rounded_hours} giờ để hoàn thành công việc {doc_task.title}'
+					else:
+						rounded_days = math.ceil(days) if days < 1 else math.floor(days)
+						notification_text_task = f"""
+							<div class="mb-2 leading-5 text-gray-600">
+								<span>Chỉ còn {rounded_days} ngày để hoàn thành công việc</span>
+								<span class="font-medium text-gray-900"> {doc_task.title}</span>
+							</div>
+						"""
+						message = f'Chỉ còn {rounded_days} ngày để hoàn thành công việc {doc_task.title}'
+					values_notify_task = frappe._dict(
+						doctype="CRM Notification",
+						from_user=doc_task.assigned_to,
+						to_user=doc_task.assigned_to,
+						type="Task",
+						message= message,
+						notification_text=notification_text_task,
+						notification_type_doctype="CRM Task",
+						notification_type_doc="",
+						reference_doctype="CRM Task",
+						reference_name="",
+					)
+					if frappe.db.exists("CRM Notification", values_notify_task) is None:
+						frappe.get_doc(values_notify_task).insert()
 		except Exception:
 			self.log_error("Failed to send reminder")
 

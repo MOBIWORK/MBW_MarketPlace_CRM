@@ -3,26 +3,75 @@
 
 # import frappe
 from frappe.model.document import Document
-
+import frappe
+from frappe import _
+import json
+from datetime import datetime
+import math
 
 class CRMTask(Document):
 
-	def before_save(self):
-		task_exists = frappe.get_list("CRM Task", filters={"name": self.name}, limit=1)
-		if task_exists:
-			#Update remind
-			pass
-		else:
-			self.insert_remind()
+	def after_insert(self):
+		self.insert_remind()
 
-	def insert_remind():
-		reminder = frappe.new_doc("Reminder")
-		reminder.description = "Bạn phải hoàn thành công việc"
-		reminder.remind_at = self.remind_task
-		reminder.user = self.assigned_to
-		reminder.reminder_doctype = "CRM Task"
-		reminder.reminder_docname = ""
-		reminder.insert()
+	def on_update(self):
+		self.update_remind()
+
+	def insert_remind(self):
+		date_remind_task = datetime.strptime(self.remind_task, '%Y-%m-%d %H:%M:%S')
+		date_due_date = datetime.strptime(self.due_date, '%Y-%m-%d %H:%M:%S')
+		if date_remind_task <= date_due_date:
+			delta = date_due_date - date_remind_task
+			minutes = delta.total_seconds() / 60
+			hours = delta.total_seconds() / 3600
+			days = delta.days
+			description = ''
+			if days < 1:
+				if hours < 1:
+					rounded_minutes = math.ceil(minutes) if minutes < 1 else math.floor(minutes)
+					description = f'Chỉ còn {rounded_minutes} phút để hoàn thành công việc {self.title}'
+				else:
+					rounded_hours = math.ceil(hours) if hours < 1 else math.floor(hours)
+					description = f'Chỉ còn {rounded_hours} giờ để hoàn thành công việc {self.title}'
+			else:
+				rounded_days = math.ceil(days) if days < 1 else math.floor(days)
+				description = f'Chỉ còn {rounded_days} ngày để hoàn thành công việc {self.title}'
+			reminder = frappe.new_doc("Reminder")
+			reminder.description = description
+			reminder.remind_at = self.remind_task
+			reminder.user = self.assigned_to
+			reminder.reminder_doctype = "CRM Task"
+			reminder.reminder_docname = self.name
+			reminder.insert()
+			custom_field = {'id_reminder': reminder.name}
+			frappe.db.set_value('CRM Task', self.name, 'custom_fields', json.dumps(custom_field))
+
+	def update_remind(self):
+		date_remind_task = datetime.strptime(self.remind_task, '%Y-%m-%d %H:%M:%S')
+		date_due_date = datetime.strptime(self.due_date, '%Y-%m-%d %H:%M:%S')
+		if date_remind_task <= date_due_date:
+			obj_customer = json.loads(self.get('custom_fields'))
+			id_reminder = obj_customer.get('id_reminder')
+			doc_reminder = frappe.get_doc('Reminder', id_reminder)
+			delta = date_due_date - date_remind_task
+			minutes = delta.total_seconds() / 60
+			hours = delta.total_seconds() / 3600
+			days = delta.days
+			description = ''
+			if days < 1:
+				if hours < 1:
+					rounded_minutes = math.ceil(minutes) if minutes < 1 else math.floor(minutes)
+					description = f'Chỉ còn {rounded_minutes} phút để hoàn thành công việc {self.title}'
+				else:
+					rounded_hours = math.ceil(hours) if hours < 1 else math.floor(hours)
+					description = f'Chỉ còn {rounded_hours} giờ để hoàn thành công việc {self.title}'
+			else:
+				rounded_days = math.ceil(days) if days < 1 else math.floor(days)
+				description = f'Chỉ còn {rounded_days} ngày để hoàn thành công việc {self.title}'
+			doc_reminder.description = description
+			doc_reminder.remind_at = self.remind_task
+			doc_reminder.user = self.assigned_to
+			doc_reminder.save()
 
 	
 	@staticmethod

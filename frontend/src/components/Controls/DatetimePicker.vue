@@ -90,16 +90,19 @@
             <Select 
               :options="arrHour"
               v-model="hour"
+              @change="() => changeTime()"
             />
             <span class="mx-1"> : </span>
             <Select
               :options="arrMinute"
               v-model="minute"
+              @change="() => changeTime()"
             />
             <span class="mx-1"> : </span>
             <Select
               :options="arrSecond"
               v-model="second"
+              @change="() => changeTime()"
             />
           </div>
           <div class="flex flex-col items-center justify-center">

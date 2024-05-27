@@ -300,6 +300,12 @@ class CRMLead(Document):
 				'key': 'modified',
 				'width': '8rem',
 			},
+			{
+				'label': 'Rating',
+				'type': 'Rating',
+				'key': 'rating',
+				'width': '11rem',
+			}
 		]
 		rows = [
 			"name",
@@ -317,6 +323,7 @@ class CRMLead(Document):
 			"modified",
 			"_assign",
 			"image",
+			"rating"
 		]
 		return {'columns': columns, 'rows': rows}
 

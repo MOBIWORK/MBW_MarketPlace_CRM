@@ -12,22 +12,26 @@ from frappe.utils.xlsxutils import (
 	read_xls_file_from_attached_file,
 	read_xlsx_file_from_attached_file,
 )
+import json
 
 @frappe.whitelist()
 def sort_options(doctype: str):
 	fields = frappe.get_meta(doctype).fields
 	fields = [field for field in fields if field.fieldtype not in no_value_fields]
+	fields_without = ['salutation', 'last_name', 'naming_series', 'middle_name', 'image', 'converted', 'sla', 'sla_creation', 'sla_status', 'communication_status','response_by','first_response_time',
+		'first_responded_on','full_name','google_contacts_id','sync_with_google_contacts','google_contacts','pulled_from_google_contacts','is_primary_contact','is_billing_contact','unsubscribed','organization_logo',
+		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','website']
 	fields = [
 		{
 			"label": _(field.label),
 			"value": field.fieldname,
 		}
 		for field in fields
-		if field.label and field.fieldname
+		if field.label and field.fieldname and field.fieldname not in fields_without
 	]
 
 	standard_fields = [
-		{"label": "Name", "value": "name"},
+		# {"label": "Name", "value": "name"},
 		{"label": "Created On", "value": "creation"},
 		{"label": "Last Modified", "value": "modified"},
 		{"label": "Modified By", "value": "modified_by"},
@@ -67,20 +71,26 @@ def get_filterable_fields(doctype: str):
 		restricted_fields = c.get_non_filterable_fields()
 
 	res = []
-
+	fields_without = ['salutation', 'last_name', 'naming_series', 'middle_name', 'image', 'converted', 'sla', 'sla_creation', 'sla_status', 'communication_status','response_by','first_response_time',
+		'first_responded_on','full_name','google_contacts_id','sync_with_google_contacts','google_contacts','pulled_from_google_contacts','is_primary_contact','is_billing_contact','unsubscribed','organization_logo',
+		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','website']
 	# append DocFields
 	DocField = frappe.qb.DocType("DocField")
 	doc_fields = get_fields_meta(DocField, doctype, allowed_fieldtypes, restricted_fields)
+	print("Dòng 80 ",doc_fields)
+	doc_fields = [field for field in doc_fields if field.fieldname not in fields_without]
 	res.extend(doc_fields)
 
 	# append Custom Fields
 	CustomField = frappe.qb.DocType("Custom Field")
 	custom_fields = get_fields_meta(CustomField, doctype, allowed_fieldtypes, restricted_fields)
+	custom_field_without = ['is_billing_contact']
+	custom_fields = [custom_filed for custom_field in custom_fields if custom_field.fieldname not in custom_field_without]
 	res.extend(custom_fields)
 
 	# append standard fields (getting error when using frappe.model.std_fields)
 	standard_fields = [
-		{"fieldname": "name", "fieldtype": "Link", "label": "ID", "options": doctype},
+		# {"fieldname": "name", "fieldtype": "Link", "label": "ID", "options": doctype},
 		{
 			"fieldname": "owner",
 			"fieldtype": "Link",
@@ -93,9 +103,9 @@ def get_filterable_fields(doctype: str):
 			"label": "Last Updated By",
 			"options": "User",
 		},
-		{"fieldname": "_user_tags", "fieldtype": "Data", "label": "Tags"},
-		{"fieldname": "_liked_by", "fieldtype": "Data", "label": "Liked By"},
-		{"fieldname": "_comments", "fieldtype": "Text", "label": "Comments"},
+		# {"fieldname": "_user_tags", "fieldtype": "Data", "label": "Tags"},
+		# {"fieldname": "_liked_by", "fieldtype": "Data", "label": "Liked By"},
+		# {"fieldname": "_comments", "fieldtype": "Text", "label": "Comments"},
 		{"fieldname": "_assign", "fieldtype": "Text", "label": "Assigned To"},
 		{"fieldname": "creation", "fieldtype": "Datetime", "label": "Created On"},
 		{"fieldname": "modified", "fieldtype": "Datetime", "label": "Last Updated On"},
@@ -204,6 +214,9 @@ def get_list_data(
 		order_by=order_by,
 		page_length=page_length,
 	) or []
+	fields_without = ['salutation', 'last_name', 'naming_series', 'middle_name', 'image', 'converted', 'sla', 'sla_creation', 'sla_status', 'communication_status','response_by','first_response_time',
+		'first_responded_on','full_name','google_contacts_id','sync_with_google_contacts','google_contacts','pulled_from_google_contacts','is_primary_contact','is_billing_contact','unsubscribed','organization_logo',
+		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name']
 	fields = frappe.get_meta(doctype).fields
 	fields = [field for field in fields if field.fieldtype not in no_value_fields]
 	fields = [
@@ -214,7 +227,7 @@ def get_list_data(
 			"options": field.options,
 		}
 		for field in fields
-		if field.label and field.fieldname
+		if field.label and field.fieldname and field.fieldname not in fields_without
 	]
 
 	std_fields = [
