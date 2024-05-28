@@ -152,6 +152,7 @@ import { computed, ref, onMounted, watch, h, reactive, toRefs } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDebounceFn } from '@vueuse/core'
 import ConvertTaskCustomerModal from '@/components/Modals/ConvertTaskCustomerModal.vue'
+import { createToast } from '@/utils'
 const props = defineProps({
   doctype: {
     type: String,
@@ -384,6 +385,11 @@ async function exportRows() {
   showExportDialog.value = false
   export_all.value = false
   export_type.value = 'Excel'
+  createToast({
+    title: __('Đã xuất tệp dữ liệu thành công'),
+    icon: 'check',
+    iconClasses: 'text-green-600',
+  })
 }
 const emit = defineEmits(['showImportModal', 'afterConvertTaskCustomer'])
 function hadelClick(){

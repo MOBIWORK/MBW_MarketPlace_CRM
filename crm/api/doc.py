@@ -489,6 +489,8 @@ def import_data_leads(source_leads, fields_dict):
 							doc_industry.industry = field_value
 							doc_industry.insert()
 					setattr(doc_lead, field_name, field_value)
+			if doc_lead.status is None:
+				doc_lead.status = "Mới"
 			doc_lead.insert()
 		return gen_response(200, "ok", "Thành công")
 	except Exception as e:

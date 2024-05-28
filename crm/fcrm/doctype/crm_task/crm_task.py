@@ -13,9 +13,66 @@ class CRMTask(Document):
 
 	def after_insert(self):
 		self.insert_remind()
+		self.insert_notify()
 
 	def on_update(self):
 		self.update_remind()
+	
+	def before_save(self):
+		self.change_notify_to_user()
+	
+	def insert_notify(self):
+		if self.owner != self.assigned_to:
+			notification_text = f"""
+				<div class="mb-2 leading-5 text-gray-600">
+					<span class="font-medium text-gray-900">{ self.owner }</span>
+					<span>{ _('đã giao cho bạn công việc')}</span>
+					<span class="font-medium text-gray-900"> {self.title}</span>
+				</div>
+			"""
+			values = frappe._dict(
+				doctype="CRM Notification",
+				from_user=self.owner,
+				to_user=self.assigned_to,
+				type="Task",
+				message= _('{0} đã giao cho bạn công việc {1}').format(self.owner, self.title),
+				notification_text=notification_text,
+				notification_type_doctype="CRM Task",
+				notification_type_doc="",
+				reference_doctype="CRM Task",
+				reference_name=""
+			)
+			if frappe.db.exists("CRM Notification", values):
+				return
+			frappe.get_doc(values).insert()
+
+	def change_notify_to_user(self):
+		if frappe.db.exists('CRM Task', self.name) is None:
+			return
+		task_info = frappe.get_doc('CRM Task', self.name)
+		if task_info is not None and self.owner != self.assigned_to and task_info.assigned_to != self.assigned_to:
+			notification_text = f"""
+				<div class="mb-2 leading-5 text-gray-600">
+					<span class="font-medium text-gray-900">{ self.owner }</span>
+					<span>{ _('đã giao cho bạn công việc')}</span>
+					<span class="font-medium text-gray-900"> {self.title}</span>
+				</div>
+			"""
+			values = frappe._dict(
+				doctype="CRM Notification",
+				from_user=self.owner,
+				to_user=self.assigned_to,
+				type="Task",
+				message= _('{0} đã giao cho bạn công việc {1}').format(self.owner, self.title),
+				notification_text=notification_text,
+				notification_type_doctype="CRM Task",
+				notification_type_doc="",
+				reference_doctype="CRM Task",
+				reference_name=""
+			)
+			if frappe.db.exists("CRM Notification", values):
+				return
+			frappe.get_doc(values).insert()
 
 	def insert_remind(self):
 		date_remind_task = datetime.strptime(self.remind_task, '%Y-%m-%d %H:%M:%S')
@@ -49,7 +106,7 @@ class CRMTask(Document):
 	def update_remind(self):
 		date_remind_task = datetime.strptime(self.remind_task, '%Y-%m-%d %H:%M:%S')
 		date_due_date = datetime.strptime(self.due_date, '%Y-%m-%d %H:%M:%S')
-		if date_remind_task <= date_due_date:
+		if date_remind_task <= date_due_date and self.get('custom_fields') is not None:
 			obj_customer = json.loads(self.get('custom_fields'))
 			id_reminder = obj_customer.get('id_reminder')
 			doc_reminder = frappe.get_doc('Reminder', id_reminder)

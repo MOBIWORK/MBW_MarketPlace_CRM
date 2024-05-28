@@ -74,18 +74,8 @@
     }">
         <template #body-content>
             <ListView
-                class="h-[150px]"
-                :columns="[
-                    {key: 'lead_name', label: 'Tên', width: '180px'},
-                    {key: 'mobile_no', label: 'Số di động', width: '150px'},
-                    {key: 'sex', label: 'Giới tính', width: '100px'},
-                    {key: 'creation', label: 'Ngày tạo', width: '130px'},
-                    {key: '_assign', label: 'Phân công cho', width: '130px'},
-                    {key: 'source', label: 'Nguồn', width: '100px'},
-                    {key: 'status', label: 'Trạng thái', width: '100px'},
-                    {key: 'region', label: 'Khu vực', width: '130px'},
-                    {key: 'industry', label: 'Ngành nghề', width: '130px'}
-                ]"
+                class="h-[250px]"
+                :columns="columnsDataPreview"
                 :rows="rowsDataPreview"
                 :options="{
                     selectable: false,
@@ -102,14 +92,29 @@
                         v-slot="{ idx, column, item }"
                         :row="row"
                     >
-                        <div v-if="column.key === 'mobile_no'">
-                            <div v-if="row.valid_mobile">
-                                {{row.mobile_no}}
+                        <div v-if="column.key === colPhone">
+                            <div v-if="row.valid_phone" class="truncate w-full">
+                                {{row[colPhone]}}
                             </div>
                             <div v-else class="flex items-center">
-                                <span>{{row.mobile_no}}</span>
+                                <span class="truncate w-full">{{row[colPhone]}}</span>
                                 <Tooltip
                                 :text="__('Invalid phone number')"
+                                :placement="'top'"
+                                >
+                                    <FeatherIcon name="alert-triangle" class="h-4 w-4 text-red-500 mx-1" />
+                                </Tooltip>
+                            </div>
+                            
+                        </div>
+                        <div v-else-if="column.key === colEmail">
+                            <div v-if="row.valid_email" class="truncate w-full">
+                                {{row[colEmail]}}
+                            </div>
+                            <div v-else class="flex items-center">
+                                <span class="truncate w-full">{{row[colEmail]}}</span>
+                                <Tooltip
+                                :text="__('Invalid Email')"
                                 :placement="'top'"
                                 >
                                     <FeatherIcon name="alert-triangle" class="h-4 w-4 text-red-500 mx-1" />
@@ -164,16 +169,16 @@
                                                 value: 'first_name',
                                             },
                                             {
+                                                label: __('Email'),
+                                                value: 'email',
+                                            },
+                                            {
                                                 label: __('Mobile No'),
                                                 value: 'mobile_no',
                                             },
                                             {
                                                 label: __('Gender'),
                                                 value: 'gender',
-                                            },
-                                            {
-                                                label: __('Creation'),
-                                                value: 'creation'
                                             },
                                             {
                                                 label: __('Lead Owner'),
@@ -235,18 +240,11 @@ const showMappingData = ref(false)
 const showLinkModal = ref(false)
 const txtLinkFile = ref('')
 const loadingReadLinkSheet = ref(false);
+const columnsDataPreview = ref([])
 const rowsDataPreview = ref([])
-const fieldsMapping = ref([
-    {'label': __('Name'), 'key': "lead_name", 'field_dict': ""},
-    {'label': __('Mobile No'), 'key': "mobile_no", 'field_dict': ""},
-    {'label': __('Gender'), 'key': "sex", 'field_dict': ""},
-    {'label': __('Creation'), 'key': "creation", 'field_dict': ""},
-    {'label': __('Assign To'), 'key': "_assign", 'field_dict': ""},
-    {'label': __('Source'), 'key': "source", 'field_dict': ""},
-    {'label': __('Status'), 'key': "status", 'field_dict': ""},
-    {'label': __('Territory'), 'key': "region", 'field_dict': ""},
-    {'label': __('Industry'), 'key': "industry", 'field_dict': ""}
-])
+const colEmail = ref("")
+const colPhone = ref("")
+const fieldsMapping = ref([])
 const loadingImport = ref(false)
 const emit = defineEmits(['afterImportData'])
 onMounted(() => {
@@ -259,9 +257,9 @@ async function onDownloadTemplateExcel() {
 
     let arrHeader = [
         { 'label': "Tên", 'cell': "A1", 'column': "A" },
-        { 'label': "Số điện thoại", 'cell': "B1", 'column': "B" },
-        { 'label': "Giới tính khách hàng", 'cell': "C1", 'column': "C" },
-        { 'label': "Ngày tạo", 'cell': "D1", 'column': "D" },
+        { 'label': "Email", 'cell': "B1", 'column': "B" },
+        { 'label': "Số điện thoại", 'cell': "C1", 'column': "C" },
+        { 'label': "Giới tính khách hàng", 'cell': "D1", 'column': "D" },
         { 'label': "Phân công cho", 'cell': "E1", 'column': "E" },
         { 'label': "Nguồn", 'cell': "F1", 'column': "F" },
         { 'label': "Trạng thái", 'cell': "G1", 'column': "G" },
@@ -278,9 +276,9 @@ async function onDownloadTemplateExcel() {
 
     let arrContent = [
         { 'label': "Họ tên khách hàng. VD: Trần Thanh An", 'cell': "A2" },
-        { 'label': "Số điện thoại hợp lệ. Bắt đầu bằng 0 và chỉ gồm 10/11 số. VD: 0984641099", 'cell': "B2" },
-        { 'label': "Gồm 3 trường: Nam, Nữ, Không tiết lộ. VD: Nam", 'cell': "C2" },
-        { 'label': "Định dạng: dd/mm/yyyy. VD: 06/03/2024", 'cell': "D2" },
+        { 'label': "Email khách hàng", 'cell': "B2" },
+        { 'label': "Số điện thoại hợp lệ. Bắt đầu bằng 0 và chỉ gồm 10/11 số. VD: 0984641099", 'cell': "C2" },
+        { 'label': "Gồm 3 trường: Nam, Nữ, Không tiết lộ. VD: Nam", 'cell': "D2" },
         { 'label': "Tên user được phân công. VD: Dieu Dieu", 'cell': "E2" },
         { 'label': `Các nguồn contact được admin thiết lập. VD: Zalo`, 'cell': "F2" },
         { 'label': `Bao gồm các trạng thái chăm sóc của khách hàng được admin thiết lập. Giá trị thiết lập bao gồm: Mới, Đang chăm sóc, Chất lượng.VD: Mới`, 'cell': "G2" },
@@ -334,26 +332,69 @@ async function onFileSelected(event){
             const worksheet = workbook.Sheets[firstSheetName];
             // Chuyển đổi nội dung sheet thành JSON
             const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-            if(jsonData.length > 1){
+            if(jsonData.length > 0){
                 let arrLeadImport = [];
+                let arrColumnDataPreview = [];
+                let arrFieldMapping = [];
                 let regexSdt = /^(\+84|0)\d{9}$/;
+                let regexEmail = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
+                let field_phone = "";
+                let field_email = "";
+                let arrFieldDist = [
+                    {'field': "first_name", 'label': "Tên"},
+                    {'field': "email", 'label': "Email"},
+                    {'field': "mobile_no", 'label': "Số điện thoại"},
+                    {'field': "gender", 'label': "Giới tính khách hàng"},
+                    {'field': "lead_owner", 'label': "Phân công cho"},
+                    {'field': "source", 'label': "Nguồn"},
+                    {'field': "status", 'label': "Trạng thái"},
+                    {'field': "territory", 'label': "Khu vực"},
+                    {'field': "territory", 'label': "Ngành nghề"}
+                ]
+                for(let i = 0; i < jsonData[0].length; i++){
+                    let itemColumn = {
+                        key: jsonData[0][i], label: jsonData[0][i], width: i == 0? '180px' : '150px'
+                    }
+                    let fieldMapping = {
+                        'label': jsonData[0][i], 'key': jsonData[0][i], 'field_dict': ""
+                    }
+                    let filterField = arrFieldDist.filter(x => x.label == jsonData[0][i]);
+                    if(filterField.length > 0) fieldMapping["field_dict"] = filterField[0].field;
+                    arrColumnDataPreview.push(itemColumn);
+                    arrFieldMapping.push(fieldMapping);
+                }
                 for(let i = 1; i < jsonData.length; i++){
-                    let leadImport = {
-                        'name': i,
-                        'lead_name': jsonData[i][0],
-                        'mobile_no': jsonData[i][1],
-                        'sex': jsonData[i][2],
-                        'creation': jsonData[i][3],
-                        '_assign': jsonData[i][4],
-                        'source': jsonData[i][5],
-                        'status': jsonData[i][6],
-                        'region': jsonData[i][7],
-                        'industry': jsonData[i][8],
-                        'valid_mobile': jsonData[i][1] != null && jsonData[i][1] != ""? regexSdt.test(jsonData[i][1]) : true
+                    let leadImport = {};
+                    for(let j = 0; j < jsonData[0].length; j++){
+                        leadImport[jsonData[0][j]] = jsonData[i][j] != null? jsonData[i][j].toString() : null;
+                        if(isNumeric(jsonData[i][j])){
+                            field_phone = jsonData[0][j];
+                        }
+                        if(isEmail(jsonData[i][j])){
+                            field_email = jsonData[0][j];
+                        }
                     }
                     arrLeadImport.push(leadImport);
                 }
+                colEmail.value = field_email;
+                colPhone.value = field_phone;
+                for(let i = 0; i < arrLeadImport.length; i++){
+                    if(arrLeadImport[i][field_phone] != null && arrLeadImport[i][field_phone] != ""){
+                        if(regexSdt.test(arrLeadImport[i][field_phone].toString())) arrLeadImport[i]["valid_phone"] = true;
+                        else arrLeadImport[i]["valid_phone"] = false;
+                    }else{
+                        arrLeadImport[i]["valid_phone"] = true;
+                    }
+                    if(arrLeadImport[i][field_email] != null && arrLeadImport[i][field_email] != ""){
+                        if(regexEmail.test(arrLeadImport[i][field_email].toString())) arrLeadImport[i]["valid_email"] = true;
+                        else arrLeadImport[i]["valid_email"] = false;
+                    }else{
+                        arrLeadImport[i]["valid_email"] = true;
+                    }
+                }
+                columnsDataPreview.value = arrColumnDataPreview;
                 rowsDataPreview.value = arrLeadImport;
+                fieldsMapping.value = arrFieldMapping;
                 show.value = false;
                 showPreviewData.value = true;
                 showMappingData.value = false;
@@ -361,6 +402,16 @@ async function onFileSelected(event){
         };
         reader.readAsArrayBuffer(file);
     }
+}
+
+function isNumeric(str){
+    if(str == null) return false;
+    return /^\d+$/.test(str.toString());
+}
+
+function isEmail(str){
+    if(str != null && str.toString().includes("@") && str.toString().includes(".")) return true;
+    return false;
 }
 
 function onNextModalMapping(){
@@ -392,24 +443,65 @@ function onNextModalPreviewFromDriver(){
             loadingReadLinkSheet.value = false;
             if(data.length > 1){
                 let arrLeadImport = [];
+                let arrColumnDataPreview = [];
+                let arrFieldMapping = [];
                 let regexSdt = /^(\+84|0)\d{9}$/;
+                let regexEmail = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
+                let field_phone = "";
+                let field_email = "";
+                let arrFieldDist = [
+                    {'field': "first_name", 'label': "Tên"},
+                    {'field': "email", 'label': "Email"},
+                    {'field': "mobile_no", 'label': "Số điện thoại"},
+                    {'field': "gender", 'label': "Giới tính khách hàng"},
+                    {'field': "lead_owner", 'label': "Phân công cho"},
+                    {'field': "source", 'label': "Nguồn"},
+                    {'field': "status", 'label': "Trạng thái"},
+                    {'field': "territory", 'label': "Khu vực"},
+                    {'field': "territory", 'label': "Ngành nghề"}
+                ]
+                for(let i = 0; i < data[0].length; i++){
+                    let itemColumn = {
+                        key: data[0][i], label: data[0][i], width: i == 0? '180px' : '150px'
+                    }
+                    let fieldMapping = {
+                        'label': data[0][i], 'key': data[0][i], 'field_dict': ""
+                    }
+                    let filterField = arrFieldDist.filter(x => x.label == data[0][i]);
+                    if(filterField.length > 0) fieldMapping["field_dict"] = filterField[0].field;
+                    arrColumnDataPreview.push(itemColumn);
+                    arrFieldMapping.push(fieldMapping);
+                }
                 for(let i = 1; i < data.length; i++){
-                    let leadImport = {
-                        'name': i,
-                        'lead_name': data[i][0],
-                        'mobile_no': data[i][1],
-                        'sex': data[i][2],
-                        'creation': data[i][3],
-                        '_assign': data[i][4],
-                        'source': data[i][5],
-                        'status': data[i][6],
-                        'region': data[i][7],
-                        'industry': data[i][8],
-                        'valid_mobile': data[i][1] != null && data[i][1] != ""? regexSdt.test(data[i][1]) : true
+                    let leadImport = {};
+                    for(let j = 0; j < data[0].length; j++){
+                        leadImport[data[0][j]] = data[i][j] != null? data[i][j].toString() : null;
+                        if(isNumeric(jsonData[i][j])){
+                            field_phone = jsonData[0][j];
+                        }
+                        if(isEmail(jsonData[i][j])){
+                            field_email = jsonData[0][j];
+                        }
                     }
                     arrLeadImport.push(leadImport);
                 }
+                for(let i = 0; i < arrLeadImport.length; i++){
+                    if(arrLeadImport[i][field_phone] != null && arrLeadImport[i][field_phone] != ""){
+                        if(regexSdt.test(arrLeadImport[i][field_phone].toString())) arrLeadImport[i]["valid_phone"] = true;
+                        else arrLeadImport[i]["valid_phone"] = false;
+                    }else{
+                        arrLeadImport[i]["valid_phone"] = true;
+                    }
+                    if(arrLeadImport[i][field_email] != null && arrLeadImport[i][field_email] != ""){
+                        if(regexEmail.test(arrLeadImport[i][field_email].toString())) arrLeadImport[i]["valid_email"] = true;
+                        else arrLeadImport[i]["valid_email"] = false;
+                    }else{
+                        arrLeadImport[i]["valid_email"] = true;
+                    }
+                }
+                columnsDataPreview.value = arrColumnDataPreview;
                 rowsDataPreview.value = arrLeadImport;
+                fieldsMapping.value = arrFieldMapping;
                 showLinkModal.value = false;
                 showPreviewData.value = true;
             }
@@ -446,7 +538,7 @@ function onImportData(){
             loadingImport.value = true;
             if(data == "ok"){
                 createToast({
-                    title: __('Nhập dữ liệu thành công'),
+                    title: __('Đã nhập tệp dữ liệu thành công'),
                     icon: 'check',
                     iconClasses: 'text-green-600',
                 })
