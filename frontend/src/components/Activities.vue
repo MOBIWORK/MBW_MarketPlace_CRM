@@ -475,8 +475,7 @@
           class="mb-4"
           :id="activity.name"
           v-else-if="activity.activity_type == 'comment'"
-          @mouseover="hoveredComment = activity.name"
-          @mouseleave="hoveredComment = null"
+          
         >
           <div
             style="width: 90%"
@@ -520,9 +519,17 @@
                 />
               </div>
             </div>
-
+            
+          </div>
+          <div style="display: flex; margin-top: 5px;">
+  <Reactions
+              doctype="GP Comment"
+              :name="activity.name"
+              v-model:reactions="activity.reactions"
+              :read-only-mode="readOnlyMode"
+            />
+            <!-- <ReactionFaceIcon /> -->
             <Button
-              v-if="hoveredComment === activity.name"
               @click="showCommentBoxForActivity(activity)"
               style="margin-left: 10px"
               class="reply-button"
@@ -535,17 +542,29 @@
               :disabled="false"
               :link="null"
             >
-              {{ __('Reply') }}
+              {{ __('Reply Comment') }}
             </Button>
-          </div>
+</div>
           <div style="width: 100%;" v-if="activity.child_comment && activity.child_comment.length > 0 && activity.show_childcomment" v-for="(activity, index) in activity.child_comment" class="relative">
     <div class="absolute left-0 top-0 -z-10 border-l border-gray-200" style="width: 1px; height: 100%; border-radius: 5px;"></div>
     <div style="max-width: 500px; word-wrap: break-word;margin-top: 10px;margin-left: 20px;padding:10px" class="relative z-10 text-base rounded py-1.5 px-2 border border-gray-100 bg-gray-50 placeholder-gray-500 hover:border-gray-200 focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 text-gray-800 transition-colors block min-h-8">
         <span class="font-medium text-gray-800 mb-1">{{ activity.owner }}</span>
         <p class="block">{{ activity.content }}</p>
+     
     </div>
+    <div style="margin-left: 20px; margin-top: 5px;">
+      <Reactions 
+              doctype="GP Comment"
+              :name="index"
+              v-model:reactions="activity.reactions"
+              :read-only-mode="readOnlyMode"
+            />
+    </div>
+    
 </div>
-          <div v-if="activity.child_comment && activity.child_comment.length > 0" style="margin-top: 10px;">
+
+
+          <div v-if="activity.child_comment && activity.child_comment.length > 0" style="margin-top: 5px;">
             <Button
               :label="
                 activity.show_childcomment
@@ -875,6 +894,7 @@
 </template>
 <script setup>
 import UserAvatar from '@/components/UserAvatar.vue'
+import Reactions from '@/components/Reactions.vue'
 import ActivityIcon from '@/components/Icons/ActivityIcon.vue'
 import EmailIcon from '@/components/Icons/EmailIcon.vue'
 import PhoneIcon from '@/components/Icons/PhoneIcon.vue'
@@ -953,6 +973,10 @@ const props = defineProps({
     type: String,
     default: 'CRM Lead',
   },
+  readOnlyMode: {
+      type: Boolean,
+      default: false,
+    },
 })
 
 const doc = defineModel()
@@ -1115,6 +1139,7 @@ const activities = computed(() => {
     )
     let targetNames = JSON.parse(localStorage.getItem('statusComment'));
     activities.forEach(activity => {
+      activity['reactions'] = []
   if (targetNames && targetNames.includes(activity.name)) {
     activity['show_childcomment'] = true;
   }
@@ -1241,7 +1266,6 @@ const showNoteModal = ref(false)
 const note = ref({})
 const emailBox = ref(null)
 const commentBox = ref(null)
-const hoveredComment = ref(null)
 const idxComment = ref(null)
 function showNote(n) {
   note.value = n || {
@@ -1486,12 +1510,12 @@ nextTick(() => {
   content: none;
 }
 .reply-button {
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s ease;
   right: 10px;
 }
 
-.activity:hover .reply-button {
+/* .activity:hover .reply-button {
   opacity: 1;
-}
+} */
 </style>
