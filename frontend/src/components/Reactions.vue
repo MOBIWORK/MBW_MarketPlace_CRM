@@ -83,8 +83,9 @@
 <script>
 import { Popover, Tooltip, ErrorMessage } from 'frappe-ui'
 import ReactionFaceIcon from './ReactionFaceIcon.vue'
+import { sessionStore } from '@/stores/session'
 
-
+const { username } = sessionStore()
 export default {
   name: 'Reactions',
   props: ['reactions', 'doctype', 'name', 'readOnlyMode'],
@@ -98,7 +99,7 @@ export default {
   resources: {
     batch() {
       return {
-        url: 'gameplan.extends.client.batch',
+        url: 'crm.extends.client.batch',
         makeParams() {
           return { requests: this.changes }
         },
@@ -121,11 +122,11 @@ export default {
   },
   methods: {
     toggleReaction(emoji) {
-      console.log(emoji);
-      return
+      // console.log(emoji);
+      // return
       if (this.readOnlyMode) return
       let existingReaction = this.reactions.find(
-        (r) => r.user === this.$user().name && r.emoji === emoji
+        (r) => r.user === username && r.emoji === emoji
       )
       if (existingReaction) {
         this.removeReaction(existingReaction)
@@ -134,7 +135,7 @@ export default {
       }
     },
     addReaction(emoji) {
-      const user = this.$user().name
+      const user = username
       let reactions = [
         ...this.reactions,
         {
@@ -149,10 +150,7 @@ export default {
         {
           cmd: 'frappe.client.insert',
           doc: {
-            doctype: 'GP Reaction',
-            parentfield: 'reactions',
-            parenttype: this.doctype,
-            parent: this.name,
+            doctype: this.doctype,
             user,
             emoji,
           },
@@ -196,7 +194,7 @@ export default {
         }
         out[reaction.emoji].count++
         out[reaction.emoji].users.push(reaction.user)
-        if (reaction.user === this.$user().name) {
+        if (reaction.user === username) {
           out[reaction.emoji].userReacted = true
         }
       }
