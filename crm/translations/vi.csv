@@ -230,7 +230,7 @@ Last Quarter,Quý trước
 Last Status Change Log,Lần cuối thay đổi trạng thái nhật ký
 Last Week,Tuần trước
 Last Year,Năm trước
-Last modified,Được chỉnh sửa lần cuối
+Last modified,Lần cuối chỉnh sửa
 Lead,Lead
 Lead Name,Tên Lead
 Lead Owner,Người phụ trách Lead
@@ -258,9 +258,9 @@ Medium,Trung bình
 Mention,Đề cập
 Message,Tin nhắn
 Middle Name,Tên đệm
-Mobile No,Số di động
+Mobile No,Di động
 Mobile No should be a number,Số di động phải có định dạng số
-Mobile no,Số di động
+Mobile no,Di động
 Monday,Thứ Hai
 More,Nhiều hơn
 My Open Deals,Các giao dịch của tôi đang mở
@@ -560,7 +560,7 @@ https://example.com,https://example.com
 Add Last Name...,Thêm họ
 created this lead,đã tạo lead này
 created this deal,đã tạo deal này
-Last Modified,Được chỉnh sửa lần cuối
+Last Modified,Lần cuối chỉnh sửa
 Add Video,Thêm Video
 Uploading,Đang tải
 Change Video,Thay đổi Video
@@ -568,10 +568,10 @@ Upload Video,Tải lên
 Remove,Xóa Video
 Insert Video,Thêm Video
 Import,Nhập dữ liệu
-Search customer,Tìm kiếm khách hàng
-Search organization,Tìm kiếm tổ chức
-Search content,Tìm kiếm ghi chú
-Search task,Tìm kiếm công việc
+Search customer,Tìm kiếm theo tên, số điện thoại, mail
+Search organization,Tìm kiếm theo tên tổ chức
+Search content,Tìm kiếm theo tiêu đề
+Search task,Tìm kiếm theo tiêu đề
 Write Content...,Nhập nội dung...
 Mobile No should be 10 digits,Số điện thoại phải bao gồm 10 số
 New Comment,Thêm bình luận

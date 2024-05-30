@@ -385,11 +385,11 @@ async function exportRows() {
   showExportDialog.value = false
   export_all.value = false
   export_type.value = 'Excel'
-  createToast({
-    title: __('Đã xuất tệp dữ liệu thành công'),
-    icon: 'check',
-    iconClasses: 'text-green-600',
-  })
+  // createToast({
+  //   title: __('Đã xuất tệp dữ liệu thành công'),
+  //   icon: 'check',
+  //   iconClasses: 'text-green-600',
+  // })
 }
 const emit = defineEmits(['showImportModal', 'afterConvertTaskCustomer'])
 function hadelClick(){

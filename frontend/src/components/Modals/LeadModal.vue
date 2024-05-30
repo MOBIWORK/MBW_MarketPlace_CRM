@@ -254,7 +254,7 @@ async function createNewLead() {
             title: data.name,
             content: lead.note,
             reference_doctype: 'CRM Lead',
-            reference_docname: '',
+            reference_docname: data.name,
           },
         })
       }

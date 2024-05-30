@@ -130,20 +130,6 @@
                   :for="row.name + 'star5'"
                   title="5"
                 ></label>
-
-                <input
-                  type="radio"
-                  :id="row.name + 'star4half'"
-                  name="rating4haft"
-                  value="4.5"
-                  
-                />
-                <label
-                  class="half"
-                  :for="row.name + 'star4half'"
-                  title="4.5"
-                ></label>
-
                 <input
                   type="radio"
                   :id="row.name + 'star4'"
@@ -156,20 +142,6 @@
                   :for="row.name + 'star4'"
                   title="4"
                 ></label>
-
-                <input
-                  type="radio"
-                  :id="row.name + 'star3half'"
-                  name="rating3haft"
-                  value="3.5"
-                
-                />
-                <label
-                  class="half"
-                  :for="row.name + 'star3half'"
-                  title="3.5"
-                ></label>
-
                 <input
                   type="radio"
                   :id="row.name + 'star3'"
@@ -182,20 +154,6 @@
                   :for="row.name + 'star3'"
                   title="3"
                 ></label>
-
-                <input
-                  type="radio"
-                  :id="row.name + 'star2half'"
-                  name="rating2haft"
-                  value="2.5"
-                  
-                />
-                <label
-                  class="half"
-                  :for="row.name + 'star2half'"
-                  title="2.5"
-                ></label>
-
                 <input
                   type="radio"
                   :id="row.name + 'star2'"
@@ -211,19 +169,6 @@
 
                 <input
                   type="radio"
-                  :id="row.name + 'star1half'"
-                  name="rating1haft"
-                  value="1.5"
-                 
-                />
-                <label
-                  class="half"
-                  :for="row.name + 'star1half'"
-                  title="1.5"
-                ></label>
-
-                <input
-                  type="radio"
                   :id="row.name + 'star1'"
                   name="rating1"
                   value="1"
@@ -233,19 +178,6 @@
                   class="full"
                   :for="row.name + 'star1'"
                   title="1"
-                ></label>
-
-                <input
-                  type="radio"
-                  :id="row.name + 'starhalf'"
-                  name="rating0haft"
-                  value="0.5"
-                  
-                />
-                <label
-                  class="half"
-                  :for="row.name + 'starhalf'"
-                  title="0.5"
                 ></label>
               </div>
             </div>
