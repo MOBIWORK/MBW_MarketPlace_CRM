@@ -1,36 +1,42 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-05-24 14:25:00.179554",
+ "creation": "2024-05-31 11:18:46.222996",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_7sk8",
-  "id_comment_parent",
-  "content"
+  "section_break_73ip",
+  "id_comment",
+  "user_reaction",
+  "emoji"
  ],
  "fields": [
   {
-   "fieldname": "section_break_7sk8",
+   "fieldname": "section_break_73ip",
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "id_comment_parent",
+   "fieldname": "id_comment",
    "fieldtype": "Data",
-   "label": "ID Comment Parent"
+   "label": "Name Comment"
   },
   {
-   "fieldname": "content",
+   "fieldname": "user_reaction",
    "fieldtype": "Data",
-   "label": "Content"
+   "label": "User Reaction"
+  },
+  {
+   "fieldname": "emoji",
+   "fieldtype": "Data",
+   "label": "Emoji"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-31 11:02:07.332385",
+ "modified": "2024-05-31 11:24:28.577090",
  "modified_by": "Administrator",
  "module": "FCRM",
- "name": "Comment Child",
+ "name": "Comment Reaction",
  "owner": "Administrator",
  "permissions": [
   {
@@ -42,18 +48,6 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Accounts User",
    "share": 1,
    "write": 1
   }

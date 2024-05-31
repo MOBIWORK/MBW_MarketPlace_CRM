@@ -523,10 +523,11 @@
           </div>
           <div style="display: flex; margin-top: 5px;">
   <Reactions
-              doctype="GP Comment"
+              doctype="Comment Reaction"
               :name="activity.name"
               v-model:reactions="activity.reactions"
               :read-only-mode="readOnlyMode"
+              :id_comment = "activity.name"
             />
             <!-- <ReactionFaceIcon /> -->
             <Button
@@ -548,16 +549,17 @@
           <div style="width: 100%;" v-if="activity.child_comment && activity.child_comment.length > 0 && activity.show_childcomment" v-for="(activity, index) in activity.child_comment" class="relative">
     <div class="absolute left-0 top-0 -z-10 border-l border-gray-200" style="width: 1px; height: 100%; border-radius: 5px;"></div>
     <div style="max-width: 500px; word-wrap: break-word;margin-top: 10px;margin-left: 20px;padding:10px" class="relative z-10 text-base rounded py-1.5 px-2 border border-gray-100 bg-gray-50 placeholder-gray-500 hover:border-gray-200 focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 text-gray-800 transition-colors block min-h-8">
-        <span class="font-medium text-gray-800 mb-1">{{ activity.owner }}</span>
+        <span class="font-medium text-gray-800 mb-1">{{ getUser(activity.owner).full_name }}</span>
         <p class="block">{{ activity.content }}</p>
      
     </div>
     <div style="margin-left: 20px; margin-top: 5px;">
       <Reactions 
-              doctype="GP Comment"
+              doctype="Comment Reaction"
               :name="index"
               v-model:reactions="activity.reactions"
               :read-only-mode="readOnlyMode"
+              :id_comment = "activity.name"
             />
     </div>
     
@@ -1139,7 +1141,7 @@ const activities = computed(() => {
     )
     let targetNames = JSON.parse(localStorage.getItem('statusComment'));
     activities.forEach(activity => {
-      activity['reactions'] = []
+     // activity['reactions'] = []
   if (targetNames && targetNames.includes(activity.name)) {
     activity['show_childcomment'] = true;
   }

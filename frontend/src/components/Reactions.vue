@@ -4,7 +4,6 @@
       <template #target="{ togglePopover, isOpen }">
         <button
           aria-label="Add a reaction"
-          :disabled="$resources.batch.loading"
           @click="togglePopover()"
           class="flex h-full items-center justify-center rounded-full px-2 py-1 transition bg-gray-100 text-gray-700 hover:bg-gray-200"
           :class="{ 'bg-gray-200': isOpen }"
@@ -25,7 +24,6 @@
                   togglePopover()
                 }
               "
-              :disabled="$resources.batch.loading"
             >
               {{ emoji }}
             </button>
@@ -34,24 +32,24 @@
       </template>
     </Popover>
     <Transition
-      enterActiveClass="transition duration-300 ease-out"
-      enterFromClass="scale-75"
-      enterToClass="scale-100"
-      leaveActiveClass="transition duration-100 ease-in absolute"
-      leaveFromClass="scale-100 opacity-100"
-      leaveToClass="scale-90 opacity-0"
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="scale-75"
+      enter-to-class="scale-100"
+      leave-active-class="transition duration-100 ease-in absolute"
+      leave-from-class="scale-100 opacity-100"
+      leave-to-class="scale-90 opacity-0"
     >
-      <TransitionGroup
+      <div
         v-if="reactions.length"
         tag="div"
         class="flex items-stretch space-x-1.5"
-        moveClass="transition duration-100 ease-in"
-        enterActiveClass="transition duration-300 ease-out"
-        enterFromClass="scale-75"
-        enterToClass="scale-100"
-        leaveActiveClass="transition duration-100 ease-in"
-        leaveFromClass="scale-100 opacity-100"
-        leaveToClass="scale-90 opacity-0"
+        move-class="transition duration-100 ease-in"
+        enter-active-class="transition duration-300 ease-out"
+        enter-from-class="scale-75"
+        enter-to-class="scale-100"
+        leave-active-class="transition duration-100 ease-in"
+        leave-from-class="scale-100 opacity-100"
+        leave-to-class="scale-90 opacity-0"
       >
         <Tooltip v-for="(reactions, emoji) in reactionsCount" :key="emoji">
           <button
@@ -73,22 +71,25 @@
             </div>
           </template>
         </Tooltip>
-      </TransitionGroup>
+      </div>
     </Transition>
   </div>
-  <div class="mt-2 space-y-2" v-if="batchRequestErrors.length">
+  <!-- <div class="mt-2 space-y-2" v-if="batchRequestErrors.length">
     <ErrorMessage v-for="error in batchRequestErrors" :message="error" />
-  </div>
+  </div> -->
 </template>
-<script>
-import { Popover, Tooltip, ErrorMessage } from 'frappe-ui'
-import ReactionFaceIcon from './ReactionFaceIcon.vue'
-import { sessionStore } from '@/stores/session'
 
-const { username } = sessionStore()
+<script>
+import { Popover, Tooltip, ErrorMessage ,call} from 'frappe-ui';
+import ReactionFaceIcon from './ReactionFaceIcon.vue';
+import { sessionStore } from '@/stores/session';
+import { usersStore } from '@/stores/users';
+const { user } = sessionStore();
+const { getUser } = usersStore();
+
 export default {
   name: 'Reactions',
-  props: ['reactions', 'doctype', 'name', 'readOnlyMode'],
+  props: ['reactions', 'doctype', 'name', 'readOnlyMode','id_comment'],
   emits: ['update:reactions'],
   components: {
     ReactionFaceIcon,
@@ -96,125 +97,92 @@ export default {
     Tooltip,
     ErrorMessage
   },
-  resources: {
-    batch() {
-      return {
-        url: 'crm.extends.client.batch',
-        makeParams() {
-          return { requests: this.changes }
-        },
-        onSuccess(responses) {
-          this.changes = []
-          for (let response of responses) {
-            if (response.message?.reactions) {
-              let reactions = response.message.reactions.map((d) => ({
-                name: d.name,
-                emoji: d.emoji,
-                user: d.user,
-              }))
-              this.$emit('update:reactions', reactions)
-            }
-          }
-        },
-        debounce: 1000,
-      }
-    },
-  },
   methods: {
     toggleReaction(emoji) {
-      // console.log(emoji);
-      // return
-      if (this.readOnlyMode) return
+      if (this.readOnlyMode) return;
       let existingReaction = this.reactions.find(
-        (r) => r.user === username && r.emoji === emoji
-      )
+        (r) => r.user === user && r.emoji === emoji
+      );
       if (existingReaction) {
-        this.removeReaction(existingReaction)
+        this.removeReaction(existingReaction);
       } else {
-        this.addReaction(emoji)
+        this.addReaction(emoji);
       }
     },
-    addReaction(emoji) {
-      const user = username
+    async addReaction(emoji) {
+      const username = user;
+      console.log(this);
+      // Tạo đối tượng mới và biến nó thành proxy
+      const newReaction = this.createProxyReaction({
+        emoji,
+        user: username,
+        name: `new-emoji-${this.reactions.length}`
+      });
+
+      // Tạo mảng mới với đối tượng proxy
       let reactions = [
         ...this.reactions,
-        {
-          emoji,
-          user,
-          name: `new-emoji-${this.reactions.length}`,
-        },
-      ]
-      this.$emit('update:reactions', reactions)
-      this.changes = [
-        ...(this.changes || []),
-        {
-          cmd: 'frappe.client.insert',
-          doc: {
-            doctype: this.doctype,
-            user,
-            emoji,
-          },
-        },
-      ]
-      this.$resources.batch.submit()
+        newReaction
+      ];
+
+      this.$emit('update:reactions', reactions);
+      let d =  await call('frappe.client.insert', {
+      doc: {
+        doctype: this.doctype,
+        user_reaction: user,
+        emoji: emoji,
+        id_comment : this.id_comment
+      },
+    })
     },
     removeReaction(reaction) {
       // update local
-      let reactions = this.reactions.filter((r) => r !== reaction)
-      this.$emit('update:reactions', reactions)
-
-      // update server
-      this.changes = [
-        ...(this.changes || []),
-        {
-          cmd: 'frappe.client.delete',
-          doctype: 'GP Reaction',
-          name: reaction.name,
-        },
-      ]
-      this.$resources.batch.submit()
+      let reactions = this.reactions.filter((r) => r !== reaction);
+      this.$emit('update:reactions', reactions);
     },
     toolTipText(reactions) {
       return reactions.users
         .map((user) => {
           if (user) {
-            return this.$user(user).full_name.trim()
+            return getUser(user).full_name.trim();
           }
-          return ''
+          return '';
         })
-        .join(', ')
+        .join(', ');
     },
+    createProxyReaction(reaction) {
+      return new Proxy(reaction, {
+        get(target, prop) {
+          if (typeof prop === 'symbol') {
+            return Reflect.get(target, prop);
+          }
+          return target[prop];
+        },
+        set(target, prop, value) {
+          if (typeof prop === 'symbol') {
+            return Reflect.set(target, prop, value);
+          }
+          target[prop] = value;
+          return true;
+        }
+      });
+    }
   },
   computed: {
     reactionsCount() {
-      let out = {}
+      console.log(this.doctype);
+      let out = {};
       for (let reaction of this.reactions) {
         if (!out[reaction.emoji]) {
-          out[reaction.emoji] = { count: 0, users: [], userReacted: false }
+          out[reaction.emoji] = { count: 0, users: [], userReacted: false };
         }
-        out[reaction.emoji].count++
-        out[reaction.emoji].users.push(reaction.user)
-        if (reaction.user === username) {
-          out[reaction.emoji].userReacted = true
+        out[reaction.emoji].count++;
+        out[reaction.emoji].users.push(reaction.user);
+        if (reaction.user === user) {
+          out[reaction.emoji].userReacted = true;
         }
       }
-      return out
-    },
-    batchRequestErrors() {
-      if (!this.$resources.batch.data) {
-        return []
-      }
-      return this.$resources.batch.data
-        .filter((d) => d.exception)
-        .map((d) => {
-          let _server_messages = d._server_messages
-          try {
-            _server_messages = JSON.parse(_server_messages)
-            return _server_messages.map((m) => JSON.parse(m).message)
-          } catch (e) {}
-          return d.exception
-        })
-        .flat()
+      return out;
     },
     standardEmojis() {
       return [
@@ -223,8 +191,8 @@ export default {
         '💖',
         '🚀',
         '👏🏻'
-      ]
-    },
-  },
-}
+      ];
+    }
+  }
+};
 </script>
