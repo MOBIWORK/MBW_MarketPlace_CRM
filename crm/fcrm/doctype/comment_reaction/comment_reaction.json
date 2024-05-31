@@ -7,7 +7,7 @@
  "field_order": [
   "section_break_73ip",
   "id_comment",
-  "user_reaction",
+  "user",
   "emoji"
  ],
  "fields": [
@@ -21,19 +21,19 @@
    "label": "Name Comment"
   },
   {
-   "fieldname": "user_reaction",
-   "fieldtype": "Data",
-   "label": "User Reaction"
-  },
-  {
    "fieldname": "emoji",
    "fieldtype": "Data",
    "label": "Emoji"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Data",
+   "label": "User Reaction"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-31 11:24:28.577090",
+ "modified": "2024-05-31 16:39:27.470863",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "Comment Reaction",

@@ -362,7 +362,7 @@ def get_reactions(parent_comment_name):
     reaction_comments = frappe.get_all(
         'Comment Reaction',
         filters={'id_comment': parent_comment_name},
-        fields=['emoji', 'user_reaction']
+        fields=['emoji', 'user' , 'name']
     )
         
     return reaction_comments

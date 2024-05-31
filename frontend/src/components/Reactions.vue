@@ -98,6 +98,7 @@ export default {
     ErrorMessage
   },
   methods: {
+
     toggleReaction(emoji) {
       if (this.readOnlyMode) return;
       let existingReaction = this.reactions.find(
@@ -111,12 +112,19 @@ export default {
     },
     async addReaction(emoji) {
       const username = user;
-      console.log(this);
       // Tạo đối tượng mới và biến nó thành proxy
-      const newReaction = this.createProxyReaction({
-        emoji,
+      let d =  await call('frappe.client.insert', {
+      doc: {
+        doctype: this.doctype,
         user: username,
-        name: `new-emoji-${this.reactions.length}`
+        emoji: emoji,
+        id_comment : this.id_comment
+      },
+    })
+      const newReaction = this.createProxyReaction({
+        emoji: emoji,
+        user: username,
+        name: d.name
       });
 
       // Tạo mảng mới với đối tượng proxy
@@ -126,19 +134,15 @@ export default {
       ];
 
       this.$emit('update:reactions', reactions);
-      let d =  await call('frappe.client.insert', {
-      doc: {
-        doctype: this.doctype,
-        user_reaction: user,
-        emoji: emoji,
-        id_comment : this.id_comment
-      },
-    })
+     
     },
-    removeReaction(reaction) {
-      // update local
-      let reactions = this.reactions.filter((r) => r !== reaction);
-      this.$emit('update:reactions', reactions);
+   async removeReaction(reaction) {
+    let reactions = this.reactions.filter((r) => r !== reaction);
+    this.$emit('update:reactions', reactions);
+    let d =  await call('frappe.client.delete', {
+        doctype: this.doctype,
+        name: reaction.name,
+    })
     },
     toolTipText(reactions) {
       return reactions.users
@@ -170,7 +174,6 @@ export default {
   },
   computed: {
     reactionsCount() {
-      console.log(this.doctype);
       let out = {};
       for (let reaction of this.reactions) {
         if (!out[reaction.emoji]) {
