@@ -221,7 +221,7 @@ def get_lead_activities(name):
 			"attachments": get_attachments('Comment', comment.name),
 			"is_lead": True,
    			"child_comment": get_child_comments(comment.name),
-			"reactions": get_reactions(comment.name)
+			"reactions": get_reactions(comment.name,'Comment Reaction')
 		}
 		comments.append(activity)
 
@@ -354,13 +354,14 @@ def get_child_comments(parent_comment_name):
     
     # Thêm trường reactions = [] vào mỗi comment con
     for comment in child_comments:
-        comment['reactions'] = []
+        comment_reactions = get_reactions(comment['name'],'CommentChild Reaction')
+        comment['reactions'] = comment_reactions
         
     return child_comments[::-1]
 
-def get_reactions(parent_comment_name):
+def get_reactions(parent_comment_name, doctype):
     reaction_comments = frappe.get_all(
-        'Comment Reaction',
+        doctype,
         filters={'id_comment': parent_comment_name},
         fields=['emoji', 'user' , 'name']
     )

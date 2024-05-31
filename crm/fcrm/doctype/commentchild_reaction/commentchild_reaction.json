@@ -1,0 +1,58 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-31 17:06:06.087355",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_kqip",
+  "user",
+  "emoji",
+  "id_comment"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_kqip",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Data",
+   "label": "User"
+  },
+  {
+   "fieldname": "emoji",
+   "fieldtype": "Data",
+   "label": "Emoji"
+  },
+  {
+   "fieldname": "id_comment",
+   "fieldtype": "Data",
+   "label": "ID Comment"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-05-31 17:07:15.850935",
+ "modified_by": "Administrator",
+ "module": "FCRM",
+ "name": "CommentChild Reaction",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

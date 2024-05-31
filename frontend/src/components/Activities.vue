@@ -555,7 +555,7 @@
     </div>
     <div style="margin-left: 20px; margin-top: 5px;">
       <Reactions 
-              doctype="Comment Reaction"
+              doctype="CommentChild Reaction"
               :name="index"
               v-model:reactions="activity.reactions"
               :read-only-mode="readOnlyMode"
