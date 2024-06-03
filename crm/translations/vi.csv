@@ -26,7 +26,7 @@ Are you sure you want to delete this organization?,Bạn có chắc muốn xóa 
 Are you sure you want to delete this task?,Bạn có chắc muốn xóa công việc này không?
 Are you sure you want to delete this view?,Bạn có chắc muốn xóa chế độ xem này không?
 Are you sure you want to delete {0} item(s)?,Bạn có chắc muốn xóa {0} mục?
-Ascending,Từ Z-> A
+Ascending,Từ A-> Z
 Assign To,Phân công cho
 Assigned To,Đã phân công cho
 Auth Token,Mã xác thực
@@ -128,7 +128,7 @@ Delete View,Xóa chế độ xem
 Delete contact,Xóa liên hệ
 Delete organization,Xóa tổ chức
 Deleted successfully,Xóa thành công
-Descending,Từ A->Z
+Descending,Từ Z-> A
 Description,Mô tả
 Details,Chi tiết
 Device,Thiết bị
@@ -568,7 +568,7 @@ Upload Video,Tải lên
 Remove,Xóa Video
 Insert Video,Thêm Video
 Import,Nhập dữ liệu
-Search customer,Tìm kiếm theo tên, số điện thoại, mail
+Search customer,Tìm kiếm theo tên hoặc số điện thoại hoặc mail
 Search organization,Tìm kiếm theo tên tổ chức
 Search content,Tìm kiếm theo tiêu đề
 Search task,Tìm kiếm theo tiêu đề
