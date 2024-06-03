@@ -527,6 +527,37 @@ function onBackModalPreviewData(){
 
 function onImportData(){
     loadingImport.value = true;
+    let valid_email = true;
+    let valid_phone = true;
+    for(let i = 0; i < rowsDataPreview.value.length; i++){
+        if(!rowsDataPreview.value[i].valid_email){
+            valid_email = false;
+        }
+        if(!rowsDataPreview.value[i].valid_phone){
+            valid_phone = false;
+        }
+        if(valid_email == false && valid_phone == false) break;
+    }
+    if(valid_email == false){
+        createToast({
+            title: __('Error'),
+            text: __("Sai định dạng email. Vui lòng kiểm tra lại"),
+            icon: 'x',
+            iconClasses: 'text-red-600',
+        })
+        loadingImport.value = false;
+        return;
+    }
+    if(valid_phone == false){
+        createToast({
+            title: __('Error'),
+            text: __("Sai định dạng số di động. Vui lòng kiểm tra lại"),
+            icon: 'x',
+            iconClasses: 'text-red-600',
+        })
+        loadingImport.value = false;
+        return;
+    }
     let leadsImport = createResource({
         url: 'crm.api.doc.import_data_leads',
         method: 'POST',
