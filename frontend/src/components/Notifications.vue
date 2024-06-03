@@ -141,8 +141,11 @@ import { timeAgo } from '@/utils'
 import { onClickOutside } from '@vueuse/core'
 import { Tooltip } from 'frappe-ui'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { sessionStore } from '@/stores/session'
+import { createToast } from '@/utils'
 
 const { $socket } = globalStore()
+const { user } = sessionStore()
 
 const target = ref(null)
 const notify_type = ref("all")
@@ -174,17 +177,26 @@ function toggleNotificationPanel() {
 }
 
 function mark_as_read(doc) {
-  console.log(doc)
   notificationsStore().mark_doc_as_read(doc)
 }
 
 onBeforeUnmount(() => {
-  $socket.off('crm_notification')
+  $socket.off('crm_notification');
+  $socket.off('web_notification');
 })
 
 onMounted(() => {
   $socket.on('crm_notification', () => {
     notificationsStore().notifications.reload()
+  })
+  $socket.on('web_notification', (data) => {
+    if(user == data.to_user){
+      createToast({
+        title: data.message,
+        icon: 'check',
+        iconClasses: 'text-green-600',
+      })
+    }
   })
 })
 

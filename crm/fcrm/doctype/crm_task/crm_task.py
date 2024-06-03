@@ -75,6 +75,10 @@ class CRMTask(Document):
 			frappe.get_doc(values).insert()
 
 	def insert_remind(self):
+		if self.remind_task is None or self.remind_task == '':
+			return
+		if self.due_date is None or self.due_date == '':
+			return
 		date_remind_task = datetime.strptime(self.remind_task, '%Y-%m-%d %H:%M:%S')
 		date_due_date = datetime.strptime(self.due_date, '%Y-%m-%d %H:%M:%S')
 		if date_remind_task <= date_due_date:
@@ -104,6 +108,10 @@ class CRMTask(Document):
 			frappe.db.set_value('CRM Task', self.name, 'custom_fields', json.dumps(custom_field))
 
 	def update_remind(self):
+		if self.remind_task is None or self.remind_task == '':
+			return
+		if self.due_date is None or self.due_date == '':
+			return
 		date_remind_task = datetime.strptime(self.remind_task, '%Y-%m-%d %H:%M:%S')
 		date_due_date = datetime.strptime(self.due_date, '%Y-%m-%d %H:%M:%S')
 		if date_remind_task <= date_due_date and self.get('custom_fields') is not None:

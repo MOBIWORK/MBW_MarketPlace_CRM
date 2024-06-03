@@ -88,7 +88,9 @@ import { createResource, Breadcrumbs } from 'frappe-ui'
 import { useRouter } from 'vue-router'
 import { ref, computed, reactive, onMounted } from 'vue'
 import { sessionStore } from '@/stores/session'
+import { globalStore } from '@/stores/global'
 
+const { $socket } = globalStore()
 
 const breadcrumbs = [{ label: __('Leads'), route: { name: 'Leads' } }]
 
@@ -109,6 +111,10 @@ onMounted(()=>{
       break;
     }
   }
+  $socket.on('demo_event', (data) => {
+    console.log(data);
+    console.log("Dòng 187");
+  })
 })
 
 const leadsListView = ref(null)

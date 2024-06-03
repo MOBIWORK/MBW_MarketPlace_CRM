@@ -209,6 +209,15 @@ def notify_change_info_lead(self, method):
                             </div>
                         """
                         message = _('{0} đã thay đổi {1} từ {2} thành {3}'.format(owner, field_change, value_old, value_new))
+                        if value_new == "":
+                            notification_text = f"""
+                                <div class="mb-2 leading-5 text-gray-600">
+                                    <span class="font-medium text-gray-900"> { owner }</span>
+                                    <span>{ _(' đã xóa thông tin  ') }</span>
+                                    <span class="font-medium text-gray-900"> {field_change}</span>
+                                </div>
+                            """
+                            message = _('{0} đã xóa thông tin {1}'.format(owner, field_change))
                     if owner != tasker and tasker != frappe.session.user:
                         doc_notify = frappe._dict(
                             doctype="CRM Notification",
@@ -313,6 +322,15 @@ def notify_change_info_deal(self, method):
                             </div>
                         """
                         message = _('{0} đã thay đổi {1} từ {2} thành {3}'.format(owner, field_change, value_old, value_new))
+                        if value_new == "":
+                            notification_text = f"""
+                                <div class="mb-2 leading-5 text-gray-600">
+                                    <span class="font-medium text-gray-900"> { owner }</span>
+                                    <span>{ _(' đã xóa thông tin  ') }</span>
+                                    <span class="font-medium text-gray-900"> {field_change}</span>
+                                </div>
+                            """
+                            message = _('{0} đã xóa thông tin {1}'.format(owner, field_change))
                     if owner != tasker and tasker != frappe.session.user:
                         doc_notify = frappe._dict(
                             doctype="CRM Notification",

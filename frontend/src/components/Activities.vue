@@ -1369,10 +1369,12 @@ function reply(email, reply_all = false) {
 }
 watch([reload, reload_email,reload_commentchild], ([reload_value, reload_email_value,reload_commentchild_value]) => {
   if (reload_value || reload_email_value || reload_commentchild_value) {
-  const filteredNames = all_activities.data.comments
-  .filter(activity => activity.hasOwnProperty('show_childcomment') && activity.show_childcomment)
-  .map(activity => activity.name);
-  localStorage.setItem('statusComment', JSON.stringify(filteredNames)); // lưu trạng thái đóng mở comment
+    if(all_activities.data.comments){
+      const filteredNames = all_activities.data.comments
+        .filter(activity => activity.hasOwnProperty('show_childcomment') && activity.show_childcomment)
+        .map(activity => activity.name);
+      localStorage.setItem('statusComment', JSON.stringify(filteredNames)); // lưu trạng thái đóng mở comment
+    }
     all_activities.reload()
     reload.value = false
     reload_email.value = false
