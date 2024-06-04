@@ -13,36 +13,41 @@
             <div class="mb-1.5 text-sm text-gray-600">{{ __('Người bàn giao') }}</div>
             <Link
               class="form-control"
+              :value="getUser(convertTaskCustomer.from_user).full_name"
               doctype="User"
-              @change="(option) => (convertTaskCustomer.from_user = option)">
-                <!-- <template #prefix>
-                  <UserAvatar class="mr-2 !h-4 !w-4" :user="convertTaskCustomer.from_user" />
-                </template>
-                <template #item-prefix="{ option }">
-                  <UserAvatar class="mr-2" :user="option.value" size="sm" />
-                </template> -->
-                <template #item-label="{ option }">
-                  <Tooltip :text="option.value">
-                    <div class="cursor-pointer">
-                      {{ getUser(option.value).full_name }}
-                    </div>
-                  </Tooltip>
-                </template>
+              @change="(option) => (convertTaskCustomer.from_user = option)"
+              :hideMe="true"
+            >
+              <template #prefix>
+                <UserAvatar class="mr-2 !h-4 !w-4" :user="convertTaskCustomer.from_user" />
+              </template>
+              <template #item-prefix="{ option }">
+                <UserAvatar class="mr-2" :user="option.value" size="sm" />
+              </template>
+              <template #item-label="{ option }">
+                <Tooltip :text="option.value">
+                  <div class="cursor-pointer">
+                    {{ getUser(option.value).full_name }}
+                  </div>
+                </Tooltip>
+              </template>
             </Link>
           </div>
           <div class="grid" style="width: 50%;">  
             <div class="mb-1.5 text-sm text-gray-600">{{ __('Người nhận bàn giao') }}</div>
             <Link
-            class="form-control"
-            doctype="User"
-            @change="(option) => (convertTaskCustomer.to_user = option)"
+              class="form-control"
+              :value="getUser(convertTaskCustomer.to_user).full_name"
+              doctype="User"
+              @change="(option) => (convertTaskCustomer.to_user = option)"
+              :hideMe="true"
             >
-              <!-- <template #prefix>
+              <template #prefix>
                 <UserAvatar class="mr-2 !h-4 !w-4" :user="convertTaskCustomer.to_user" />
               </template>
               <template #item-prefix="{ option }">
                 <UserAvatar class="mr-2" :user="option.value" size="sm" />
-              </template> -->
+              </template>
               <template #item-label="{ option }">
                 <Tooltip :text="option.value">
                   <div class="cursor-pointer">
