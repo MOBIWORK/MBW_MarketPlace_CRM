@@ -23,9 +23,10 @@ class CRMTask(Document):
 	
 	def insert_notify(self):
 		if self.owner != self.assigned_to:
+			user_info = frappe.get_doc('User', self.owner)
 			notification_text = f"""
 				<div class="mb-2 leading-5 text-gray-600">
-					<span class="font-medium text-gray-900">{ self.owner }</span>
+					<span class="font-medium text-gray-900">{ user_info.username }</span>
 					<span>{ _('đã giao cho bạn công việc')}</span>
 					<span class="font-medium text-gray-900"> {self.title}</span>
 				</div>
@@ -35,7 +36,7 @@ class CRMTask(Document):
 				from_user=self.owner,
 				to_user=self.assigned_to,
 				type="Task",
-				message= _('{0} đã giao cho bạn công việc {1}').format(self.owner, self.title),
+				message= _('{0} đã giao cho bạn công việc {1}').format(user_info.username, self.title),
 				notification_text=notification_text,
 				notification_type_doctype="CRM Task",
 				notification_type_doc="",
@@ -50,10 +51,11 @@ class CRMTask(Document):
 		if frappe.db.exists('CRM Task', self.name) is None:
 			return
 		task_info = frappe.get_doc('CRM Task', self.name)
+		user_info = frappe.get_doc('User', self.owner)
 		if task_info is not None and self.owner != self.assigned_to and task_info.assigned_to != self.assigned_to:
 			notification_text = f"""
 				<div class="mb-2 leading-5 text-gray-600">
-					<span class="font-medium text-gray-900">{ self.owner }</span>
+					<span class="font-medium text-gray-900">{ user_info.username }</span>
 					<span>{ _('đã giao cho bạn công việc')}</span>
 					<span class="font-medium text-gray-900"> {self.title}</span>
 				</div>
@@ -63,7 +65,7 @@ class CRMTask(Document):
 				from_user=self.owner,
 				to_user=self.assigned_to,
 				type="Task",
-				message= _('{0} đã giao cho bạn công việc {1}').format(self.owner, self.title),
+				message= _('{0} đã giao cho bạn công việc {1}').format(user_info.username, self.title),
 				notification_text=notification_text,
 				notification_type_doctype="CRM Task",
 				notification_type_doc="",

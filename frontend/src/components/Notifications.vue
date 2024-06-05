@@ -190,6 +190,7 @@ onMounted(() => {
     notificationsStore().notifications.reload()
   })
   $socket.on('web_notification', (data) => {
+    console.log(data);
     if(user == data.to_user){
       createToast({
         title: data.message,

@@ -408,7 +408,6 @@ onMounted(() => {
 const handleStarClick = (value , row  ) => {
   let fieldname = 'rating'
   value = parseFloat(value)/5;
-  console.log(value);
   emit('rating', {fieldname,value,row} )
 
 }

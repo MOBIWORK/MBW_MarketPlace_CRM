@@ -8,4 +8,5 @@ from frappe.model.document import Document
 class CRMNotification(Document):
     def on_update(self):
         frappe.publish_realtime("crm_notification")
-        frappe.publish_realtime("web_notification", message=self)
+        if self.read == False:
+            frappe.publish_realtime("web_notification", message=self)
