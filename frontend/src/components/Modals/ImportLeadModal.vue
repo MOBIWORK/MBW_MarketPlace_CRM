@@ -165,7 +165,7 @@
                                                 value: 'none',
                                             },
                                             {
-                                                label: __('First Name'),
+                                                label: __('Full Name'),
                                                 value: 'first_name',
                                             },
                                             {
@@ -365,8 +365,10 @@ async function onFileSelected(event){
                 }
                 for(let i = 1; i < jsonData.length; i++){
                     let leadImport = {};
+                    let isPush = false;
                     for(let j = 0; j < jsonData[0].length; j++){
                         leadImport[jsonData[0][j]] = jsonData[i][j] != null? jsonData[i][j].toString() : null;
+                        if(jsonData[i][j] != null && jsonData[i][j].toString() != "") isPush = true;
                         if(isNumeric(jsonData[i][j])){
                             field_phone = jsonData[0][j];
                         }
@@ -374,7 +376,7 @@ async function onFileSelected(event){
                             field_email = jsonData[0][j];
                         }
                     }
-                    arrLeadImport.push(leadImport);
+                    if(isPush) arrLeadImport.push(leadImport);
                 }
                 colEmail.value = field_email;
                 colPhone.value = field_phone;

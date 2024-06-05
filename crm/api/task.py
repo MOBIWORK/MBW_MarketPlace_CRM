@@ -2,6 +2,7 @@ import frappe
 from frappe import _
 from bs4 import BeautifulSoup
 from crm.api.contact import get_linked_deals
+import json
 
 def notify_asign_contact(self, method):
     try:

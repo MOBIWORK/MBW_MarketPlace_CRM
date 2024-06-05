@@ -244,7 +244,7 @@ const view = ref({
   name: '',
   label: '',
   filters: {},
-  order_by: 'modified desc',
+  order_by: 'creation asc',
   columns: '',
   rows: '',
   load_default_columns: false,
@@ -275,7 +275,7 @@ watch(updatedPageCount, (value) => {
 function getParams() {
   let _view = getView(route.query.view, props.doctype)
   const filters = (_view?.filters && JSON.parse(_view.filters)) || {}
-  const order_by = _view?.order_by || 'modified desc'
+  const order_by = _view?.order_by || 'creation asc'
   const columns = _view?.columns || ''
   const rows = _view?.rows || ''
   const searchText = _view?.searchText || ''
@@ -299,7 +299,7 @@ function getParams() {
       name: '',
       label: '',
       filters: {},
-      order_by: 'modified desc',
+      order_by: 'creation asc',
       columns: '',
       rows: '',
       route_name: '',

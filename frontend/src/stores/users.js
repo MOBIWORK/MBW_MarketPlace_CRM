@@ -17,6 +17,7 @@ export const usersStore = defineStore('crm-users', () => {
     auto: true,
     transform(users) {
       for (let user of users) {
+        user.email_address = user.email;
         if (user.name === 'Administrator') {
           user.email = 'Administrator'
         }

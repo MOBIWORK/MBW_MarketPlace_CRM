@@ -1,0 +1,2 @@
+import{d as o,e as c,f as n,v as s,h as e,i as t,Q as r,E as d}from"./index-b29292c2.js";const l={class:"grid h-full place-items-center px-4 py-20 text-center text-lg text-gray-600"},_={class:"space-y-2"},i=s("div",null,"Invalid page or not permitted to access",-1),f={__name:"InvalidPage",setup(p){return(m,u)=>{const a=o("Button");return c(),n("div",l,[s("div",_,[i,e(a,{route:{name:"Leads"}},{prefix:t(()=>[e(r,{class:"w-4"})]),default:t(()=>[d(" Leads ")]),_:1})])])}}};export{f as default};
+//# sourceMappingURL=InvalidPage-03fe493e.js.map

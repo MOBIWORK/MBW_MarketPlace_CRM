@@ -136,7 +136,6 @@ const options = createResource({
         value: '@me',
       })
     }
-    console.log(allData);
     return allData
   },
 })

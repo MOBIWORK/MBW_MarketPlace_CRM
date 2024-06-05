@@ -153,11 +153,11 @@ const links = [
     icon: TaskIcon,
     to: 'Tasks',
   },
-  {
-    label: 'Call Logs',
-    icon: PhoneIcon,
-    to: 'Call Logs',
-  },
+  // {
+  //   label: 'Call Logs',
+  //   icon: PhoneIcon,
+  //   to: 'Call Logs',
+  // },
   {
     label: 'Email Templates',
     icon: EmailIcon,

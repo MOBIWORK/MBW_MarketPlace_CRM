@@ -104,7 +104,7 @@ const templates = createListResource({
     'owner',
   ],
   filters: { enabled: 1, reference_doctype: props.doctype },
-  orderBy: 'modified desc',
+  orderBy: 'creation asc',
   pageLength: 99999,
 })
 

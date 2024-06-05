@@ -61,7 +61,7 @@ const _view = ref({
   name: '',
   label: '',
   filters: {},
-  order_by: 'modified desc',
+  order_by: 'creation asc',
   columns: '',
   rows: '',
 })

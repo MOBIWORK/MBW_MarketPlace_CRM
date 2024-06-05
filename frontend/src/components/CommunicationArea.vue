@@ -146,7 +146,6 @@ const subject = computed(() => {
 watch(
   () => showEmailBox.value,
   (value) => {
-    console.log(value);
     if (value) {
       newEmailEditor.value.editor.commands.focus()
     }
@@ -185,13 +184,12 @@ async function sendMail() {
     doctype: props.doctype,
     name: doc.value.data.name,
     send_email: 1,
-    sender: getUser().name,
+    sender: getUser().email_address,
     sender_full_name: getUser()?.full_name || undefined,
   })
 }
 
 async function sendComment() {
-  console.log("frappe.desk.form.utils.add_comment");
   let comment = await call('frappe.desk.form.utils.add_comment', {
     reference_doctype: props.doctype,
     reference_name: doc.value.data.name,
@@ -200,7 +198,6 @@ async function sendComment() {
     comment_by: getUser()?.full_name || undefined,
   })
   if (comment && attachments.value.length) {
-    console.log("Vào đây");
     await call('crm.api.comment.add_attachments', {
       name: comment.name,
       attachments: attachments.value.map((x) => x.name),
