@@ -594,7 +594,7 @@ Load More,Tải thêm
 of,của
 Row,Bản ghi
 Rows,Các bản ghi
-selected,được chọn,
+selected,được chọn
 Select Organization...,Chọn tổ chức...
 Text Color,Màu chữ
 Background Color,Màu nền
@@ -608,3 +608,5 @@ Remind task,Nhắc nhở công việc,
 Hide all reply comments,Ẩn tất cả các bình luận
 Show all reply comments,Hiển thị tất cả các bình luận
 Reply Comment,Phản hồi
+No Data, Không có dữ liệu
+No data available, Không có sẵn dữ liệu
