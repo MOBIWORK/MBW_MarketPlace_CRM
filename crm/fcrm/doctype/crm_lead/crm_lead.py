@@ -23,13 +23,19 @@ class CRMLead(Document):
 		self.validate_email()
 		if self.lead_owner and not self.is_new():
 			self.share_with_agent(self.lead_owner)
-			self.assign_agent(self.lead_owner)
+			assign_to = [self.lead_owner]
+			if self.assign_to is not None and self.assign_to != "":
+				assign_to = json.loads(self.assign_to)
+			self.assign_agent(assign_to)
 		if self.has_value_changed("status"):
 			add_status_change_log(self)
 
 	def after_insert(self):
-		if self.lead_owner:
-			self.assign_agent(self.lead_owner)
+		if self.assign_to:
+			assign_to = [self.lead_owner]
+			if self.assign_to is not None and self.assign_to != "":
+				assign_to = json.loads(self.assign_to)
+			self.assign_agent(assign_to)
 
 	def before_save(self):
 		self.apply_sla()
@@ -66,18 +72,18 @@ class CRMLead(Document):
 			if self.is_new() or not self.image:
 				self.image = has_gravatar(self.email)
 
-	def assign_agent(self, agent):
-		if not agent:
+	def assign_agent(self, agents):
+		if not agents:
 			return
 
 		assignees = self.get_assigned_users()
 		if assignees:
 			for assignee in assignees:
-				if agent == assignee:
+				if assignee in agents:
 					# the agent is already set as an assignee
 					return
 
-		assign({"assign_to": [agent], "doctype": "CRM Lead", "name": self.name})
+		assign({"assign_to": agents, "doctype": "CRM Lead", "name": self.name})
 
 	def share_with_agent(self, agent):
 		if not agent:

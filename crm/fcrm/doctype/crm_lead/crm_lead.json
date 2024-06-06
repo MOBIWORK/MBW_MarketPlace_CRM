@@ -50,7 +50,8 @@
   "first_response_time",
   "first_responded_on",
   "log_tab",
-  "status_change_log"
+  "status_change_log",
+  "assign_to"
  ],
  "fields": [
   {
@@ -89,7 +90,7 @@
    "options": "Gender"
   },
   {
-   "default": "Mới",
+   "default": "M\u1edbi",
    "fieldname": "status",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -264,7 +265,7 @@
    "read_only": 1
   },
   {
-   "default": "Mở",
+   "default": "M\u1edf",
    "fieldname": "communication_status",
    "fieldtype": "Link",
    "label": "Communication Status",
@@ -292,12 +293,17 @@
    "fieldname": "rating",
    "fieldtype": "Rating",
    "label": "Rating"
+  },
+  {
+   "fieldname": "assign_to",
+   "fieldtype": "JSON",
+   "label": "Assign To"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-18 08:01:34.778016",
+ "modified": "2024-06-06 09:16:14.952730",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Lead",

@@ -81,9 +81,17 @@ class CRMTask(Document):
 			return
 		if self.due_date is None or self.due_date == '':
 			return
-		date_remind_task = datetime.strptime(self.remind_task, '%Y-%m-%d %H:%M:%S')
-		date_due_date = datetime.strptime(self.due_date, '%Y-%m-%d %H:%M:%S')
-		if date_remind_task <= date_due_date:
+		if isinstance(self.remind_task, str):
+			date_remind_task = datetime.strptime(self.remind_task, '%Y-%m-%d %H:%M:%S')
+		else:
+			date_remind_task = self.remind_task
+
+		if isinstance(self.due_date, str):
+			date_due_date = datetime.strptime(self.due_date, '%Y-%m-%d %H:%M:%S')
+		else:
+			date_due_date = self.due_date
+		
+		if date_remind_task <= date_due_date and date_remind_task > datetime.now():
 			delta = date_due_date - date_remind_task
 			minutes = delta.total_seconds() / 60
 			hours = delta.total_seconds() / 3600
@@ -114,9 +122,16 @@ class CRMTask(Document):
 			return
 		if self.due_date is None or self.due_date == '':
 			return
-		date_remind_task = datetime.strptime(self.remind_task, '%Y-%m-%d %H:%M:%S')
-		date_due_date = datetime.strptime(self.due_date, '%Y-%m-%d %H:%M:%S')
-		if date_remind_task <= date_due_date and self.get('custom_fields') is not None:
+		if isinstance(self.remind_task, str):
+			date_remind_task = datetime.strptime(self.remind_task, '%Y-%m-%d %H:%M:%S')
+		else:
+			date_remind_task = self.remind_task
+
+		if isinstance(self.due_date, str):
+			date_due_date = datetime.strptime(self.due_date, '%Y-%m-%d %H:%M:%S')
+		else:
+			date_due_date = self.due_date
+		if date_remind_task <= date_due_date and self.get('custom_fields') is not None and date_remind_task > datetime.now():
 			obj_customer = json.loads(self.get('custom_fields'))
 			id_reminder = obj_customer.get('id_reminder')
 			doc_reminder = frappe.get_doc('Reminder', id_reminder)

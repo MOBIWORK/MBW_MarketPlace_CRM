@@ -11,6 +11,7 @@ def on_update(self, method):
 
 def notify_rely_comment(doc):
     info_doc = frappe.get_doc(doc.reference_doctype, doc.reference_name)
+    user_info = frappe.get_doc('User', doc.owner)
     owner_lead_deal = ""
     if doc.reference_doctype == "CRM Lead":
         owner_lead_deal = info_doc.lead_owner
@@ -23,7 +24,7 @@ def notify_rely_comment(doc):
             doctype = doctype[4:].lower()
         notification_text = f"""
             <div class="mb-2 leading-5 text-gray-600">
-                <span class="font-medium text-gray-900">{ owner_comment }</span>
+                <span class="font-medium text-gray-900">{ user_info.username }</span>
                 <span>{ _('đã bình luận về {0}').format(doctype) }</span>
                 <span> của bạn</span>
             </div>
@@ -54,7 +55,7 @@ def notify_mentions(doc):
         return
     mentions = extract_mentions(content)
     for mention in mentions:
-        owner = frappe.get_cached_value("User", doc.owner, "full_name")
+        owner = frappe.get_cached_value("User", doc.owner, "username")
         doctype = doc.reference_doctype
         if doctype.startswith("CRM "):
             doctype = doctype[4:].lower()

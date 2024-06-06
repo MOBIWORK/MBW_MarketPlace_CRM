@@ -20,7 +20,7 @@ def sort_options(doctype: str):
 	fields = [field for field in fields if field.fieldtype not in no_value_fields]
 	fields_without = ['salutation', 'last_name', 'naming_series', 'middle_name', 'image', 'converted', 'sla', 'sla_creation', 'sla_status', 'communication_status','response_by','first_response_time',
 		'first_responded_on','full_name','google_contacts_id','sync_with_google_contacts','google_contacts','pulled_from_google_contacts','is_primary_contact','is_billing_contact','unsubscribed','organization_logo',
-		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','website']
+		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','website','assign_to']
 	fields = [
 		{
 			"label": _(field.label),
@@ -73,7 +73,7 @@ def get_filterable_fields(doctype: str):
 	res = []
 	fields_without = ['salutation', 'last_name', 'naming_series', 'middle_name', 'image', 'converted', 'sla', 'sla_creation', 'sla_status', 'communication_status','response_by','first_response_time',
 		'first_responded_on','full_name','google_contacts_id','sync_with_google_contacts','google_contacts','pulled_from_google_contacts','is_primary_contact','is_billing_contact','unsubscribed','organization_logo',
-		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','website']
+		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','website', 'assign_to']
 	# append DocFields
 	DocField = frappe.qb.DocType("DocField")
 	doc_fields = get_fields_meta(DocField, doctype, allowed_fieldtypes, restricted_fields)

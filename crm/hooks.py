@@ -143,11 +143,11 @@ doc_events = {
 	},
 	"CRM Deal": {
 		"after_insert": ["crm.api.task.notify_asign_contact"],
-		"before_save": ["crm.api.task.notify_unasign_contact", "crm.api.task.notify_change_info_deal"]
+		"before_save": ["crm.api.task.notify_unasign_contact_owner", "crm.api.task.notify_change_info_deal"]
 	},
 	"CRM Lead": {
 		"after_insert": ["crm.api.task.notify_asign_contact"],
-		"before_save": ["crm.api.task.notify_unasign_contact", "crm.api.task.notify_change_info_lead"]
+		"before_save": ["crm.api.task.notify_unasign_contact_owner", "crm.api.task.notify_change_info_lead"]
 	}
 }
 

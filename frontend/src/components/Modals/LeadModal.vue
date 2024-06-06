@@ -55,6 +55,7 @@ const lead = reactive({
   status: '',
   lead_owner: '',
   note: '',
+  assign_to: JSON.stringify([])
 })
 
 const sections = computed(() => {
@@ -213,6 +214,7 @@ const leadStatuses = computed(() => {
 })
 
 async function createNewLead() {
+  lead.assign_to = JSON.stringify([lead.lead_owner]);
   createLead.submit(lead, {
     validate() {
       error.value = null

@@ -65,6 +65,7 @@ const deal = reactive({
   gender: '',
   status: '',
   deal_owner: '',
+  assign_to: JSON.stringify([])
 })
 
 const isDealCreating = ref(false)
@@ -231,6 +232,7 @@ const dealStatuses = computed(() => {
 })
 
 function createDeal() {
+  deal.assign_to = JSON.stringify([deal.deal_owner]);
   createResource({
     url: 'crm.fcrm.doctype.crm_deal.crm_deal.create_deal',
     params: { args: deal },
