@@ -5,7 +5,7 @@ import frappe
 def get_users():
 	users = frappe.qb.get_query(
 		"User",
-		fields=["name", "email", "enabled", "user_image", "full_name", "user_type"],
+		fields=["name", "email", "enabled", "user_image", "full_name", "user_type", "username"],
 		order_by="full_name asc",
 		distinct=True,
 	).run(as_dict=1)

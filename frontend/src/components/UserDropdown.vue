@@ -44,6 +44,7 @@
       </button>
     </template>
   </Dropdown>
+  <ConvertTaskCustomerModal v-model="showConvertTaskCustomerModal" @afterConvertTask="onAfterConvertTask()"/>
 </template>
 
 <script setup>
@@ -52,6 +53,7 @@ import { sessionStore } from '@/stores/session'
 import { usersStore } from '@/stores/users'
 import { Dropdown } from 'frappe-ui'
 import { computed, ref } from 'vue'
+import ConvertTaskCustomerModal from '@/components/Modals/ConvertTaskCustomerModal.vue'
 
 const props = defineProps({
   isCollapsed: {
@@ -59,11 +61,21 @@ const props = defineProps({
     default: false,
   },
 })
+const emit = defineEmits(['afterConvertTaskCustomer'])
 
 const { logout } = sessionStore()
 const { getUser } = usersStore()
 
 const user = computed(() => getUser() || {})
+const showConvertTaskCustomerModal = ref(false)
+
+function hadelClickConvertTask(){
+  showConvertTaskCustomerModal.value = true;
+}
+
+function onAfterConvertTask(){
+  emit('afterConvertTaskCustomer')
+}
 
 let dropdownOptions = ref([
   {
@@ -84,7 +96,12 @@ let dropdownOptions = ref([
         icon: 'book-open',
         label: computed(() => __('Docs')),
         onClick: () => window.open('https://docs.frappe.io/crm', '_blank'),
-      },
+      }
+      // ,{
+      //   icon: 'arrow-right',
+      //   label: computed(() => __('Handing over work')),
+      //   onClick: () => hadelClickConvertTask()
+      // }
     ],
   },
   {

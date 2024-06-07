@@ -72,7 +72,7 @@
 
     <Dialog :options="{
         title: __('Xác nhận'),
-        message: __(`Bạn có chắc chắn muốn bàn giao toàn bộ công việc cho ${convertTaskCustomer.to_user}?`),
+        message: __(`Bạn có chắc chắn muốn bàn giao toàn bộ công việc cho ${getUser(convertTaskCustomer.to_user).username}?`),
         size: 'xl',
         actions: [
           {

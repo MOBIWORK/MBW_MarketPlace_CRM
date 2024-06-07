@@ -355,7 +355,7 @@ const deals = createListResource({
   filters: {
     organization: props.organizationId,
   },
-  orderBy: 'creation asc',
+  orderBy: 'creation desc',
   pageLength: 20,
   auto: true,
 })
@@ -376,7 +376,7 @@ const contacts = createListResource({
   filters: {
     company_name: props.organizationId,
   },
-  orderBy: 'creation asc',
+  orderBy: 'creation desc',
   pageLength: 20,
   auto: true,
 })
