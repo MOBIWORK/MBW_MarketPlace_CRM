@@ -77,7 +77,6 @@ def get_filterable_fields(doctype: str):
 	# append DocFields
 	DocField = frappe.qb.DocType("DocField")
 	doc_fields = get_fields_meta(DocField, doctype, allowed_fieldtypes, restricted_fields)
-	print("Dòng 80 ",doc_fields)
 	doc_fields = [field for field in doc_fields if field.fieldname not in fields_without]
 	res.extend(doc_fields)
 
@@ -90,7 +89,7 @@ def get_filterable_fields(doctype: str):
 
 	# append standard fields (getting error when using frappe.model.std_fields)
 	standard_fields = [
-		# {"fieldname": "name", "fieldtype": "Link", "label": "ID", "options": doctype},
+		{"fieldname": "name", "fieldtype": "Link", "label": "ID", "options": doctype},
 		{
 			"fieldname": "owner",
 			"fieldtype": "Link",
