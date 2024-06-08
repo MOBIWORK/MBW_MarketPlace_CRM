@@ -2,7 +2,8 @@ import frappe
 from frappe import _
 from crm.api.common import (gen_response)
 import json
-from frappe.desk.form.assign_to import add as assign
+from frappe.desk.form.assign_to import add as assign, remove
+
 
 @frappe.whitelist(methods=["POST"])
 def convert_task_customer(from_user, to_user):
@@ -79,3 +80,42 @@ def convert_task_customer(from_user, to_user):
         return gen_response(200, "ok", "Thành công")
     except Exception as e:
         return gen_response(500, "error", str(e))
+
+@frappe.whitelist(methods=["POST"])
+def add_assign():
+    try:
+        args = frappe.local.form_dict
+        assign(args)
+        doc_info = frappe.get_doc(args.doctype, args.name)
+        assign_to = doc_info.assign_to
+        if assign_to is not None and assign_to != "":
+            assign_to = json.loads(assign_to)
+            for item_assign in args.assign_to:
+                if item_assign not in assign_to:
+                    assign_to.append(item_assign)
+        else:
+            assign_to = args.assign_to
+        doc_info.assign_to = json.dumps(assign_to)
+        doc_info.save()
+        return gen_response(200, "ok", "Thành công")
+    except Exception as e:
+        return gen_response(500, "error", "Lỗi")
+
+@frappe.whitelist(methods=["POST"])
+def remove_assign():
+    try:
+        args = frappe.local.form_dict
+        remove(args.doctype, args.name, args.assign_to)
+        doc_info = frappe.get_doc(args.doctype, args.name)
+        assign_to = doc_info.assign_to
+        if assign_to is not None and assign_to != "":
+            assign_to = json.loads(assign_to)
+            if args.assign_to in assign_to:
+                assign_to.remove(args.assign_to)
+        else:
+            assign_to = []
+        doc_info.assign_to = json.dumps(assign_to)
+        doc_info.save()
+        return gen_response(200, "ok", "Thành công")
+    except Exception as e:
+        return gen_response(500, "error", "Lỗi")

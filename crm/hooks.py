@@ -142,11 +142,11 @@ doc_events = {
 		"on_update": ["crm.api.whatsapp.on_update"],
 	},
 	"CRM Deal": {
-		"after_insert": ["crm.api.task.notify_asign_contact"],
+		"after_insert": ["crm.api.task.notify_owner_asign_contact"],
 		"before_save": ["crm.api.task.notify_unasign_contact_owner", "crm.api.task.notify_change_info_deal"]
 	},
 	"CRM Lead": {
-		"after_insert": ["crm.api.task.notify_asign_contact"],
+		"after_insert": ["crm.api.task.notify_owner_asign_contact"],
 		"before_save": ["crm.api.task.notify_unasign_contact_owner", "crm.api.task.notify_change_info_lead"]
 	}
 }

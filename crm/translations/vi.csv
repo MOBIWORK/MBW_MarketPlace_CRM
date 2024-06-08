@@ -25,6 +25,7 @@ Are you sure you want to delete this contact?,Bạn có chắc muốn xóa liên
 Are you sure you want to delete this organization?,Bạn có chắc muốn xóa tổ chức này không?
 Are you sure you want to delete this task?,Bạn có chắc muốn xóa công việc này không?
 Are you sure you want to delete this view?,Bạn có chắc muốn xóa chế độ xem này không?
+Are you sure you want to delete {0} item(s).All related documents will be deleted accordingly?,Bạn có chắc muốn xóa {0} mục. Tất cả các tài liệu liên quan sẽ bị xóa theo?
 Are you sure you want to delete {0} item(s)?,Bạn có chắc muốn xóa {0} mục?
 Ascending,Từ A-> Z
 Assign To,Phân công cho
@@ -593,7 +594,7 @@ Select all,Chọn tất cả
 Load More,Tải thêm
 of,của
 Row,Bản ghi
-Rows,Các bản ghi
+Rows,Bản ghi
 selected,được chọn
 Select Organization...,Chọn tổ chức...
 Text Color,Màu chữ
@@ -610,3 +611,4 @@ Show all reply comments,Hiển thị tất cả các bình luận
 Reply Comment,Phản hồi
 No Data, Không có dữ liệu
 No data available, Không có sẵn dữ liệu
+Handing over work,Bàn giao công việc

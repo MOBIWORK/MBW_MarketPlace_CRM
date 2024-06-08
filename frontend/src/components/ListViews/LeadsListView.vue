@@ -309,7 +309,7 @@ function editValues(selections, unselectAll) {
 function deleteValues(selections, unselectAll) {
   $dialog({
     title: __('Delete'),
-    message: __('Are you sure you want to delete {0} item(s)?', [
+    message: __('Are you sure you want to delete {0} item(s).All related documents will be deleted accordingly?', [
       selections.size,
     ]),
     variant: 'danger',
@@ -319,7 +319,7 @@ function deleteValues(selections, unselectAll) {
         variant: 'solid',
         theme: 'red',
         onClick: (close) => {
-          call('frappe.desk.reportview.delete_items', {
+          call('crm.api.doc.delete_items_for_leads_deals', {
             items: JSON.stringify(Array.from(selections)),
             doctype: 'CRM Lead',
           }).then(() => {

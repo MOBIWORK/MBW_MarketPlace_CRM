@@ -136,7 +136,7 @@ function updateAssignees() {
 
   if (removedAssignees.length) {
     for (let a of removedAssignees) {
-      call('frappe.desk.form.assign_to.remove', {
+      call('crm.api.activities_sys.remove_assign', {
         doctype: props.doc.doctype,
         name: props.doc.name,
         assign_to: a,
@@ -145,7 +145,7 @@ function updateAssignees() {
   }
 
   if (addedAssignees.length) {
-    call('frappe.desk.form.assign_to.add', {
+    call('crm.api.activities_sys.add_assign', {
       doctype: props.doc.doctype,
       name: props.doc.name,
       assign_to: addedAssignees,

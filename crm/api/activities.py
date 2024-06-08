@@ -26,6 +26,7 @@ def get_deal_activities(name):
 		"sla",
 		"first_response_time",
 		"first_responded_on",
+		"assign_to"
 	]
 
 	doc = frappe.db.get_values("CRM Deal", name, ["creation", "owner", "lead"])[0]
@@ -151,6 +152,7 @@ def get_lead_activities(name):
 		"sla",
 		"first_response_time",
 		"first_responded_on",
+		"assign_to"
 	]
 
 	doc = frappe.db.get_values("CRM Lead", name, ["creation", "owner"])[0]

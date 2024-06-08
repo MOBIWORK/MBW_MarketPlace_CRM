@@ -13,6 +13,7 @@ from frappe.utils.xlsxutils import (
 	read_xlsx_file_from_attached_file,
 )
 import json
+from frappe.desk.reportview import delete_bulk
 
 @frappe.whitelist()
 def sort_options(doctype: str):
@@ -494,6 +495,34 @@ def import_data_leads(source_leads, fields_dict):
 		return gen_response(200, "ok", "Thành công")
 	except Exception as e:
 		return gen_response(500, "error", str(e))
+
+@frappe.whitelist(methods=["POST"])
+def delete_items_for_leads_deals():
+	try:
+		items = sorted(json.loads(frappe.form_dict.get("items")), reverse=True)
+		doctype = frappe.form_dict.get("doctype")
+		for item in items:
+			item_task = frappe.db.exists("CRM Task", {"reference_doctype": doctype, "reference_docname": item})
+			if item_task is not None:
+				custom_field = item_task.custom_fields
+				if custom_field is not None and custom_field != "":
+					custom_field = json.loads(custom_field)
+					id_reminder = custom_field.id_reminder
+					if id_reminder is not None and id_reminder != "":
+						frappe.db.delete("Reminder", {"name": id_reminder})
+				frappe.db.delete("CRM Task", {
+					"reference_doctype": doctype,
+					"reference_docname": item
+				})
+			frappe.db.delete("FCRM Note", {"reference_doctype": doctype, "reference_docname": item})
+			frappe.db.delete("CRM Notification", {"reference_doctype": doctype, "reference_name": item})
+		if len(items) > 10:
+			frappe.enqueue("frappe.desk.reportview.delete_bulk", doctype=doctype, items=items)
+		else:
+			delete_bulk(doctype, items)
+		return gen_response(200, "ok", "Thành công")
+	except Exception as e:
+		return gen_response(500, "error", "Lỗi")
 
 @frappe.whitelist(methods=["POST"])
 def get_content_by_google_sheet(google_sheet_url):

@@ -18,7 +18,7 @@ def notify_rely_comment(doc):
     elif doc.reference_doctype == "CRM Deal":
         owner_lead_deal = info_doc.deal_owner
     owner_comment = doc.owner
-    if owner_lead_deal != owner_comment:
+    if owner_lead_deal != owner_comment and owner_comment != frappe.session.user:
         doctype = doc.reference_doctype
         if doctype.startswith("CRM "):
             doctype = doctype[4:].lower()
