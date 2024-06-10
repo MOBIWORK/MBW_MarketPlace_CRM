@@ -282,6 +282,7 @@
     :doc="deal.data"
     v-model="showAssignmentModal"
     v-model:assignees="deal.data._assignedTo"
+    @update="onUpdateLead"
   />
 </template>
 <script setup>
@@ -366,6 +367,10 @@ onMounted(() => {
   if (deal.data) return
   deal.fetch()
 })
+
+function onUpdateLead(){
+  deal.fetch();
+}
 
 const reload = ref(false)
 const showOrganizationModal = ref(false)

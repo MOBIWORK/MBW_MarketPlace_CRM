@@ -188,6 +188,7 @@
     :doc="lead.data"
     v-model="showAssignmentModal"
     v-model:assignees="lead.data._assignedTo"
+    @update="onUpdateLead"
   />
   <Dialog
     v-model="showConvertToDealModal"
@@ -347,6 +348,10 @@ const showAssignmentModal = ref(false)
 
 function onChangeStatusLead(evt){
   console.log("change lead", evt);
+}
+
+function onUpdateLead(){
+  lead.fetch()
 }
 
 function updateLead(fieldname, value, callback) {

@@ -80,8 +80,8 @@ def notify_unassign_contact(self, method):
             reference_doctype = "CRM Lead"
         if frappe.db.exists(reference_doctype, self.name) is not None:
             doc_old = frappe.get_doc(reference_doctype, self.name)
-            assign_to_old = frappe.loads(doc_old.assign_to)
-            assign_to_new = frappe.loads(self.assign_to)
+            assign_to_old = json.loads(doc_old.assign_to)
+            assign_to_new = json.loads(self.assign_to)
             for item in assign_to_old:
                 if item not in assign_to_new and owner != item and item != frappe.session.user:
                     doctype = reference_doctype
@@ -100,7 +100,7 @@ def notify_unassign_contact(self, method):
                         to_user=item,
                         type="Task",
                         message= _('{0} đã bỏ gán bạn khỏi {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
-                        notification_text=notification_text_assign,
+                        notification_text=notification_text_unassign,
                         notification_type_doctype=reference_doctype,
                         notification_type_doc="",
                         reference_doctype=reference_doctype,
@@ -136,6 +136,7 @@ def notify_unassign_contact(self, method):
                         frappe.get_doc(values_asign).insert()
 
 def notify_unasign_contact_owner(self, method):
+    print("Dòng 139 ", self)
     try:
         if self.name is not None:
             reference_doctype = ""
@@ -173,7 +174,7 @@ def notify_unasign_contact_owner(self, method):
                             to_user=tasker_old,
                             type="Task",
                             message= _('{0} đã đổi {1} Owner của {1} {2} sang {3}').format(user_info.username, doctype.capitalize(), self.name, user_info_new.username),
-                            notification_text=notification_text_assign,
+                            notification_text=notify_unasign_owner,
                             notification_type_doctype=reference_doctype,
                             notification_type_doc="",
                             reference_doctype=reference_doctype,
@@ -203,8 +204,8 @@ def notify_unasign_contact_owner(self, method):
                         )
                         if frappe.db.exists("CRM Notification", value_assign_owner) is None:
                             frappe.get_doc(value_assign_owner).insert()
-                assign_to_old = frappe.loads(doc_old.assign_to)
-                assign_to_new = frappe.loads(self.assign_to)
+                assign_to_old = json.loads(doc_old.assign_to)
+                assign_to_new = json.loads(self.assign_to)
                 for item in assign_to_old:
                     if item not in assign_to_new and owner != item and item != frappe.session.user:
                         doctype = reference_doctype
@@ -223,7 +224,7 @@ def notify_unasign_contact_owner(self, method):
                             to_user=item,
                             type="Task",
                             message= _('{0} đã bỏ gán bạn khỏi {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
-                            notification_text=notification_text_assign,
+                            notification_text=notification_text_unassign,
                             notification_type_doctype=reference_doctype,
                             notification_type_doc="",
                             reference_doctype=reference_doctype,

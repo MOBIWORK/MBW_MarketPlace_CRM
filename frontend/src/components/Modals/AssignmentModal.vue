@@ -17,6 +17,7 @@
           label: __('Update'),
           variant: 'solid',
           onClick: () => updateAssignees(),
+          loading: loadingBtn
         },
       ],
     }"
@@ -85,9 +86,12 @@ const props = defineProps({
   },
 })
 
+const emit = defineEmits(['update'])
+
 const show = defineModel()
 const assignees = defineModel('assignees')
 const oldAssignees = ref([])
+const loadingBtn = ref(false)
 
 const error = ref('')
 
@@ -113,11 +117,11 @@ const addValue = (value) => {
     label: getUser(value).full_name,
   }
   if (!assignees.value.find((assignee) => assignee.name === value)) {
-    assignees.value.push(obj)
+    assignees.value.push(obj);
   }
 }
 
-function updateAssignees() {
+async function updateAssignees() {
   if (assignees.value.length === 0) {
     error.value = __('Please select at least one assignee')
     return
@@ -132,11 +136,11 @@ function updateAssignees() {
     .filter(
       (assignee) => !oldAssignees.value.find((a) => a.name === assignee.name)
     )
-    .map((assignee) => assignee.name)
-
+    .map((assignee) => assignee.name);
+  loadingBtn.value = true;
   if (removedAssignees.length) {
     for (let a of removedAssignees) {
-      call('crm.api.activities_sys.remove_assign', {
+      await call('crm.api.activities_sys.remove_assign', {
         doctype: props.doc.doctype,
         name: props.doc.name,
         assign_to: a,
@@ -145,16 +149,22 @@ function updateAssignees() {
   }
 
   if (addedAssignees.length) {
-    call('crm.api.activities_sys.add_assign', {
+    await call('crm.api.activities_sys.add_assign', {
       doctype: props.doc.doctype,
       name: props.doc.name,
       assign_to: addedAssignees,
     })
   }
-  show.value = false
+  setTimeout(()=>{
+    loadingBtn.value = false;
+    oldAssignees.value = assignees.value;
+    emit('update');
+    show.value = false
+  }, 500)
 }
 
 watchOnce(assignees, (value) => {
   oldAssignees.value = [...value]
 })
+
 </script>

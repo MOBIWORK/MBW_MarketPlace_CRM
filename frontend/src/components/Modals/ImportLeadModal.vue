@@ -349,7 +349,7 @@ async function onFileSelected(event){
                     {'field': "source", 'label': "Nguồn"},
                     {'field': "status", 'label': "Trạng thái"},
                     {'field': "territory", 'label': "Khu vực"},
-                    {'field': "territory", 'label': "Ngành nghề"}
+                    {'field': "industry", 'label': "Ngành nghề"}
                 ]
                 for(let i = 0; i < jsonData[0].length; i++){
                     let itemColumn = {
@@ -460,7 +460,7 @@ function onNextModalPreviewFromDriver(){
                     {'field': "source", 'label': "Nguồn"},
                     {'field': "status", 'label': "Trạng thái"},
                     {'field': "territory", 'label': "Khu vực"},
-                    {'field': "territory", 'label': "Ngành nghề"}
+                    {'field': "industry", 'label': "Ngành nghề"}
                 ]
                 for(let i = 0; i < data[0].length; i++){
                     let itemColumn = {
@@ -530,30 +530,16 @@ function onBackModalPreviewData(){
 function onImportData(){
     loadingImport.value = true;
     let valid_email = true;
-    let valid_phone = true;
     for(let i = 0; i < rowsDataPreview.value.length; i++){
         if(!rowsDataPreview.value[i].valid_email){
             valid_email = false;
         }
-        if(!rowsDataPreview.value[i].valid_phone){
-            valid_phone = false;
-        }
-        if(valid_email == false && valid_phone == false) break;
+        if(valid_email == false) break;
     }
     if(valid_email == false){
         createToast({
             title: __('Error'),
             text: __("Sai định dạng email. Vui lòng kiểm tra lại"),
-            icon: 'x',
-            iconClasses: 'text-red-600',
-        })
-        loadingImport.value = false;
-        return;
-    }
-    if(valid_phone == false){
-        createToast({
-            title: __('Error'),
-            text: __("Sai định dạng số di động. Vui lòng kiểm tra lại"),
             icon: 'x',
             iconClasses: 'text-red-600',
         })

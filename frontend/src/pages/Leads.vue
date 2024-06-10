@@ -111,10 +111,6 @@ onMounted(()=>{
       break;
     }
   }
-  $socket.on('demo_event', (data) => {
-    console.log(data);
-    console.log("Dòng 187");
-  })
 })
 
 const leadsListView = ref(null)

@@ -250,12 +250,6 @@ function createDeal() {
         }
       }
       const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
-      const phoneRegex = /^(\+84|0)\d{9}$/;
-      if (deal.mobile_no && !phoneRegex.test(deal.mobile_no)) {
-        error.value = __('Mobile No should be a number')
-        return error.value
-      }
-      
       if (deal.email && !emailRegex.test(deal.email)) {
         error.value = __('Invalid Email')
         return error.value

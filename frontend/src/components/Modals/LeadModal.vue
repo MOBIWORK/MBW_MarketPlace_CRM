@@ -159,7 +159,7 @@ const sections = computed(() => {
     },
     {
       section: 'Note Details',
-      columns: 3,
+      columns: 1,
       fields: [
         {
           label: '',
@@ -232,11 +232,6 @@ async function createNewLead() {
           return error.value
         }
       }
-      const phoneRegex = /^(\+84|0)\d{9}$/;
-      if (lead.mobile_no && !phoneRegex.test(lead.mobile_no)) {
-        error.value = __('Mobile No should be a number')
-        return error.value
-      }
       const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
       if (lead.email && !emailRegex.test(lead.email)) {
         error.value = __('Invalid Email')
@@ -248,8 +243,7 @@ async function createNewLead() {
       isLeadCreating.value = false
       show.value = false
       router.push({ name: 'Lead', params: { leadId: data.name } })
-      const hasContent = /<[^>]>/g.test(lead.note)
-      if (lead.note && hasContent) {
+      if (lead.note != null && lead.note != "") {
         let d = await call('frappe.client.insert', {
           doc: {
             doctype: 'FCRM Note',

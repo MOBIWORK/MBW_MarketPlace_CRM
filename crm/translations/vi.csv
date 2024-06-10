@@ -569,7 +569,7 @@ Upload Video,Tải lên
 Remove,Xóa Video
 Insert Video,Thêm Video
 Import,Nhập dữ liệu
-Search customer,Tìm kiếm theo tên hoặc số điện thoại hoặc mail
+Search customer,Tìm kiếm khách hàng
 Search organization,Tìm kiếm theo tên tổ chức
 Search content,Tìm kiếm theo tiêu đề
 Search task,Tìm kiếm theo tiêu đề
@@ -612,3 +612,4 @@ Reply Comment,Phản hồi
 No Data, Không có dữ liệu
 No data available, Không có sẵn dữ liệu
 Handing over work,Bàn giao công việc
+Auto repair to,Tự động sửa thành 

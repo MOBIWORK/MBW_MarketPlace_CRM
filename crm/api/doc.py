@@ -472,23 +472,35 @@ def import_data_leads(source_leads, fields_dict):
 			for field_dict in fields_dict:
 				if field_dict.get('field_dict') != "none":
 					field_name = field_dict.get('field_dict')
-					field_value = lead.get(field_dict.get('key'))
-					if field_name == "source":
-						if not frappe.db.exists('CRM Lead Source', {'name': field_value}):
-							doc_source = frappe.new_doc('CRM Lead Source')
-							doc_source.source_name = field_value
-							doc_source.insert()
-					if field_name == "territory":
-						if not frappe.db.exists('CRM Territory', {'name': field_value}):
-							doc_territory = frappe.new_doc('CRM Territory')
-							doc_territory.territory_name = field_value
-							doc_territory.insert()
-					if field_name == "industry":
-						if not frappe.db.exists('CRM Industry', {'name': field_value}):
-							doc_industry = frappe.new_doc('CRM Industry')
-							doc_industry.industry = field_value
-							doc_industry.insert()
-					setattr(doc_lead, field_name, field_value)
+					field_value = None
+					if field_name == "gender":
+						gender_info = frappe.db.exists('Gender', {'gender': lead.get(field_dict.get('key'))})
+						if gender_info is not None:
+							field_value = gender_info.name
+					elif field_name == "lead_owner":
+						user_info = frappe.db.exists('User', {'email': lead.get(field_dict.get('key'))})
+						if user_info is not None:
+							field_value = user_info.name
+					elif field_name == "source":
+						source_info = frappe.db.exists('CRM Lead Source', {'source_name': lead.get(field_dict.get('key'))})
+						if source_info is not None:
+							field_value = source_info.name
+					elif field_name == "status":
+						status_info = frappe.db.exists('CRM Lead Status', {'lead_status': lead.get(field_dict.get('key'))})
+						if status_info is not None:
+							field_value = status_info.name
+					elif field_name == "territory":
+						territory_info = frappe.db.exists('CRM Territory', {'territory_name': lead.get(field_dict.get('key'))})
+						if territory_info is not None:
+							field_value = territory_info.name
+					elif field_name == "industry":
+						industry_info = frappe.db.exists('CRM Industry', {'industry': lead.get(field_dict.get('key'))})
+						if industry_info is not None:
+							field_value = industry_info.name
+					else:
+						field_value = lead.get(field_dict.get('key'))
+					if field_value is not None and field_value != "":
+						setattr(doc_lead, field_name, field_value)
 			if doc_lead.status is None:
 				doc_lead.status = "Mới"
 			doc_lead.insert()
