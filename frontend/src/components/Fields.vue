@@ -96,7 +96,7 @@
             @focus="handleFocus(data[field.name], field.name)" @blur="handleBlur(data[field.name], field.name)" />
           <div v-if="showAutoRepairEmail[field.name]">
             <div style="display: flex;justify-content:space-between;" class="mt-2">
-              <div class="whitespace-pre-line text-sm text-red-600">{{__('Auto repair to')}} "{{emailCorrect}}"</div>
+              <div class="whitespace-pre-line text-sm text-red-600">{{__('Correct format')}}: "{{emailCorrect}}"</div>
               <div style="cursor: pointer;" @click="onAutoRepairEmail(field.name)">
                 <FeatherIcon name="check" class="h-4 w-4 text-red-500" style="font-size: 12px;" />
               </div>

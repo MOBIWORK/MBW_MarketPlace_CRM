@@ -32,5 +32,37 @@ class CommentChild(Document):
 			)
 			if frappe.db.exists("CRM Notification", value_notify_comment) is None:
 				frappe.get_doc(value_notify_comment).insert()
+		doc_commnet_parent = frappe.get_doc('Comment', self.id_comment_parent)
+		doc_info = frappe.get_doc(doc_commnet_parent.reference_doctype, doc_commnet_parent.reference_name)
+		to_user = ""
+		dict_doc = ""
+		if doc_commnet_parent.reference_doctype == "CRM Lead":
+			to_user = doc_info.lead_owner
+			dict_doc = "lead"
+		else doc_commnet_parent.reference_doctype == "CRM Deal":
+			to_user = doc_info.deal_owner
+			dict_doc = "deal"
+		if to_user != owner_child and to_user != owner_parent and to_user != frappe.session.user:
+			user_info = frappe.get_doc('User', owner_child)
+			notification_txt_owner = f"""
+				<div class="mb-2 leading-5 text-gray-600">
+					<span class="font-medium text-gray-900">{ user_info.username }</span>
+					<span>{ _('đã bình luận về ') } {dict_doc} của bạn</span>
+				</div>
+			"""
+			value_notify_owner = frappe._dict(
+				doctype="CRM Notification",
+				from_user=owner_child,
+				to_user=to_user,
+				type="RelyComment",
+				message="",
+				notification_text=notification_txt_owner,
+				notification_type_doctype="Comment Child",
+				notification_type_doc="",
+				reference_doctype="Comment Child",
+				reference_name=""
+			)
+			if frappe.db.exists("CRM Notification", value_notify_owner) is None:
+				frappe.get_doc(value_notify_owner).insert()
 
 
