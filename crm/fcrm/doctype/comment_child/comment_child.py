@@ -39,7 +39,7 @@ class CommentChild(Document):
 		if doc_commnet_parent.reference_doctype == "CRM Lead":
 			to_user = doc_info.lead_owner
 			dict_doc = "lead"
-		else doc_commnet_parent.reference_doctype == "CRM Deal":
+		elif doc_commnet_parent.reference_doctype == "CRM Deal":
 			to_user = doc_info.deal_owner
 			dict_doc = "deal"
 		if to_user != owner_child and to_user != owner_parent and to_user != frappe.session.user:
