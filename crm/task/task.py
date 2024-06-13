@@ -39,19 +39,16 @@ class Reminder(Document):
 			frappe.throw(_("Reminder cannot be created in past."))
 
 	def send_reminder(self):
-		print("Dòng 42 sender reminder")
 		if self.notified:
 			return
 
 		self.db_set("notified", 1, update_modified=False)
 
 		try:
-			print("Dòng 49 vào đây")
             if self.reminder_doctype == "CRM Task":
                 doc_task = frappe.get_doc('CRM Task', self.reminder_docname)
 				date_remind_task = datetime.strptime(doc_task.remind_task, '%Y-%m-%d %H:%M:%S')
 				date_due_date = datetime.strptime(doc_task.due_date, '%Y-%m-%d %H:%M:%S')
-				print("So sánh date ", date_remind_task <= date_due_date)
 				if date_remind_task <= date_due_date:
 					delta = date_due_date - date_remind_task
 					minutes = delta.total_seconds() / 60
@@ -120,7 +117,6 @@ def send_reminders():
 		],
 		pluck="name",
 	)
-	print("Dòng 123 sender reminder ", pending_reminders)
 	for reminder in pending_reminders:
 		frappe.get_doc("Reminder", reminder).send_reminder()
 

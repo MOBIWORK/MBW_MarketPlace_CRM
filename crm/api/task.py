@@ -136,7 +136,6 @@ def notify_unassign_contact(self, method):
                         frappe.get_doc(values_asign).insert()
 
 def notify_unasign_contact_owner(self, method):
-    print("Dòng 139 ", self)
     try:
         if self.name is not None:
             reference_doctype = ""
