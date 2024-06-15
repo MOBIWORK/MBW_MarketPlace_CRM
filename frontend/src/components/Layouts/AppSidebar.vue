@@ -58,7 +58,7 @@
                 class="h-4 text-gray-900 transition-all duration-300 ease-in-out"
                 :class="{ 'rotate-90': opened }"
               />
-              <span>{{ __(view.name) }}</span>
+              <span>{{localize_name(view.name)}}</span>
             </div>
           </template>
           <nav class="flex flex-col">
@@ -203,6 +203,11 @@ function parseView(views) {
       },
     }
   })
+}
+
+function localize_name(name){
+  if( name == "Pinned views" ) return "Ghim khung nhìn";
+  else if(name == "Public views") return "Khung nhìn chia sẻ"; 
 }
 
 function getIcon(routeName) {

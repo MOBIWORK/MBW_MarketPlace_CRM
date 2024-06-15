@@ -156,7 +156,7 @@ Email from Lead,Email từ Lead
 Emails,Email
 Empty - Choose a field to filter by,Trống - Chọn một trường để lọc theo
 Empty - Choose a field to sort by,Trống - Chọn một trường để sắp xếp theo
-Enabled,
+Enabled,Đã bật
 End Date,Ngày kết thúc
 End Time,Thời gian kết thúc
 Equals,Bằng
@@ -226,11 +226,14 @@ Keyboard Shortcuts,Phím tắt bàn phím
 Label,Nhãn
 Last 6 Months,Sáu tháng trước
 Last Month,Tháng trước
+last month,tháng trước
 Last Name,Họ
 Last Quarter,Quý trước
 Last Status Change Log,Lần cuối thay đổi trạng thái nhật ký
 Last Week,Tuần trước
+last week,tuần trước
 Last Year,Năm trước
+last year,năm trước
 Last modified,Lần cuối chỉnh sửa
 Lead,Lead
 Lead Name,Tên Lead
@@ -342,7 +345,6 @@ Person,Thông tin cá nhân
 Phone,Điện thoại
 Pin View,Xem ghim
 Pinned,Ghim
-Pinned Views,Ghi chú được ghim
 Please enable twilio settings before making a call.,Vui lòng bật thiết lập twilio trước khi thực hiện cuộc gọi.
 Please select an existing contact,Vui lòng chọn một liên hệ hiện có
 Please select an existing organization,Vui lòng chọn một tổ chức hiện có
@@ -355,6 +357,7 @@ Priority,Mức ưu tiên
 Probability,Xác suất
 Public,Công khai
 Public Views,Các chế độ xem công khai
+Pinned Views,Ghim khung nhìn
 Queued,Đang chờ
 Read,Đã đọc
 Record Calls,Ghi âm cuộc gọi
@@ -480,7 +483,7 @@ Workday,Ngày làm việc
 Working Hours,Giờ làm việc
 Yesterday,Hôm qua
 You,Bạn
-added a,đã thêm
+added,đã thêm
 amber,màu vàng
 applyFilter,áp dụng bộ lọc
 black,màu đen
@@ -603,14 +606,72 @@ Add Image,Thêm ảnh
 Select another image,Chọn ảnh khác
 Select an image,Chọn một ảnh
 Insert Image,Thêm ảnh
-Set Link,Đặt liên kết,
+Set Link,Đặt liên kết
 Due Date: 01/04/2024 11:30 PM,Ngày đáo hạn: 01/04/2024 11:30 PM
-Remind task,Nhắc nhở công việc,
+Remind task,Nhắc nhở công việc
 Hide all reply comments,Ẩn tất cả các bình luận
 Show all reply comments,Hiển thị tất cả các bình luận
 Reply Comment,Phản hồi
-No Data, Không có dữ liệu
-No data available, Không có sẵn dữ liệu
+No Data,Không có dữ liệu
+No data available,Không có sẵn dữ liệu
 Handing over work,Bàn giao công việc
 Auto repair to,Chuyển thành
 Correct format,Định dạng đúng
+just now,mới đây
+seconds ago,giây trước
+minutes ago,phút trước
+hours ago,giờ trước
+days ago,ngày trước
+weeks ago,tuần trước
+months ago,tháng trước
+years ago,năm trước
+as,bằng
+removed,đã xóa
+value,giá trị
+changed,đã thay đổi
+from,từ
+to,thành
+Paragraph,Đoạn văn
+Heading 1,Tiêu đề 1
+Heading 2,Tiêu đề 2
+Heading 3,Tiêu đề 3
+Heading 4,Tiêu đề 4
+Heading 5,Tiêu đề 5
+Heading 6,Tiêu đề 6
+Bold,Chữ đậm,
+Italic,Chữ nghiêng
+Underline,Gạch chân
+Bullet List,Danh sách chấm
+Numbered List,Danh sách thứ tự
+Align Center,Căn giữa
+Align Left,Căn trái
+Align Right,Căn phải
+Font Color,Màu chữ
+Blockquote,Trích dẫn
+Code,Mã
+Horizontal Rule,Quy tắc ngang
+Link,Liên kết
+Image,Ảnh
+Video,Video
+Undo,Hoàn tác
+Redo,Làm lại
+Insert Table,Thêm bảng
+Add Column Before,Thêm cột trước
+Add Column After,Thêm cột sau
+Delete Column,Xóa cột
+Add Row Before,Thêm hàng trước
+Add Row After,Thêm hàng sau
+Delete Row,Xóa hàng
+Delete Table,Xóa bảng
+Merge Cells,Hợp nhất các ô
+Split Cell,Tách ô
+Toggle Header Column,Chuyển đổi cột tiêu đề
+Toggle Header Row,Chuyển đổi hàng tiêu đề
+Toggle Header Cell,Chuyển đổi ô tiêu đề
+No Comment,Không có bình luận
+All,Tất cả
+Comments,Bình luận
+Reminds,Nhắc nhở
+
+
+

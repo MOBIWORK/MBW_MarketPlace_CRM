@@ -449,7 +449,7 @@ const viewsDropdownOptions = computed(() => {
       })
     pinnedViews.length &&
       _views.push({
-        group: __('Pinned Views'),
+        group: "Ghim khung nhìn",
         items: pinnedViews,
       })
   }
@@ -656,7 +656,7 @@ const viewActions = computed(() => {
 function duplicateView() {
   let label = __(getView(route.query.view)?.label) || __('List View')
   view.value.name = ''
-  view.value.label = label + __(' (New)')
+  view.value.label = `${label} (${__('New')})`
   showViewModal.value = true
 }
 

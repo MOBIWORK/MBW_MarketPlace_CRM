@@ -43,7 +43,14 @@ export function dateFormat(date, format) {
 }
 
 export function timeAgo(date) {
-  return useTimeAgo(date).value;
+  if(date == null || date == "") return "";
+  let valueTimeAgo = useTimeAgo(date).value;
+  const regex = /(\d+)?\s*(\w+\s\w+|\w+)/;
+  const match = valueTimeAgo.match(regex);
+  let number = match[1] || '';
+  let word = match[2] || '';
+  if (number != null && number != "") return `${number} ${__(word)}`;
+  return `${__(word)}`;
 }
 
 export const dateTooltipFormat = 'ddd, MMM D, YYYY h:mm A'

@@ -67,9 +67,6 @@
       v-model:attachments="attachments"
       :doctype="doctype"
       :subject="subject"
-      :placeholder="
-        __('Hi John, \n\nCan you please provide more details on this...')
-      "
     />
   </div>
   <div v-show="showCommentBox">
@@ -91,7 +88,6 @@
       v-model="doc.data"
       v-model:attachments="attachments"
       :doctype="doctype"
-      :placeholder="__('@John, can you please check this?')"
     />
   </div>
 </template>

@@ -40,10 +40,10 @@
         </div>
       </div>
       <div style="display: flex;">
-        <div :class="['btn-filter-notify', { 'btn-filter-notify-active': notify_type === 'all' }]" @click="chang_type_notify('all')">Tất cả</div>
-        <div :class="['btn-filter-notify', { 'btn-filter-notify-active': notify_type === 'Comment' }]" @click="chang_type_notify('Comment')">Comment</div>
-        <div :class="['btn-filter-notify', { 'btn-filter-notify-active': notify_type === 'Task' }]" @click="chang_type_notify('Task')">Công việc</div>
-        <div :class="['btn-filter-notify', { 'btn-filter-notify-active': notify_type === 'Remind' }]" @click="chang_type_notify('Remind')">Nhắc nhở</div>
+        <div :class="['btn-filter-notify', { 'btn-filter-notify-active': notify_type === 'all' }]" @click="chang_type_notify('all')">{{__('All')}}</div>
+        <div :class="['btn-filter-notify', { 'btn-filter-notify-active': notify_type === 'Comment' }]" @click="chang_type_notify('Comment')">{{__('Comments')}}</div>
+        <div :class="['btn-filter-notify', { 'btn-filter-notify-active': notify_type === 'Task' }]" @click="chang_type_notify('Task')">{{__('Tasks')}}</div>
+        <div :class="['btn-filter-notify', { 'btn-filter-notify-active': notify_type === 'Remind' }]" @click="chang_type_notify('Remind')">{{__('Reminds')}}</div>
       </div>
       <div
         v-if="notificationsStore().allNotifications?.length"
@@ -190,7 +190,6 @@ onMounted(() => {
     notificationsStore().notifications.reload()
   })
   $socket.on('web_notification', (data) => {
-    console.log(data);
     if(user == data.to_user){
       createToast({
         title: data.message,

@@ -1031,6 +1031,7 @@ const all_activities = createResource({
     return { versions, calls, notes, tasks, comments }
   },
 })
+console.log(all_activities);
 
 const showWhatsappTemplates = ref(false)
 

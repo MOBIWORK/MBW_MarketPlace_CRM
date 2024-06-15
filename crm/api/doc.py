@@ -156,6 +156,8 @@ def get_list_data(
 ):
 	custom_view = False
 	filters = frappe._dict(filters)
+	if 'assign_to' in filters:
+		del filters['assign_to']
 	for key in filters:
 		value = filters[key]
 		if isinstance(value, list):
@@ -200,6 +202,7 @@ def get_list_data(
 			columns = _list.default_list_data().get("columns")
 			rows = _list.default_list_data().get("rows")
 
+	columns = [column for column in columns if column.get('key') != 'assign_to']
 	# check if rows has all keys from columns if not add them
 	for column in columns:
 		if column.get("key") not in rows:
