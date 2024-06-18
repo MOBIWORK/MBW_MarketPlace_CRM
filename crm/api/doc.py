@@ -457,9 +457,10 @@ def get_fields(doctype: str):
 			and not field.read_only
 			and not field.is_virtual
 			and field.fieldname
+			and field.fieldname != "assign_to"
 		):
 			_fields.append({
-				"label": field.label,
+				"label": _(field.label),
 				"type": field.fieldtype,
 				"value": field.fieldname,
 				"options": field.options,

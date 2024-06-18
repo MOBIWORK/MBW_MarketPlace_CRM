@@ -14,6 +14,7 @@ class CommentChild(Document):
 		else:
 			owner_parent = frappe.db.get_value('Comment', self.id_comment_parent, 'owner')
 		owner_child = self.owner
+		doc_commnet_parent = frappe.get_doc('Comment', self.id_comment_parent)
 		if owner_child != owner_parent and owner_parent != frappe.session.user:
 			user_info = frappe.get_doc('User', owner_child)
 			notification_text_comment = f"""
@@ -31,12 +32,11 @@ class CommentChild(Document):
 				notification_text=notification_text_comment,
 				notification_type_doctype="Comment Child",
 				notification_type_doc="",
-				reference_doctype="Comment Child",
-				reference_name=""
+				reference_doctype=doc_commnet_parent.reference_doctype,
+				reference_name=doc_commnet_parent.reference_name
 			)
 			if frappe.db.exists("CRM Notification", value_notify_comment) is None:
 				frappe.get_doc(value_notify_comment).insert()
-		doc_commnet_parent = frappe.get_doc('Comment', self.id_comment_parent)
 		doc_info = frappe.get_doc(doc_commnet_parent.reference_doctype, doc_commnet_parent.reference_name)
 		to_user = ""
 		dict_doc = ""
@@ -63,8 +63,8 @@ class CommentChild(Document):
 				notification_text=notification_txt_owner,
 				notification_type_doctype="Comment Child",
 				notification_type_doc="",
-				reference_doctype="Comment Child",
-				reference_name=""
+				reference_doctype=doc_commnet_parent.reference_doctype,
+				reference_name=doc_commnet_parent.reference_name
 			)
 			if frappe.db.exists("CRM Notification", value_notify_owner) is None:
 				frappe.get_doc(value_notify_owner).insert()

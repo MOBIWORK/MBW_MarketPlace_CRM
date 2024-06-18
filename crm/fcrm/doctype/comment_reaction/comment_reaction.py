@@ -27,8 +27,8 @@ class CommentReaction(Document):
 					notification_text=notification_text,
 					notification_type_doctype="Comment Reaction",
 					notification_type_doc="",
-					reference_doctype="Comment Reaction",
-					reference_name="",
+					reference_doctype=comment_child.reference_doctype,
+					reference_name=comment_child.reference_name,
 				)
 				if frappe.db.exists("CRM Notification", values_notify) is None:
 					frappe.get_doc(values_notify).insert()

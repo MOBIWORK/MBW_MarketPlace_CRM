@@ -365,14 +365,12 @@
               </div>
             </div>
           </div>
-          <div class="flex mt-1">
+          <div class="flex mt-1 items-baseline">
             <Reactions doctype="Comment Reaction" :name="activity.name" v-model:reactions="activity.reactions"
               :read-only-mode="readOnlyMode" :id_comment="activity.name" />
-            <Button @click="showCommentBoxForActivity(activity)" style="margin-left: 10px" class="reply-button"
-              :variant="'subtle'" theme="gray" size="sm" label="Reply" :loading="false" :loadingText="null"
-              :disabled="false" :link="null">
+            <div @click="showCommentBoxForActivity(activity)" style="margin-left: 7px;cursor: pointer;font-size: 14px;color:#575353;">
               {{ __('Reply Comment') }}
-            </Button>
+            </div>
           </div>
           <div style="width: 100%;"
             v-if="activity.child_comment && activity.child_comment.length > 0 && activity.show_childcomment"
@@ -400,12 +398,12 @@
               </div>
               <p class="block">{{ activity_child.content }}</p>
             </div>
-            <div class="flex ml-5 mt-1">
+            <div class="flex ml-5 mt-1 items-baseline">
               <Reactions doctype="CommentChild Reaction" :name="index" v-model:reactions="activity_child.reactions"
                 :read-only-mode="readOnlyMode" :id_comment="activity_child.name" />
-              <Button @click="showCommentForChildComment(activity, activity_child)" style="margin-left:10px" class="reply-button"
-                :variant="'subtle'" theme="gray" size="sm" label="Reply" :loading="false" :loadingText="null"
-                :disabled="false" :link="null">{{__('Reply Comment')}}</Button>
+                <div @click="showCommentForChildComment(activity, activity_child)" style="margin-left: 7px;cursor: pointer;font-size: 14px;color:#575353;">
+                  {{ __('Reply Comment') }}
+                </div>
             </div>
           </div>
           <div v-if="activity.child_comment && activity.child_comment.length > 0" style="margin-top: 5px;">

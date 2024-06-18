@@ -5,6 +5,7 @@ from frappe import _
 from bs4 import BeautifulSoup
 
 def on_insert_comment(self, method):
+    print("Dòng 8 ", self.comment_type)
     notify_mentions(self)
     if self.comment_type == "Comment":
         notify_rely_comment(self)
@@ -18,7 +19,8 @@ def notify_rely_comment(doc):
     elif doc.reference_doctype == "CRM Deal":
         owner_lead_deal = info_doc.deal_owner
     owner_comment = doc.owner
-    if owner_lead_deal != owner_comment and owner_comment != frappe.session.user:
+    print("Dòng 22 ", owner_lead_deal, owner_comment, frappe.session.user)
+    if owner_lead_deal != owner_comment and owner_lead_deal != frappe.session.user:
         doctype = doc.reference_doctype
         if doctype.startswith("CRM "):
             doctype = doctype[4:].lower()
