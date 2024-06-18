@@ -368,7 +368,7 @@
           <div class="flex mt-1 items-baseline">
             <Reactions doctype="Comment Reaction" :name="activity.name" v-model:reactions="activity.reactions"
               :read-only-mode="readOnlyMode" :id_comment="activity.name" />
-            <div @click="showCommentBoxForActivity(activity)" style="margin-left: 7px;cursor: pointer;font-size: 14px;color:#575353;">
+            <div @click="showCommentBoxForActivity(activity)" style="margin-left: 7px;cursor: pointer;" class="text-sm text-gray-600">
               {{ __('Reply Comment') }}
             </div>
           </div>
@@ -401,7 +401,7 @@
             <div class="flex ml-5 mt-1 items-baseline">
               <Reactions doctype="CommentChild Reaction" :name="index" v-model:reactions="activity_child.reactions"
                 :read-only-mode="readOnlyMode" :id_comment="activity_child.name" />
-                <div @click="showCommentForChildComment(activity, activity_child)" style="margin-left: 7px;cursor: pointer;font-size: 14px;color:#575353;">
+                <div @click="showCommentForChildComment(activity, activity_child)" style="margin-left: 7px;cursor: pointer;" class="text-sm text-gray-600">
                   {{ __('Reply Comment') }}
                 </div>
             </div>
