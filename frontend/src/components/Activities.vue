@@ -1,25 +1,15 @@
 <template>
-  <div
-    class="mx-10 mb-4 mt-8 flex items-center justify-between text-lg font-medium"
-  >
+  <div class="mx-10 mb-4 mt-8 flex items-center justify-between text-lg font-medium">
     <div class="flex h-8 items-center text-xl font-semibold text-gray-800">
       {{ __(title) }}
     </div>
-    <Button
-      v-if="title == 'Emails'"
-      variant="solid"
-      @click="$refs.emailBox.show = true"
-    >
+    <Button v-if="title == 'Emails'" variant="solid" @click="$refs.emailBox.show = true">
       <template #prefix>
         <FeatherIcon name="plus" class="h-4 w-4" />
       </template>
       <span>{{ __('New Email') }}</span>
     </Button>
-    <Button
-      v-else-if="title == 'Calls'"
-      variant="solid"
-      @click="makeCall(doc.data.mobile_no)"
-    >
+    <Button v-else-if="title == 'Calls'" variant="solid" @click="makeCall(doc.data.mobile_no)">
       <template #prefix>
         <PhoneIcon class="h-4 w-4" />
       </template>
@@ -37,21 +27,14 @@
       </template>
       <span>{{ __('New Task') }}</span>
     </Button>
-    <Button
-      v-else-if="title == 'Comment'"
-      variant="solid"
-      @click="$refs.emailBox.showComment = true"
-    >
+    <Button v-else-if="title == 'Comment'" variant="solid" @click="$refs.emailBox.showComment = true">
       <template #prefix>
         <FeatherIcon name="plus" class="h-4 w-4" />
       </template>
       <span>{{ __('New Comment') }}</span>
     </Button>
     <div class="flex gap-2" v-else-if="title == 'WhatsApp'">
-      <Button
-        :label="__('Send Template')"
-        @click="showWhatsappTemplates = true"
-      />
+      <Button :label="__('Send Template')" @click="showWhatsappTemplates = true" />
       <Button variant="solid" @click="$refs.whatsappBox.show()">
         <template #prefix>
           <FeatherIcon name="plus" class="h-4 w-4" />
@@ -67,84 +50,48 @@
           </template>
           <span>{{ __('New') }}</span>
           <template #suffix>
-            <FeatherIcon
-              :name="open ? 'chevron-up' : 'chevron-down'"
-              class="h-4 w-4"
-            />
+            <FeatherIcon :name="open ? 'chevron-up' : 'chevron-down'" class="h-4 w-4" />
           </template>
         </Button>
       </template>
     </Dropdown>
   </div>
-  <div
-    v-if="all_activities?.loading"
-    class="flex flex-1 flex-col items-center justify-center gap-3 text-xl font-medium text-gray-500"
-  >
+  <div v-if="all_activities?.loading"
+    class="flex flex-1 flex-col items-center justify-center gap-3 text-xl font-medium text-gray-500">
     <LoadingIndicator class="h-6 w-6" />
     <span>{{ __('Loading...') }}</span>
   </div>
-  <FadedScrollableDiv
-    v-else-if="title == 'WhatsApp' && whatsappMessages.data?.length"
-    :maskHeight="30"
-    class="activities flex-1 overflow-y-auto"
-  >
-    <WhatsAppArea
-      class="px-10"
-      v-model="whatsappMessages"
-      v-model:reply="replyMessage"
-      :messages="whatsappMessages.data"
-    />
+  <FadedScrollableDiv v-else-if="title == 'WhatsApp' && whatsappMessages.data?.length" :maskHeight="30"
+    class="activities flex-1 overflow-y-auto">
+    <WhatsAppArea class="px-10" v-model="whatsappMessages" v-model:reply="replyMessage"
+      :messages="whatsappMessages.data" />
   </FadedScrollableDiv>
-  <FadedScrollableDiv
-    v-else-if="activities?.length"
-    :maskHeight="30"
-    class="activities flex-1 overflow-y-auto"
-  >
-    <div
-      v-if="title == 'Notes'"
-      class="activity grid grid-cols-1 gap-4 px-10 pb-5 lg:grid-cols-2 xl:grid-cols-3"
-    >
-      <div
-        v-for="note in activities"
+  <FadedScrollableDiv v-else-if="activities?.length" :maskHeight="30" class="activities flex-1 overflow-y-auto">
+    <div v-if="title == 'Notes'" class="activity grid grid-cols-1 gap-4 px-10 pb-5 lg:grid-cols-2 xl:grid-cols-3">
+      <div v-for="note in activities"
         class="group flex h-48 cursor-pointer flex-col justify-between gap-2 rounded-md bg-gray-50 px-4 py-3 hover:bg-gray-100"
-        @click="showNote(note)"
-      >
+        @click="showNote(note)">
         <div class="flex items-center justify-between">
           <div class="truncate text-lg font-medium">
             {{ note.title }}
           </div>
-          <Dropdown
-            :options="[
-              {
-                label: __('Delete'),
-                icon: 'trash-2',
-                onClick: () => deleteNote(note.name),
-              },
-            ]"
-            @click.stop
-            class="h-6 w-6"
-          >
-            <Button
-              icon="more-horizontal"
-              variant="ghosted"
-              class="!h-6 !w-6 hover:bg-gray-100"
-            />
+          <Dropdown :options="[
+            {
+              label: __('Delete'),
+              icon: 'trash-2',
+              onClick: () => deleteNote(note.name),
+            },
+          ]" @click.stop class="h-6 w-6">
+            <Button icon="more-horizontal" variant="ghosted" class="!h-6 !w-6 hover:bg-gray-100" />
           </Dropdown>
         </div>
-        <TextEditor
-          v-if="note.content"
-          :content="note.content"
-          :editable="false"
+        <TextEditor v-if="note.content" :content="note.content" :editable="false"
           editor-class="!prose-sm max-w-none !text-sm text-gray-600 focus:outline-none"
-          class="flex-1 overflow-hidden"
-        />
+          class="flex-1 overflow-hidden" />
         <div class="mt-1 flex items-center justify-between gap-2">
           <div class="flex items-center gap-2 truncate">
             <UserAvatar :user="note.owner" size="xs" />
-            <div
-              class="truncate text-sm text-gray-800"
-              :title="getUser(note.owner).full_name"
-            >
+            <div class="truncate text-sm text-gray-800" :title="getUser(note.owner).full_name">
               {{ getUser(note.owner).full_name }}
             </div>
           </div>
@@ -158,10 +105,8 @@
     </div>
     <div v-else-if="title == 'Tasks'" class="activity px-10 pb-5">
       <div v-for="(task, i) in activities">
-        <div
-          class="flex cursor-pointer gap-6 rounded p-2.5 duration-300 ease-in-out hover:bg-gray-50"
-          @click="showTask(task)"
-        >
+        <div class="flex cursor-pointer gap-6 rounded p-2.5 duration-300 ease-in-out hover:bg-gray-50"
+          @click="showTask(task)">
           <div class="flex flex-1 flex-col gap-1.5 text-base">
             <div class="font-medium text-gray-900">
               {{ task.title }}
@@ -171,18 +116,12 @@
                 <UserAvatar :user="task.assigned_to" size="xs" />
                 {{ getUser(task.assigned_to).full_name }}
               </div>
-              <div
-                v-if="task.due_date"
-                class="flex items-center justify-center"
-              >
+              <div v-if="task.due_date" class="flex items-center justify-center">
                 <DotIcon class="h-2.5 w-2.5 text-gray-600" :radius="2" />
               </div>
               <div v-if="task.due_date">
-                <Tooltip
-                  :text="
-                    dateFormat(task.due_date, 'ddd, MMM D, YYYY | hh:mm a')
-                  "
-                >
+                <Tooltip :text="dateFormat(task.due_date, 'ddd, MMM D, YYYY | hh:mm a')
+                  ">
                   <div class="flex gap-2">
                     <CalendarIcon />
                     <div>{{ dateFormat(task.due_date, 'D MMM, hh:mm a') }}</div>
@@ -199,54 +138,41 @@
             </div>
           </div>
           <div class="flex items-center gap-1">
-            <Dropdown
-              :options="taskStatusOptions(updateTaskStatus, task)"
-              @click.stop
-            >
+            <Dropdown :options="taskStatusOptions(updateTaskStatus, task)" @click.stop>
               <Tooltip :text="__('Change Status')">
                 <Button variant="ghosted" class="hover:bg-gray-300">
                   <TaskStatusIcon :status="task.status" />
                 </Button>
               </Tooltip>
             </Dropdown>
-            <Dropdown
-              :options="[
-                {
-                  label: __('Delete'),
-                  icon: 'trash-2',
-                  onClick: () => {
-                    $dialog({
-                      title: __('Delete Task'),
-                      message: __('Are you sure you want to delete this task?'),
-                      actions: [
-                        {
-                          label: __('Delete'),
-                          theme: 'red',
-                          variant: 'solid',
-                          onClick(close) {
-                            deleteTask(task.name)
-                            close()
-                          },
+            <Dropdown :options="[
+              {
+                label: __('Delete'),
+                icon: 'trash-2',
+                onClick: () => {
+                  $dialog({
+                    title: __('Delete Task'),
+                    message: __('Are you sure you want to delete this task?'),
+                    actions: [
+                      {
+                        label: __('Delete'),
+                        theme: 'red',
+                        variant: 'solid',
+                        onClick(close) {
+                          deleteTask(task.name)
+                          close()
                         },
-                      ],
-                    })
-                  },
+                      },
+                    ],
+                  })
                 },
-              ]"
-              @click.stop
-            >
-              <Button
-                icon="more-horizontal"
-                variant="ghosted"
-                class="hover:bg-gray-300"
-              />
+              },
+            ]" @click.stop>
+              <Button icon="more-horizontal" variant="ghosted" class="hover:bg-gray-300" />
             </Dropdown>
           </div>
         </div>
-        <div
-          v-if="i < activities.length - 1"
-          class="mx-2 h-px border-t border-gray-200"
-        />
+        <div v-if="i < activities.length - 1" class="mx-2 h-px border-t border-gray-200" />
       </div>
     </div>
     <div v-else-if="title == 'Calls'" class="activity">
@@ -254,22 +180,13 @@
         <div class="grid grid-cols-[30px_minmax(auto,_1fr)] gap-4 px-10">
           <div
             class="relative flex justify-center after:absolute after:left-[50%] after:top-0 after:-z-10 after:border-l after:border-gray-200"
-            :class="i != activities.length - 1 ? 'after:h-full' : 'after:h-4'"
-          >
-            <div
-              class="z-10 mt-[15px] flex h-7 w-7 items-center justify-center rounded bg-gray-100"
-            >
-              <component
-                :is="
-                  call.type == 'Incoming' ? InboundCallIcon : OutboundCallIcon
-                "
-                class="text-gray-800"
-              />
+            :class="i != activities.length - 1 ? 'after:h-full' : 'after:h-4'">
+            <div class="z-10 mt-[15px] flex h-7 w-7 items-center justify-center rounded bg-gray-100">
+              <component :is="call.type == 'Incoming' ? InboundCallIcon : OutboundCallIcon
+                " class="text-gray-800" />
             </div>
           </div>
-          <div
-            class="mb-3 flex max-w-[70%] flex-col gap-3 rounded-md bg-gray-50 p-4"
-          >
+          <div class="mb-3 flex max-w-[70%] flex-col gap-3 rounded-md bg-gray-50 p-4">
             <div class="flex items-center justify-between">
               <div>
                 {{
@@ -294,11 +211,8 @@
                   {{ call.duration }}
                 </div>
               </div>
-              <div
-                v-if="call.recording_url"
-                class="flex cursor-pointer select-none items-center gap-1"
-                @click="call.show_recording = !call.show_recording"
-              >
+              <div v-if="call.recording_url" class="flex cursor-pointer select-none items-center gap-1"
+                @click="call.show_recording = !call.show_recording">
                 <PlayIcon class="h-4 w-4 text-gray-600" />
                 <div class="text-sm text-gray-600">
                   {{
@@ -309,19 +223,13 @@
                 </div>
               </div>
             </div>
-            <div
-              v-if="call.show_recording && call.recording_url"
-              class="flex items-center justify-between rounded border"
-            >
+            <div v-if="call.show_recording && call.recording_url"
+              class="flex items-center justify-between rounded border">
               <audio class="audio-control" controls :src="call.recording_url" />
             </div>
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-1">
-                <Avatar
-                  :image="call.caller.image"
-                  :label="call.caller.label"
-                  size="xl"
-                />
+                <Avatar :image="call.caller.image" :label="call.caller.label" size="xl" />
                 <div class="ml-1 flex flex-col gap-1">
                   <div class="text-base font-medium">
                     {{ __(call.caller.label) }}
@@ -330,15 +238,8 @@
                     {{ call.from }}
                   </div>
                 </div>
-                <FeatherIcon
-                  name="arrow-right"
-                  class="mx-2 h-5 w-5 text-gray-600"
-                />
-                <Avatar
-                  :image="call.receiver.image"
-                  :label="call.receiver.label"
-                  size="xl"
-                />
+                <FeatherIcon name="arrow-right" class="mx-2 h-5 w-5 text-gray-600" />
+                <Avatar :image="call.receiver.image" :label="call.receiver.label" size="xl" />
                 <div class="ml-1 flex flex-col gap-1">
                   <div class="text-base font-medium">
                     {{ __(call.receiver.label) }}
@@ -362,70 +263,47 @@
             activity.other_versions
               ? 'after:translate-y-[calc(-50% - 4px)] after:absolute after:bottom-9 after:left-[50%] after:top-0 after:-z-10 after:w-8 after:rounded-bl-xl after:border-b after:border-l after:border-gray-200'
               : '',
-          ]"
-        >
-          <div
-            class="z-10 flex h-7 w-7 items-center justify-center rounded bg-gray-100"
-            :class="{
-              'mt-3': [
-                'communication',
-                'incoming_call',
-                'outgoing_call',
-              ].includes(activity.activity_type),
-              'bg-white': ['added', 'removed', 'changed'].includes(
-                activity.activity_type
-              ),
-            }"
-          >
-            <component
-              :is="activity.icon"
-              :class="
-                ['added', 'removed', 'changed'].includes(activity.activity_type)
-                  ? 'text-gray-500'
-                  : 'text-gray-800'
-              "
-            />
+          ]">
+          <div class="z-10 flex h-7 w-7 items-center justify-center rounded bg-gray-100" :class="{
+            'mt-3': [
+              'communication',
+              'incoming_call',
+              'outgoing_call',
+            ].includes(activity.activity_type),
+            'bg-white': ['added', 'removed', 'changed'].includes(
+              activity.activity_type
+            ),
+          }">
+            <component :is="activity.icon" :class="['added', 'removed', 'changed'].includes(activity.activity_type)
+                ? 'text-gray-500'
+                : 'text-gray-800'
+              " />
           </div>
         </div>
         <div v-if="activity.activity_type == 'communication'" class="pb-6">
           <div
-            class="cursor-pointer rounded-md bg-gray-50 p-3 text-base leading-6 transition-all duration-300 ease-in-out"
-          >
+            class="cursor-pointer rounded-md bg-gray-50 p-3 text-base leading-6 transition-all duration-300 ease-in-out">
             <div class="mb-1 flex items-center justify-between gap-2">
               <div class="flex items-center gap-2">
                 <UserAvatar :user="activity.data.sender" size="md" />
                 <span>{{ activity.data.sender_full_name }}</span>
                 <span>&middot;</span>
-                <Tooltip
-                  :text="dateFormat(activity.creation, dateTooltipFormat)"
-                >
+                <Tooltip :text="dateFormat(activity.creation, dateTooltipFormat)">
                   <div class="text-sm text-gray-600">
                     {{ __(timeAgo(activity.creation)) }}
                   </div>
                 </Tooltip>
-                <Badge
-                  v-if="activity.communication_type == 'Automated Message'"
-                  :label="__('Notification')"
-                  variant="subtle"
-                  theme="green"
-                />
+                <Badge v-if="activity.communication_type == 'Automated Message'" :label="__('Notification')"
+                  variant="subtle" theme="green" />
               </div>
               <div class="flex gap-0.5">
                 <Tooltip :text="__('Reply')">
-                  <Button
-                    variant="ghost"
-                    class="text-gray-700"
-                    @click="reply(activity.data)"
-                  >
+                  <Button variant="ghost" class="text-gray-700" @click="reply(activity.data)">
                     <ReplyIcon class="h-4 w-4" />
                   </Button>
                 </Tooltip>
                 <Tooltip :text="__('Reply All')">
-                  <Button
-                    variant="ghost"
-                    class="text-gray-700"
-                    @click="reply(activity.data, true)"
-                  >
+                  <Button variant="ghost" class="text-gray-700" @click="reply(activity.data, true)">
                     <ReplyAllIcon class="h-4 w-4" />
                   </Button>
                 </Tooltip>
@@ -440,47 +318,26 @@
               </span>
               <span>{{ activity.data.recipients }}</span>
               <span v-if="activity.data.cc">, </span>
-              <span
-                v-if="activity.data.cc"
-                class="mr-1 text-2xs font-bold text-gray-500"
-              >
+              <span v-if="activity.data.cc" class="mr-1 text-2xs font-bold text-gray-500">
                 {{ __('CC') }}:
               </span>
               <span v-if="activity.data.cc">{{ activity.data.cc }}</span>
               <span v-if="activity.data.bcc">, </span>
-              <span
-                v-if="activity.data.bcc"
-                class="mr-1 text-2xs font-bold text-gray-500"
-              >
+              <span v-if="activity.data.bcc" class="mr-1 text-2xs font-bold text-gray-500">
                 {{ __('BCC') }}:
               </span>
               <span v-if="activity.data.bcc">{{ activity.data.bcc }}</span>
             </div>
-            <FadedScrollableDiv
-              :maskHeight="30"
-              class="email-content prose-f max-h-[500px] overflow-y-auto"
-              v-html="activity.data.content"
-            />
+            <FadedScrollableDiv :maskHeight="30" class="email-content prose-f max-h-[500px] overflow-y-auto"
+              v-html="activity.data.content" />
             <div class="flex flex-wrap gap-2">
-              <AttachmentItem
-                v-for="a in activity.data.attachments"
-                :key="a.file_url"
-                :label="a.file_name"
-                :url="a.file_url"
-              />
+              <AttachmentItem v-for="a in activity.data.attachments" :key="a.file_url" :label="a.file_name"
+                :url="a.file_url" />
             </div>
           </div>
         </div>
-        <div
-          class="mb-4"
-          :id="activity.name"
-          v-else-if="activity.activity_type == 'comment'"
-          
-        >
-          <div
-            style="width: 90%"
-            class="mb-0.5 flex items-start justify-stretch gap-2 py-1.5 text-base"
-          >
+        <div class="mb-4" :id="activity.name" v-else-if="activity.activity_type == 'comment'">
+          <div style="width: 100%" class="mb-0.5 flex items-start justify-stretch gap-2 py-1.5 text-base">
             <div class="inline-flex flex-wrap gap-1 text-gray-600">
               <span class="font-medium text-gray-800">
                 {{ activity.owner_name }}
@@ -490,10 +347,7 @@
                 {{ __('comment') }}
               </span>
             </div>
-            <div
-              class="ml-auto whitespace-nowrap flex"
-              style="justify-content: center; align-items: center"
-            >
+            <div class="ml-auto whitespace-nowrap flex" style="justify-content: center; align-items: center">
               <Tooltip :text="dateFormat(activity.creation, dateTooltipFormat)">
                 <div class="text-sm text-gray-600">
                   {{ __(timeAgo(activity.creation)) }}
@@ -502,106 +356,79 @@
             </div>
           </div>
           <div style="display: flex; align-items: center">
-            <div
-              style="width: 90%"
-              class="cursor-pointer rounded bg-gray-50 px-4 py-3 text-base leading-6 transition-all duration-300 ease-in-out"
-            >
+            <div style="width: 100%"
+              class="cursor-pointer rounded bg-gray-50 px-4 py-3 text-base leading-6 transition-all duration-300 ease-in-out">
               <div class="prose-f" v-html="activity.content" />
-              <div
-                v-if="activity.attachments.length"
-                class="mt-2 flex flex-wrap gap-2"
-              >
-                <AttachmentItem
-                  v-for="a in activity.attachments"
-                  :key="a.file_url"
-                  :label="a.file_name"
-                  :url="a.file_url"
-                />
+              <div v-if="activity.attachments.length" class="mt-2 flex flex-wrap gap-2">
+                <AttachmentItem v-for="a in activity.attachments" :key="a.file_url" :label="a.file_name"
+                  :url="a.file_url" />
               </div>
             </div>
-            
           </div>
-          <div style="display: flex; margin-top: 5px;">
-  <Reactions
-              doctype="Comment Reaction"
-              :name="activity.name"
-              v-model:reactions="activity.reactions"
-              :read-only-mode="readOnlyMode"
-              :id_comment = "activity.name"
-            />
-            <!-- <ReactionFaceIcon /> -->
-            <Button
-              @click="showCommentBoxForActivity(activity)"
-              style="margin-left: 10px"
-              class="reply-button"
-              :variant="'subtle'"
-              theme="gray"
-              size="sm"
-              label="Reply"
-              :loading="false"
-              :loadingText="null"
-              :disabled="false"
-              :link="null"
-            >
+          <div class="flex mt-1">
+            <Reactions doctype="Comment Reaction" :name="activity.name" v-model:reactions="activity.reactions"
+              :read-only-mode="readOnlyMode" :id_comment="activity.name" />
+            <Button @click="showCommentBoxForActivity(activity)" style="margin-left: 10px" class="reply-button"
+              :variant="'subtle'" theme="gray" size="sm" label="Reply" :loading="false" :loadingText="null"
+              :disabled="false" :link="null">
               {{ __('Reply Comment') }}
             </Button>
-</div>
-          <div style="width: 100%;" v-if="activity.child_comment && activity.child_comment.length > 0 && activity.show_childcomment" v-for="(activity, index) in activity.child_comment" class="relative">
-    <div class="absolute left-0 top-0 -z-10 border-l border-gray-200" style="width: 1px; height: 100%; border-radius: 5px;"></div>
-    <div style="max-width: 500px; word-wrap: break-word;margin-top: 10px;margin-left: 20px;padding:10px" class="relative z-10 text-base rounded py-1.5 px-2 border border-gray-100 bg-gray-50 placeholder-gray-500 hover:border-gray-200 focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 text-gray-800 transition-colors block min-h-8">
-        <span class="font-medium text-gray-800 mb-1">{{ getUser(activity.owner).full_name }}</span>
-        <p class="block">{{ activity.content }}</p>
-     
-    </div>
-    <div style="margin-left: 20px; margin-top: 5px;">
-      <Reactions 
-              doctype="CommentChild Reaction"
-              :name="index"
-              v-model:reactions="activity.reactions"
-              :read-only-mode="readOnlyMode"
-              :id_comment = "activity.name"
-            />
-    </div>
-    
-</div>
-
-
+          </div>
+          <div style="width: 100%;"
+            v-if="activity.child_comment && activity.child_comment.length > 0 && activity.show_childcomment"
+            v-for="(activity_child, index) in activity.child_comment" class="relative">
+            <div class="absolute left-0 top-0 -z-10 border-l border-gray-200"
+              style="width: 1px; height: 100%; border-radius: 5px;"></div>
+            <div style="word-wrap: break-word;margin-top: 10px;margin-left: 20px;padding:10px"
+              class="relative z-10 text-base rounded py-1.5 px-2 border border-gray-100 bg-gray-50 placeholder-gray-500 hover:border-gray-200 focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 text-gray-800 transition-colors block min-h-8">
+              <div class="flex">
+                <span class="font-medium text-gray-800 mb-1">{{ getUser(activity_child.owner).full_name }}</span>
+                <div class="flex" v-if="activity_child.reply_for != null">
+                  <div class="ml-1">
+                    <svg version="1.0" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.5;"
+                      width="11pt" height="12pt" viewBox="0 0 15 16.000000"
+                      preserveAspectRatio="xMidYMid meet">
+                      <g transform="translate(0.000000,16.000000) scale(0.100000,-0.100000)"
+                      fill="#000000" stroke="none">
+                      <path d="M80 135 c0 -8 -6 -15 -14 -15 -22 0 -66 -59 -66 -88 1 -25 1 -26 12
+                      -7 22 42 64 59 70 29 2 -13 10 -10 41 14 l37 30 -31 26 c-35 30 -49 33 -49 11z"/>
+                      </g>
+                    </svg>
+                  </div>
+                  <div class="ml-1" style="font-size: 14px;color: #999;">{{renderUserReceive(activity_child)}}</div>
+                </div>
+              </div>
+              <p class="block">{{ activity_child.content }}</p>
+            </div>
+            <div class="flex ml-5 mt-1">
+              <Reactions doctype="CommentChild Reaction" :name="index" v-model:reactions="activity_child.reactions"
+                :read-only-mode="readOnlyMode" :id_comment="activity_child.name" />
+              <Button @click="showCommentForChildComment(activity, activity_child)" style="margin-left:10px" class="reply-button"
+                :variant="'subtle'" theme="gray" size="sm" label="Reply" :loading="false" :loadingText="null"
+                :disabled="false" :link="null">{{__('Reply Comment')}}</Button>
+            </div>
+          </div>
           <div v-if="activity.child_comment && activity.child_comment.length > 0" style="margin-top: 5px;">
-            <Button
-              :label="
-                activity.show_childcomment
-                  ? __('Hide all reply comments')
-                  : __('Show all reply comments')
-              "
-              variant="outline"
-              @click="activity.show_childcomment = !activity.show_childcomment"
-            >
+            <Button :label="activity.show_childcomment
+                ? __('Hide all reply comments')
+                : __('Show all reply comments')
+              " variant="outline" @click="activity.show_childcomment = !activity.show_childcomment">
               <template #suffix>
-                <FeatherIcon
-                  :name="activity.show_childcomment ? 'chevron-up' : 'chevron-down'"
-                  class="h-4 text-gray-600"
-                />
+                <FeatherIcon :name="activity.show_childcomment ? 'chevron-up' : 'chevron-down'"
+                  class="h-4 text-gray-600" />
               </template>
             </Button>
           </div>
-          <CommentNewBox
-            ref="whatsappBox"
-            v-if="title == 'Comment' && idxComment == activity.name"
-            v-model="doc"
-            v-model:reply="replyMessage"
-            v-model:whatsapp="whatsappMessages"
-            v-model:reload="reload_commentchild"
-            :idcommentparent="activity.name"
-            @scroll="scroll"
-          />
+          <CommentNewBox ref="whatsappBox" v-if="title == 'Comment' && idxComment == activity.name" v-model="doc"
+            v-model:reply="replyMessage" v-model:whatsapp="whatsappMessages" v-model:reload="reload_commentchild"
+            :idcommentparent="activity.name" @scroll="scroll" @close_comment="onCloseComment"/>
+          <CommentForChildNewBox v-if="showCommentForChild" v-model="doc" v-model:reply="replyMessage" v-model:whatsapp="whatsappMessages"
+            :idcommentparent="idCommentParent" :reply_comment_for="replyCommentFor" v-model:reload="reload_commentchild" @scroll="scroll" @close_comment="onCloseCommentChild"/>
         </div>
-        <div
-          v-else-if="
-            activity.activity_type == 'incoming_call' ||
-            activity.activity_type == 'outgoing_call'
-          "
-          class="mb-3 flex max-w-[70%] flex-col gap-3 rounded-md bg-gray-50 p-4"
-        >
+        <div v-else-if="
+          activity.activity_type == 'incoming_call' ||
+          activity.activity_type == 'outgoing_call'
+        " class="mb-3 flex max-w-[70%] flex-col gap-3 rounded-md bg-gray-50 p-4">
           <div class="flex items-center justify-between">
             <div>
               {{
@@ -626,11 +453,8 @@
                 {{ activity.duration }}
               </div>
             </div>
-            <div
-              v-if="activity.recording_url"
-              class="flex cursor-pointer select-none items-center gap-1"
-              @click="activity.show_recording = !activity.show_recording"
-            >
+            <div v-if="activity.recording_url" class="flex cursor-pointer select-none items-center gap-1"
+              @click="activity.show_recording = !activity.show_recording">
               <PlayIcon class="h-4 w-4 text-gray-600" />
               <div class="text-sm text-gray-600">
                 {{
@@ -641,23 +465,13 @@
               </div>
             </div>
           </div>
-          <div
-            v-if="activity.show_recording && activity.recording_url"
-            class="flex items-center justify-between rounded border"
-          >
-            <audio
-              class="audio-control"
-              controls
-              :src="activity.recording_url"
-            ></audio>
+          <div v-if="activity.show_recording && activity.recording_url"
+            class="flex items-center justify-between rounded border">
+            <audio class="audio-control" controls :src="activity.recording_url"></audio>
           </div>
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-1">
-              <Avatar
-                :image="activity.caller.image"
-                :label="activity.caller.label"
-                size="xl"
-              />
+              <Avatar :image="activity.caller.image" :label="activity.caller.label" size="xl" />
               <div class="ml-1 flex flex-col gap-1">
                 <div class="text-base font-medium">
                   {{ __(activity.caller.label) }}
@@ -666,15 +480,8 @@
                   {{ activity.from }}
                 </div>
               </div>
-              <FeatherIcon
-                name="arrow-right"
-                class="mx-2 h-5 w-5 text-gray-600"
-              />
-              <Avatar
-                :image="activity.receiver.image"
-                :label="activity.receiver.label"
-                size="xl"
-              />
+              <FeatherIcon name="arrow-right" class="mx-2 h-5 w-5 text-gray-600" />
+              <Avatar :image="activity.receiver.image" :label="activity.receiver.label" size="xl" />
               <div class="ml-1 flex flex-col gap-1">
                 <div class="text-base font-medium">
                   {{ __(activity.receiver.label) }}
@@ -693,21 +500,12 @@
                 {{ activity.owner_name }}
               </span>
               <span v-if="activity.type">{{ __(activity.type) }}</span>
-              <span
-                v-if="activity.data.field_label"
-                class="max-w-xs truncate font-medium text-gray-800"
-              >
+              <span v-if="activity.data.field_label" class="max-w-xs truncate font-medium text-gray-800">
                 {{ __(activity.data.field_label) }}
               </span>
               <span v-if="activity.value">{{ __(activity.value) }}</span>
-              <span
-                v-if="activity.data.old_value"
-                class="max-w-xs font-medium text-gray-800"
-              >
-                <div
-                  class="flex items-center gap-1"
-                  v-if="activity.options == 'User'"
-                >
+              <span v-if="activity.data.old_value" class="max-w-xs font-medium text-gray-800">
+                <div class="flex items-center gap-1" v-if="activity.options == 'User'">
                   <UserAvatar :user="activity.data.old_value" size="xs" />
                   {{ getUser(activity.data.old_value).full_name }}
                 </div>
@@ -716,14 +514,8 @@
                 </div>
               </span>
               <span v-if="activity.to">{{ __('to') }}</span>
-              <span
-                v-if="activity.data.value"
-                class="max-w-xs font-medium text-gray-800"
-              >
-                <div
-                  class="flex items-center gap-1"
-                  v-if="activity.options == 'User'"
-                >
+              <span v-if="activity.data.value" class="max-w-xs font-medium text-gray-800">
+                <div class="flex items-center gap-1" v-if="activity.options == 'User'">
                   <UserAvatar :user="activity.data.value" size="xs" />
                   {{ getUser(activity.data.value).full_name }}
                 </div>
@@ -741,36 +533,21 @@
               </Tooltip>
             </div>
           </div>
-          <div
-            v-if="activity.other_versions && activity.show_others"
-            v-for="activity in activity.other_versions"
-            class="flex items-start justify-stretch gap-2 text-base"
-          >
+          <div v-if="activity.other_versions && activity.show_others" v-for="activity in activity.other_versions"
+            class="flex items-start justify-stretch gap-2 text-base">
             <div class="flex items-start gap-1 text-gray-600">
               <div class="flex flex-1 items-center gap-1">
-                <span
-                  v-if="activity.data.field_label"
-                  class="max-w-xs truncate text-gray-600"
-                >
+                <span v-if="activity.data.field_label" class="max-w-xs truncate text-gray-600">
                   {{ __(activity.data.field_label) }}
                 </span>
-                <FeatherIcon
-                  name="arrow-right"
-                  class="mx-1 h-4 w-4 text-gray-600"
-                />
+                <FeatherIcon name="arrow-right" class="mx-1 h-4 w-4 text-gray-600" />
               </div>
               <div class="flex flex-wrap items-center gap-1">
                 <span v-if="activity.type">{{
                   startCase(__(activity.type))
-                }}</span>
-                <span
-                  v-if="activity.data.old_value"
-                  class="max-w-xs font-medium text-gray-800"
-                >
-                  <div
-                    class="flex items-center gap-1"
-                    v-if="activity.options == 'User'"
-                  >
+                  }}</span>
+                <span v-if="activity.data.old_value" class="max-w-xs font-medium text-gray-800">
+                  <div class="flex items-center gap-1" v-if="activity.options == 'User'">
                     <UserAvatar :user="activity.data.old_value" size="xs" />
                     {{ getUser(activity.data.old_value).full_name }}
                   </div>
@@ -779,14 +556,8 @@
                   </div>
                 </span>
                 <span v-if="activity.to">{{ __('to') }}</span>
-                <span
-                  v-if="activity.data.value"
-                  class="max-w-xs font-medium text-gray-800"
-                >
-                  <div
-                    class="flex items-center gap-1"
-                    v-if="activity.options == 'User'"
-                  >
+                <span v-if="activity.data.value" class="max-w-xs font-medium text-gray-800">
+                  <div class="flex items-center gap-1" v-if="activity.options == 'User'">
                     <UserAvatar :user="activity.data.value" size="xs" />
                     {{ getUser(activity.data.value).full_name }}
                   </div>
@@ -806,93 +577,38 @@
             </div>
           </div>
           <div v-if="activity.other_versions">
-            <Button
-              :label="
-                activity.show_others
-                  ? __('Hide all Changes')
-                  : __('Show all Changes')
-              "
-              variant="outline"
-              @click="activity.show_others = !activity.show_others"
-            >
+            <Button :label="activity.show_others
+                ? __('Hide all Changes')
+                : __('Show all Changes')
+              " variant="outline" @click="activity.show_others = !activity.show_others">
               <template #suffix>
-                <FeatherIcon
-                  :name="activity.show_others ? 'chevron-up' : 'chevron-down'"
-                  class="h-4 text-gray-600"
-                />
+                <FeatherIcon :name="activity.show_others ? 'chevron-up' : 'chevron-down'" class="h-4 text-gray-600" />
               </template>
             </Button>
           </div>
-       
+
         </div>
       </div>
     </div>
   </FadedScrollableDiv>
-  <div
-    v-else
-    class="flex flex-1 flex-col items-center justify-center gap-3 text-xl font-medium text-gray-500"
-  >
+  <div v-else class="flex flex-1 flex-col items-center justify-center gap-3 text-xl font-medium text-gray-500">
     <component :is="emptyTextIcon" class="h-10 w-10" />
     <span>{{ __(emptyText) }}</span>
-    <Button
-      v-if="title == 'Calls'"
-      :label="__('Make a Call')"
-      @click="makeCall(doc.data.mobile_no)"
-    />
-    <Button
-      v-else-if="title == 'Notes'"
-      :label="__('Create Note')"
-      @click="showNote()"
-    />
-    <Button
-      v-else-if="title == 'Emails'"
-      :label="__('New Email')"
-      @click="$refs.emailBox.show = true"
-    />
-    <Button
-      v-else-if="title == 'Tasks'"
-      :label="__('Create Task')"
-      @click="showTask()"
-    />
+    <Button v-if="title == 'Calls'" :label="__('Make a Call')" @click="makeCall(doc.data.mobile_no)" />
+    <Button v-else-if="title == 'Notes'" :label="__('Create Note')" @click="showNote()" />
+    <Button v-else-if="title == 'Emails'" :label="__('New Email')" @click="$refs.emailBox.show = true" />
+    <Button v-else-if="title == 'Tasks'" :label="__('Create Task')" @click="showTask()" />
   </div>
-  <CommunicationArea
-    ref="emailBox"
-    v-if="['Emails', 'Activity', 'Comment'].includes(title)"
-    v-model="doc"
-    v-model:reload="reload_email"
-    :doctype="doctype"
-    @scroll="scroll"
-    :isComment="title == 'Comment' ? false : true"
-  />
-  <WhatsAppBox
-    ref="whatsappBox"
-    v-if="title == 'WhatsApp'"
-    v-model="doc"
-    v-model:reply="replyMessage"
-    v-model:whatsapp="whatsappMessages"
-    :doctype="doctype"
-    @scroll="scroll"
-  />
-  <NoteModal
-    v-model="showNoteModal"
-    v-model:reloadNotes="all_activities"
-    :note="note"
-    :doctype="doctype"
-    :doc="doc.data?.name"
-  />
-  <TaskModal
-    v-model="showTaskModal"
-    v-model:reloadTasks="all_activities"
-    :task="task"
-    :doctype="doctype"
-    :doc="doc.data?.name"
-  />
-  <WhatsappTemplateSelectorModal
-    v-if="whatsappEnabled"
-    v-model="showWhatsappTemplates"
-    :doctype="doctype"
-    @send="(t) => sendTemplate(t)"
-  />
+  <CommunicationArea ref="emailBox" v-if="['Emails', 'Activity', 'Comment'].includes(title)" v-model="doc"
+    v-model:reload="reload_email" :doctype="doctype" @scroll="scroll" :isComment="title == 'Comment' ? false : true" />
+  <WhatsAppBox ref="whatsappBox" v-if="title == 'WhatsApp'" v-model="doc" v-model:reply="replyMessage"
+    v-model:whatsapp="whatsappMessages" :doctype="doctype" @scroll="scroll" />
+  <NoteModal v-model="showNoteModal" v-model:reloadNotes="all_activities" :note="note" :doctype="doctype"
+    :doc="doc.data?.name" />
+  <TaskModal v-model="showTaskModal" v-model:reloadTasks="all_activities" :task="task" :doctype="doctype"
+    :doc="doc.data?.name" />
+  <WhatsappTemplateSelectorModal v-if="whatsappEnabled" v-model="showWhatsappTemplates" :doctype="doctype"
+    @send="(t) => sendTemplate(t)" />
 </template>
 <script setup>
 import UserAvatar from '@/components/UserAvatar.vue'
@@ -906,6 +622,7 @@ import WhatsAppIcon from '@/components/Icons/WhatsAppIcon.vue'
 import WhatsAppArea from '@/components/WhatsAppArea.vue'
 import WhatsAppBox from '@/components/WhatsAppBox.vue'
 import CommentNewBox from '@/components/CommentNewBox.vue'
+import CommentForChildNewBox from '@/components/CommentForChildNewBox.vue'
 import LoadingIndicator from '@/components/Icons/LoadingIndicator.vue'
 import DurationIcon from '@/components/Icons/DurationIcon.vue'
 import CalendarIcon from '@/components/Icons/CalendarIcon.vue'
@@ -976,9 +693,9 @@ const props = defineProps({
     default: 'CRM Lead',
   },
   readOnlyMode: {
-      type: Boolean,
-      default: false,
-    },
+    type: Boolean,
+    default: false,
+  },
 })
 
 const doc = defineModel()
@@ -987,6 +704,9 @@ const tabIndex = defineModel('tabIndex')
 
 const reload_email = ref(false)
 const reload_commentchild = ref(false)
+const showCommentForChild = ref(false)
+const idCommentParent = ref("")
+const replyCommentFor = ref("")
 
 const all_activities = createResource({
   url: 'crm.api.activities.get_activities',
@@ -1031,7 +751,6 @@ const all_activities = createResource({
     return { versions, calls, notes, tasks, comments }
   },
 })
-console.log(all_activities);
 
 const showWhatsappTemplates = ref(false)
 
@@ -1142,12 +861,12 @@ const activities = computed(() => {
     )
     let targetNames = JSON.parse(localStorage.getItem('statusComment'));
     activities.forEach(activity => {
-     // activity['reactions'] = []
-  if (targetNames && targetNames.includes(activity.name)) {
-    activity['show_childcomment'] = true;
-  }
-});
-localStorage.removeItem('statusComment');
+      // activity['reactions'] = []
+      if (targetNames && targetNames.includes(activity.name)) {
+        activity['show_childcomment'] = true;
+      }
+    });
+    localStorage.removeItem('statusComment');
   } else if (props.title == 'Notes') {
     if (!all_activities.data?.notes) return []
     return sortByCreation(all_activities.data.notes)
@@ -1264,6 +983,12 @@ function timelineIcon(activity_type, is_lead) {
   return markRaw(icon)
 }
 
+function renderUserReceive(activity){
+  if(activity.owner == activity.reply_for) return __('Me');
+  let user_info = getUser(activity.reply_for);
+  return user_info.username;
+}
+
 // Notes
 const showNoteModal = ref(false)
 const note = ref({})
@@ -1277,7 +1002,7 @@ function showNote(n) {
   }
   showNoteModal.value = true
 }
-function triggerToggleCommentBox() {}
+function triggerToggleCommentBox() { }
 async function deleteNote(name) {
   await call('frappe.client.delete', {
     doctype: 'FCRM Note',
@@ -1292,7 +1017,20 @@ const task = ref({})
 
 function showCommentBoxForActivity(activity) {
   // Hiển thị CommentNewBox tương ứng với hoạt động được chọn
-  idxComment.value = activity.name
+  idxComment.value = activity.name;
+  showCommentForChild.value = false;
+}
+function onCloseComment(){
+  idxComment.value = "";
+}
+function showCommentForChildComment(activity, activity_child){
+  showCommentForChild.value = true;
+  idxComment.value = "";  
+  replyCommentFor.value = activity_child.owner;
+  idCommentParent.value = activity.name;
+}
+function onCloseCommentChild(){
+  showCommentForChild.value = false;
 }
 function showTask(t) {
   task.value = t || {
@@ -1368,9 +1106,9 @@ function reply(email, reply_all = false) {
     .focus('start')
     .run()
 }
-watch([reload, reload_email,reload_commentchild], ([reload_value, reload_email_value,reload_commentchild_value]) => {
+watch([reload, reload_email, reload_commentchild], ([reload_value, reload_email_value, reload_commentchild_value]) => {
   if (reload_value || reload_email_value || reload_commentchild_value) {
-    if(all_activities.data.comments){
+    if (all_activities.data.comments) {
       const filteredNames = all_activities.data.comments
         .filter(activity => activity.hasOwnProperty('show_childcomment') && activity.show_childcomment)
         .map(activity => activity.name);
@@ -1381,7 +1119,7 @@ watch([reload, reload_email,reload_commentchild], ([reload_value, reload_email_v
     reload_email.value = false
     reload_commentchild.value = false
   }
-  
+
 })
 
 function scroll(hash) {
@@ -1429,19 +1167,12 @@ nextTick(() => {
 .email-content {
   word-break: break-word;
 }
-:deep(
-    .email-content
-      :is(
-        :where(table):not(:where([class~='not-prose'], [class~='not-prose'] *))
-      )
-  ) {
+
+:deep(.email-content :is( :where(table):not(:where([class~='not-prose'], [class~='not-prose'] *)))) {
   table-layout: auto;
 }
 
-:deep(
-    .email-content
-      :where(table):not(:where([class~='not-prose'], [class~='not-prose'] *))
-  ) {
+:deep(.email-content :where(table):not(:where([class~='not-prose'], [class~='not-prose'] *))) {
   width: unset;
   table-layout: auto;
   text-align: unset;
@@ -1453,67 +1184,43 @@ nextTick(() => {
 
 /* tr */
 
-:deep(
-    .email-content
-      :where(tbody tr):not(:where([class~='not-prose'], [class~='not-prose'] *))
-  ) {
+:deep(.email-content :where(tbody tr):not(:where([class~='not-prose'], [class~='not-prose'] *))) {
   border-bottom-width: 0;
   border-bottom-color: transparent;
 }
 
 /* td */
 
-:deep(
-    .email-content
-      :is(:where(td):not(:where([class~='not-prose'], [class~='not-prose'] *)))
-  ) {
+:deep(.email-content :is(:where(td):not(:where([class~='not-prose'], [class~='not-prose'] *)))) {
   position: unset;
   border-width: 0;
   border-color: transparent;
   padding: 0;
 }
 
-:deep(
-    .email-content
-      :where(tbody td):not(:where([class~='not-prose'], [class~='not-prose'] *))
-  ) {
+:deep(.email-content :where(tbody td):not(:where([class~='not-prose'], [class~='not-prose'] *))) {
   vertical-align: revert;
 }
 
 /* image */
-:deep(
-    .email-content
-      :is(:where(img):not(:where([class~='not-prose'], [class~='not-prose'] *)))
-  ) {
+:deep(.email-content :is(:where(img):not(:where([class~='not-prose'], [class~='not-prose'] *)))) {
   border-width: 0;
 }
 
-:deep(
-    .email-content
-      :where(img):not(:where([class~='not-prose'], [class~='not-prose'] *))
-  ) {
+:deep(.email-content :where(img):not(:where([class~='not-prose'], [class~='not-prose'] *))) {
   margin: 0;
 }
 
 /* before & after */
 
-:deep(
-    .email-content
-      :where(blockquote p:first-of-type):not(
-        :where([class~='not-prose'], [class~='not-prose'] *)
-      )::before
-  ) {
+:deep(.email-content :where(blockquote p:first-of-type):not( :where([class~='not-prose'], [class~='not-prose'] *))::before) {
   content: none;
 }
 
-:deep(
-    .email-content
-      :where(blockquote p:last-of-type):not(
-        :where([class~='not-prose'], [class~='not-prose'] *)
-      )::after
-  ) {
+:deep(.email-content :where(blockquote p:last-of-type):not( :where([class~='not-prose'], [class~='not-prose'] *))::after) {
   content: none;
 }
+
 .reply-button {
   opacity: 1;
   transition: opacity 0.3s ease;

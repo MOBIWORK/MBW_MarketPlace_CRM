@@ -351,7 +351,7 @@ def get_child_comments(parent_comment_name):
     child_comments = frappe.get_all(
         'Comment Child',
         filters={'id_comment_parent': parent_comment_name},
-        fields=['creation', 'owner', 'content', 'name']
+        fields=['creation', 'owner', 'content', 'name', 'reply_for']
     )
     
     # Thêm trường reactions = [] vào mỗi comment con

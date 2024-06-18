@@ -18,7 +18,7 @@
   
       <Button variant="ghost" icon="x" @click="reply = {}" />
     </div>
-    <div class="flex items-end gap-2 py-2.5" style="width: 90%;">
+    <div class="flex items-end gap-2 py-2.5" style="width: 100%;">
       <div class="flex h-8 items-center gap-2">
         <FileUploader @success="(file) => uploadFile(file)">
           <template v-slot="{ openFileSelector }">
@@ -48,6 +48,7 @@
           />
         </IconPicker>
       </div>
+      <Button variant="ghost" icon="x" @click="closeComment()" />
       <Textarea
         ref="textarea"
         type="textarea"
@@ -72,6 +73,7 @@
   const props = defineProps({
     idcommentparent: String,
   })
+  const emit = defineEmits(['close_comment']);
   const reload = defineModel('reload')
   const doc = defineModel()
   const whatsapp = defineModel('whatsapp')
@@ -120,13 +122,11 @@
     whatsapp.value.content_type = 'text'
     reply.value = {}
     reload.value = true
-    // createResource({
-    //   url: 'frappe.client.insert',
-    //   params: args,
-    //   makeParams(values) {
+    emit('close_comment')
+  }
 
-    //   }
-    // })
+  function closeComment(){
+    emit('close_comment')
   }
   
   function uploadOptions(openFileSelector) {

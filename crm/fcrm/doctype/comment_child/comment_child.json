@@ -7,7 +7,8 @@
  "field_order": [
   "section_break_7sk8",
   "id_comment_parent",
-  "content"
+  "content",
+  "reply_for"
  ],
  "fields": [
   {
@@ -23,11 +24,17 @@
    "fieldname": "content",
    "fieldtype": "Data",
    "label": "Content"
+  },
+  {
+   "fieldname": "reply_for",
+   "fieldtype": "Link",
+   "label": "Reply For",
+   "options": "User"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-04 14:30:36.447931",
+ "modified": "2024-06-17 09:03:47.979385",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "Comment Child",

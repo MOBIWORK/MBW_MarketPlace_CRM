@@ -45,8 +45,8 @@ class Reminder(Document):
 		self.db_set("notified", 1, update_modified=False)
 
 		try:
-            if self.reminder_doctype == "CRM Task":
-                doc_task = frappe.get_doc('CRM Task', self.reminder_docname)
+			if self.reminder_doctype == "CRM Task":
+				doc_task = frappe.get_doc('CRM Task', self.reminder_docname)
 				date_remind_task = datetime.strptime(doc_task.remind_task, '%Y-%m-%d %H:%M:%S')
 				date_due_date = datetime.strptime(doc_task.due_date, '%Y-%m-%d %H:%M:%S')
 				if date_remind_task <= date_due_date:
@@ -119,4 +119,20 @@ def send_reminders():
 	)
 	for reminder in pending_reminders:
 		frappe.get_doc("Reminder", reminder).send_reminder()
+
+def send_test():
+	values_notify_task = frappe._dict(
+		doctype="CRM Notification",
+		from_user="Administrator",
+		to_user="Administrator",
+		type="Task",
+		message= message,
+		notification_text="Test for schedule",
+		notification_type_doctype="CRM Task",
+		notification_type_doc="",
+		reference_doctype="CRM Task",
+		reference_name="",
+	)
+	if frappe.db.exists("CRM Notification", values_notify_task) is None:
+		frappe.get_doc(values_notify_task).insert()
 

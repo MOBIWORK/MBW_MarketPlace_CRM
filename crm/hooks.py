@@ -153,30 +153,11 @@ doc_events = {
 
 # Scheduled Tasks
 # ---------------
-
-scheduler_events={
+scheduler_events = {
 	"all": [
-		"crm.task.task.send_reminders"
+		"crm.reminder.reminder.test_reminder"
 	]
 }
-
-# scheduler_events = {
-#	"all": [
-#		"crm.tasks.all"
-#	],
-#	"daily": [
-#		"crm.tasks.daily"
-#	],
-#	"hourly": [
-#		"crm.tasks.hourly"
-#	],
-#	"weekly": [
-#		"crm.tasks.weekly"
-#	],
-#	"monthly": [
-#		"crm.tasks.monthly"
-#	],
-# }
 
 # Testing
 # -------
