@@ -490,13 +490,14 @@ def import_data_leads(source_leads, fields_dict):
 								field_value = user_info
 							else:
 								field_value = user_info.name
+							setattr(doc_lead, "assign_to", json.dumps([field_value]))
 					elif field_name == "source":
 						source_info = frappe.db.exists('CRM Lead Source', {'source_name': lead.get(field_dict.get('key'))})
 						if source_info is not None:
 							if isinstance(source_info, str):
 								field_value = source_info
 							else:
-								field_value = source_info.name
+								field_value = source_info.Name
 					elif field_name == "status":
 						status_info = frappe.db.exists('CRM Lead Status', {'lead_status': lead.get(field_dict.get('key'))})
 						if status_info is not None:

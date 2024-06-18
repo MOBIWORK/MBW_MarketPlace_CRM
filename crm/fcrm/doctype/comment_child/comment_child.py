@@ -8,7 +8,11 @@ from frappe import _
 
 class CommentChild(Document):
 	def after_insert(self):
-		owner_parent = frappe.db.get_value('Comment', self.id_comment_parent, 'owner')
+		owner_parent = ""
+		if self.reply_for is not None and self.reply_for != "":
+			owner_parent = self.reply_for
+		else:
+			owner_parent = frappe.db.get_value('Comment', self.id_comment_parent, 'owner')
 		owner_child = self.owner
 		if owner_child != owner_parent and owner_parent != frappe.session.user:
 			user_info = frappe.get_doc('User', owner_child)

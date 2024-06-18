@@ -4,7 +4,7 @@ import frappe
 from frappe import _
 from bs4 import BeautifulSoup
 
-def on_update(self, method):
+def on_insert_comment(self, method):
     notify_mentions(self)
     if self.comment_type == "Comment":
         notify_rely_comment(self)
