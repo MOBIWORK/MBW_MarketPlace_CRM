@@ -34,7 +34,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type",
-   "options": "Mention\nWhatsApp\nRelyComment\nTask",
+   "options": "Mention\nWhatsApp\nRelyComment\nTask\nRemind",
    "reqd": 1
   },
   {
@@ -116,7 +116,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-14 15:43:44.175266",
+ "modified": "2024-06-20 09:39:58.917722",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Notification",

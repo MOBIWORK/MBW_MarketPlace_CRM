@@ -92,27 +92,15 @@ class CRMTask(Document):
 			date_due_date = self.due_date
 		
 		if date_remind_task <= date_due_date and date_remind_task > datetime.now():
-			delta = date_due_date - date_remind_task
-			minutes = delta.total_seconds() / 60
-			hours = delta.total_seconds() / 3600
-			days = delta.days
-			description = ''
-			if days < 1:
-				if hours < 1:
-					rounded_minutes = math.ceil(minutes) if minutes < 1 else math.floor(minutes)
-					description = f'Chỉ còn {rounded_minutes} phút để hoàn thành công việc {self.title}'
-				else:
-					rounded_hours = math.ceil(hours) if hours < 1 else math.floor(hours)
-					description = f'Chỉ còn {rounded_hours} giờ để hoàn thành công việc {self.title}'
-			else:
-				rounded_days = math.ceil(days) if days < 1 else math.floor(days)
-				description = f'Chỉ còn {rounded_days} ngày để hoàn thành công việc {self.title}'
+			remaining_time = self.calculate_remaining_time(date_remind_task, date_due_date)
+			description = f"Chỉ còn {remaining_time} để hoàn thành công việc {self.title}"
 			reminder = frappe.new_doc("Reminder")
 			reminder.description = description
 			reminder.remind_at = self.remind_task
 			reminder.user = self.assigned_to
 			reminder.reminder_doctype = "CRM Task"
 			reminder.reminder_docname = self.name
+			reminder.notified = 0
 			reminder.insert()
 			custom_field = {'id_reminder': reminder.name}
 			frappe.db.set_value('CRM Task', self.name, 'custom_fields', json.dumps(custom_field))
@@ -135,26 +123,28 @@ class CRMTask(Document):
 			obj_customer = json.loads(self.get('custom_fields'))
 			id_reminder = obj_customer.get('id_reminder')
 			doc_reminder = frappe.get_doc('Reminder', id_reminder)
-			delta = date_due_date - date_remind_task
-			minutes = delta.total_seconds() / 60
-			hours = delta.total_seconds() / 3600
-			days = delta.days
-			description = ''
-			if days < 1:
-				if hours < 1:
-					rounded_minutes = math.ceil(minutes) if minutes < 1 else math.floor(minutes)
-					description = f'Chỉ còn {rounded_minutes} phút để hoàn thành công việc {self.title}'
-				else:
-					rounded_hours = math.ceil(hours) if hours < 1 else math.floor(hours)
-					description = f'Chỉ còn {rounded_hours} giờ để hoàn thành công việc {self.title}'
-			else:
-				rounded_days = math.ceil(days) if days < 1 else math.floor(days)
-				description = f'Chỉ còn {rounded_days} ngày để hoàn thành công việc {self.title}'
+			remaining_time = self.calculate_remaining_time(date_remind_task, date_due_date)
+			description = f"Chỉ còn {remaining_time} để hoàn thành công việc {self.title}"
 			doc_reminder.description = description
 			doc_reminder.remind_at = self.remind_task
 			doc_reminder.user = self.assigned_to
 			doc_reminder.save()
 
+	def calculate_remaining_time(self, start_time, end_time):
+		remaining_time = end_time - start_time
+		days = remaining_time.days
+		seconds = remaining_time.seconds
+		hours = seconds // 3600
+		minutes = (seconds % 3600) // 60
+		remaining_seconds = seconds % 60
+		if days >= 1:
+			return f"{days} ngày"
+		elif hours >= 1:
+			return f"{hours} giờ"
+		elif minutes >= 1:
+			return f"{minutes} phút"
+		else:
+			return f"{remaining_seconds} giây"
 	
 	@staticmethod
 	def default_list_data():

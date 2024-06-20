@@ -155,9 +155,11 @@ doc_events = {
 # ---------------
 scheduler_events = {
 	"all": [
-		"crm.reminder.reminder.test_reminder"
+		"crm.task.task.send_reminders"
 	]
 }
+
+
 
 # Testing
 # -------
