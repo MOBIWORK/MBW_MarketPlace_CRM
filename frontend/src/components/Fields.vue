@@ -169,13 +169,13 @@ const handleBlur = (value, fieldName) => {
       }
     }
     if (fieldName == 'mobile_no' || fieldName == 'actual_mobile_no') {
-      if (!phoneRegex.test(value)) {
+      const cleanedValue = value.replace(/\s+/g, '').replace(/^(\+?84|0|84)/, '0');
+      props.data[fieldName] = cleanedValue
+      if (!phoneRegex.test(cleanedValue)) {
         invalid[fieldName] = __('Invalid phone number');
       } else {
         delete invalid[fieldName];
       }
-      const cleanedValue = value.replace(/\s+/g, '').replace(/^(\+?84|0)/, '0');
-      props.data[fieldName] = cleanedValue
     }
   } else {
     if (fieldName == 'email' || fieldName == 'email_id') {

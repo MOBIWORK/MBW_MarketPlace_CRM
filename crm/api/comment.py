@@ -11,14 +11,14 @@ def on_insert_comment(self, method):
 
 def notify_rely_comment(doc):
     info_doc = frappe.get_doc(doc.reference_doctype, doc.reference_name)
-    user_info = frappe.get_doc('User', doc.owner)
+    user_info = frappe.get_doc('User', frappe.session.user)
     owner_lead_deal = ""
     if doc.reference_doctype == "CRM Lead":
         owner_lead_deal = info_doc.lead_owner
     elif doc.reference_doctype == "CRM Deal":
         owner_lead_deal = info_doc.deal_owner
-    owner_comment = doc.owner
-    if owner_lead_deal != owner_comment and owner_lead_deal != frappe.session.user:
+    owner_comment = frappe.session.user
+    if owner_lead_deal != frappe.session.user:
         doctype = doc.reference_doctype
         if doctype.startswith("CRM "):
             doctype = doctype[4:].lower()

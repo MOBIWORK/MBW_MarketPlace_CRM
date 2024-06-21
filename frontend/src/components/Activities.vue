@@ -1036,8 +1036,9 @@ function showTask(t) {
     description: '',
     assigned_to: '',
     due_date: '',
+    remind_task: '',
     priority: 'Low',
-    status: 'Backlog',
+    status: 'Backlog'
   }
   showTaskModal.value = true
 }

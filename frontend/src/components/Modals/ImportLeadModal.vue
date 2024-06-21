@@ -7,9 +7,9 @@
             <div class="container-import">
                 <div>
                     <div class="text-center my-3 text-icon">
-                        <span>Chọn nguồn nhập dữ liệu leads theo định dạng excel, csv.</span>
-                        <span> Tải dữ liệu mẫu <a href="javascript:;" @click="onDownloadTemplateExcel()"
-                                class="text-temp">tại đây</a></span>
+                        <span>{{__("Select data source Leads by format")}} excel, csv. </span>
+                        <span> {{__("Download sample data")}} <a href="javascript:;" @click="onDownloadTemplateExcel()"
+                                class="text-temp">{{__("here")}}</a></span>
                     </div>
                     <div class="flex action-import">
                         <div class="m-item-5 flex-container cursor-pointer" @click="onActiveDevice()">
@@ -92,12 +92,9 @@
                         v-slot="{ idx, column, item }"
                         :row="row"
                     >
-                        <div v-if="column.key === colPhone">
-                            <div v-if="row.valid_phone" class="truncate w-full">
-                                {{row[colPhone]}}
-                            </div>
-                            <div v-else class="flex items-center">
-                                <span class="truncate w-full">{{row[colPhone]}}</span>
+                        <div v-if="column.col_numeric">
+                            <div v-if="row[column.key_invalid]" class="flex items-center">
+                                <span class="truncate w-full">{{row[column.key]}}</span>
                                 <Tooltip
                                 :text="__('Invalid phone number')"
                                 :placement="'top'"
@@ -105,14 +102,13 @@
                                     <FeatherIcon name="alert-triangle" class="h-4 w-4 text-red-500 mx-1" />
                                 </Tooltip>
                             </div>
-                            
-                        </div>
-                        <div v-else-if="column.key === colEmail">
-                            <div v-if="row.valid_email" class="truncate w-full">
-                                {{row[colEmail]}}
+                            <div v-else class="truncate w-full">
+                                {{row[column.key]}}
                             </div>
-                            <div v-else class="flex items-center">
-                                <span class="truncate w-full">{{row[colEmail]}}</span>
+                        </div>
+                        <div v-else-if="column.col_email">
+                            <div v-if="row[column.key_invalid]" class="flex items-center">
+                                <span class="truncate w-full">{{row[column.key]}}</span>
                                 <Tooltip
                                 :text="__('Invalid Email')"
                                 :placement="'top'"
@@ -120,7 +116,23 @@
                                     <FeatherIcon name="alert-triangle" class="h-4 w-4 text-red-500 mx-1" />
                                 </Tooltip>
                             </div>
-                            
+                            <div v-else class="truncate w-full">
+                                {{row[column.key]}}
+                            </div>
+                        </div>
+                        <div v-else-if="column.col_obj_email">
+                            <div v-if="row[column.key_invalid]" class="flex items-center">
+                                <span class="truncate w-full">{{row[column.key]}}</span>
+                                <Tooltip
+                                :text="__('Invalid Email')"
+                                :placement="'top'"
+                                >
+                                    <FeatherIcon name="alert-triangle" class="h-4 w-4 text-red-500 mx-1" />
+                                </Tooltip>
+                            </div>
+                            <div v-else class="truncate w-full">
+                                {{row[column.key]}}
+                            </div>
                         </div>
                         <ListRowItem v-else :item="item">
                             <template #default="{ label }">
@@ -149,7 +161,7 @@
             <div style="padding: 0px 20px;"> 
                 <div style="color: #525252;">{{__('Map columns from file to fields in Lead')}}</div>
                 <div class="flex" style="align-items: center;justify-items: center;">
-                    <div style="width: 100%;">
+                    <div style="width: 100%;overflow-y: auto;max-height: 580px;">
                         <div style="border-top:1px solid #ededed;padding:0 7px 7px;" v-for="(item, index) in fieldsMapping" :key="index">
                             <div class="flex" style="margin-top: 10px;margin-bottom:0.5rem;">
                                 <div style="width: 50%;padding-right:15px;">
@@ -185,6 +197,10 @@
                                                 value: 'lead_owner',
                                             },
                                             {
+                                                label: __('Assign To'),
+                                                value: 'assign_to',
+                                            },
+                                            {
                                                 label: __('Source'),
                                                 value: 'source',
                                             },{
@@ -196,6 +212,21 @@
                                             },{
                                                 label: __('Industry'),
                                                 value: 'industry',
+                                            },{
+                                                label: __('Job Title'),
+                                                value: 'job_title',
+                                            },{
+                                                label: __('Organization'),
+                                                value: 'organization',
+                                            },{
+                                                label: __('Website'),
+                                                value: 'website',
+                                            },{
+                                                label: __('Annual Revenue'),
+                                                value: 'annual_revenue',
+                                            },{
+                                                label: __('No. of Employees'),
+                                                value: 'no_of_employees',
                                             }
                                         ]"
                                         v-model="item.field_dict"
@@ -242,8 +273,6 @@ const txtLinkFile = ref('')
 const loadingReadLinkSheet = ref(false);
 const columnsDataPreview = ref([])
 const rowsDataPreview = ref([])
-const colEmail = ref("")
-const colPhone = ref("")
 const fieldsMapping = ref([])
 const loadingImport = ref(false)
 const emit = defineEmits(['afterImportData'])
@@ -260,11 +289,17 @@ async function onDownloadTemplateExcel() {
         { 'label': "Email", 'cell': "B1", 'column': "B" },
         { 'label': "Số điện thoại", 'cell': "C1", 'column': "C" },
         { 'label': "Giới tính khách hàng", 'cell': "D1", 'column': "D" },
-        { 'label': "Phân công cho", 'cell': "E1", 'column': "E" },
-        { 'label': "Nguồn", 'cell': "F1", 'column': "F" },
-        { 'label': "Trạng thái", 'cell': "G1", 'column': "G" },
-        { 'label': "Khu vực", 'cell': "H1", 'column': "H" },
-        { 'label': "Ngành nghề", 'cell': "I1", 'column': "I" }
+        { 'label': "Lead Owner", 'cell': "E1", 'column': "E" }, 
+        { 'label': "Phân công cho", 'cell': "F1", 'column': "F" },
+        { 'label': "Nguồn", 'cell': "G1", 'column': "G" },
+        { 'label': "Trạng thái", 'cell': "H1", 'column': "H" },
+        { 'label': "Khu vực", 'cell': "I1", 'column': "I" },
+        { 'label': "Ngành nghề", 'cell': "J1", 'column': "J" },
+        { 'label': "Chức danh", 'cell': "K1", 'column': "K" },
+        { 'label': "Tổ chức", 'cell': "L1", 'column': "L" },
+        { 'label': "Trang web", 'cell': "M1", 'column': "M" },
+        { 'label': "Doanh thu hàng năm", 'cell': "N1", 'column': "N" },
+        { 'label': "Quy mô tổ chức", 'cell': "O1", 'column': "O" }
     ];
 
     for (let i = 0; i < arrHeader.length; i++) {
@@ -275,15 +310,21 @@ async function onDownloadTemplateExcel() {
     }
 
     let arrContent = [
-        { 'label': "Họ tên khách hàng. VD: Trần Thanh An", 'cell': "A2" },
-        { 'label': "Email khách hàng", 'cell': "B2" },
-        { 'label': "Số điện thoại hợp lệ. Bắt đầu bằng 0 và chỉ gồm 10/11 số. VD: 0984641099", 'cell': "C2" },
-        { 'label': "Gồm 3 trường: Nam, Nữ, Không tiết lộ. VD: Nam", 'cell': "D2" },
-        { 'label': "Tên user được phân công. VD: Dieu Dieu", 'cell': "E2" },
-        { 'label': `Các nguồn contact được admin thiết lập. VD: Zalo`, 'cell': "F2" },
-        { 'label': `Bao gồm các trạng thái chăm sóc của khách hàng được admin thiết lập. Giá trị thiết lập bao gồm: Mới, Đang chăm sóc, Chất lượng.VD: Mới`, 'cell': "G2" },
-        { 'label': "Quận huyện, thành phố của khách hàng. VD: Hà Nội", 'cell': "H2" },
-        { 'label': "Ngành nghề khách hàng. VD: Bán lẻ", 'cell': "I2" }
+        { 'label': "", 'cell': "A2" },
+        { 'label': "", 'cell': "B2" },
+        { 'label': "", 'cell': "C2" },
+        { 'label': "Nam", 'cell': "D2" },
+        { 'label': "example@gmail.com", 'cell': "E2" },
+        { 'label': "['example@gmail.com']", 'cell': "F2" },
+        { 'label': "Facebook", 'cell': "G2" },
+        { 'label': "Mới", 'cell': "H2" },
+        { 'label': "Hà Nội", 'cell': "I2" },
+        { 'label': "Bán lẻ", 'cell': "J2" },
+        { 'label': "Business Analyst", 'cell': "K2" },
+        { 'label': "Mobiwork Cloud", 'cell': "L2" },
+        { 'label': "", 'cell': "M2" },
+        { 'label': "1,000,000,000", 'cell': "N2" },
+        { 'label': "1-10", 'cell': "O2" },
     ];
 
     for (let i = 0; i < arrContent.length; i++) {
@@ -338,18 +379,22 @@ async function onFileSelected(event){
                 let arrFieldMapping = [];
                 let regexSdt = /^(\+84|0)\d{9}$/;
                 let regexEmail = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
-                let field_phone = "";
-                let field_email = "";
                 let arrFieldDist = [
-                    {'field': "first_name", 'label': "Tên"},
+                    {'field': "first_name", 'label': __("Name")},
                     {'field': "email", 'label': "Email"},
-                    {'field': "mobile_no", 'label': "Số điện thoại"},
-                    {'field': "gender", 'label': "Giới tính khách hàng"},
-                    {'field': "lead_owner", 'label': "Phân công cho"},
-                    {'field': "source", 'label': "Nguồn"},
-                    {'field': "status", 'label': "Trạng thái"},
-                    {'field': "territory", 'label': "Khu vực"},
-                    {'field': "industry", 'label': "Ngành nghề"}
+                    {'field': "mobile_no", 'label': __("Phone number")},
+                    {'field': "gender", 'label': __("Gender customer")},
+                    {'field': "lead_owner", 'label': "Lead Owner"},
+                    {'field': "assign_to", 'label': __("Assign To")},
+                    {'field': "source", 'label': __("Source")},
+                    {'field': "status", 'label': __("Status")},
+                    {'field': "territory", 'label': __("Territory")},
+                    {'field': "industry", 'label': __("Industry")},
+                    {'field': "job_title", 'label': __("Job Title")},
+                    {'field': "organization", 'label': __("Organization")},
+                    {'field': "website", 'label': __("Website")},
+                    {'field': "annual_revenue", 'label': __("Annual Revenue")},
+                    {'field': "no_of_employees", 'label': __("No. of Employees")}
                 ]
                 for(let i = 0; i < jsonData[0].length; i++){
                     let itemColumn = {
@@ -357,6 +402,31 @@ async function onFileSelected(event){
                     }
                     let fieldMapping = {
                         'label': jsonData[0][i], 'key': jsonData[0][i], 'field_dict': ""
+                    }
+                    let validJSON = isValidJSON(jsonData[1][i]);
+                    if(validJSON){
+                        let obj = parseJSON(jsonData[1][i]);
+                        console.log(obj)
+                        if(obj != null){
+                            for(let t = 0; t < obj.length; t++){
+                                if(isEmail(obj[t])){
+                                    itemColumn["col_obj_email"] = true;
+                                    itemColumn['key_invalid'] = `key_${itemColumn.key}`;
+                                }
+                            }
+                        }
+                    }else{
+                        jsonData[1][i] = jsonData[1][i].toString();
+                        if(!jsonData[1][i].includes("[")){
+                            if(isEmail(jsonData[1][i])){
+                                itemColumn["col_email"] = true;
+                                itemColumn['key_invalid'] = `key_${itemColumn.key}`;
+                            }
+                            if(isNumeric(jsonData[1][i])){
+                                itemColumn["col_numeric"] = true;
+                                itemColumn['key_invalid'] = `key_${itemColumn.key}`;
+                            }
+                        }
                     }
                     let filterField = arrFieldDist.filter(x => x.label == jsonData[0][i]);
                     if(filterField.length > 0) fieldMapping["field_dict"] = filterField[0].field;
@@ -369,30 +439,30 @@ async function onFileSelected(event){
                     for(let j = 0; j < jsonData[0].length; j++){
                         leadImport[jsonData[0][j]] = jsonData[i][j] != null? jsonData[i][j].toString() : null;
                         if(jsonData[i][j] != null && jsonData[i][j].toString() != "") isPush = true;
-                        if(isNumeric(jsonData[i][j])){
-                            field_phone = jsonData[0][j];
-                        }
-                        if(isEmail(jsonData[i][j])){
-                            field_email = jsonData[0][j];
+                        let validJSON = isValidJSON(jsonData[i][j]);
+                        if(validJSON){
+                            let obj = parseJSON(jsonData[i][j]);
+                            if(obj != null){
+                                leadImport[jsonData[0][j]] = JSON.stringify(obj)
+                                for(let t = 0; t < obj.length; t++){
+                                    if(arrColumnDataPreview[j].col_obj_email){
+                                        if(!regexEmail.test(obj[t])) leadImport[`key_${jsonData[0][j]}`] = true;
+                                    }
+                                }
+                            }
+                        }else{
+                            jsonData[i][j] = jsonData[i][j].toString();
+                            if(!jsonData[i][j].includes("[")){
+                                if(arrColumnDataPreview[j].col_email){
+                                    if(!regexEmail.test(jsonData[i][j])) leadImport[`key_${jsonData[0][j]}`] = true;
+                                }
+                                if(arrColumnDataPreview[j].col_numeric){
+                                    if(!regexSdt.test(jsonData[i][j])) leadImport[`key_${jsonData[0][j]}`] = true;
+                                }
+                            }
                         }
                     }
                     if(isPush) arrLeadImport.push(leadImport);
-                }
-                colEmail.value = field_email;
-                colPhone.value = field_phone;
-                for(let i = 0; i < arrLeadImport.length; i++){
-                    if(arrLeadImport[i][field_phone] != null && arrLeadImport[i][field_phone] != ""){
-                        if(regexSdt.test(arrLeadImport[i][field_phone].toString())) arrLeadImport[i]["valid_phone"] = true;
-                        else arrLeadImport[i]["valid_phone"] = false;
-                    }else{
-                        arrLeadImport[i]["valid_phone"] = true;
-                    }
-                    if(arrLeadImport[i][field_email] != null && arrLeadImport[i][field_email] != ""){
-                        if(regexEmail.test(arrLeadImport[i][field_email].toString())) arrLeadImport[i]["valid_email"] = true;
-                        else arrLeadImport[i]["valid_email"] = false;
-                    }else{
-                        arrLeadImport[i]["valid_email"] = true;
-                    }
                 }
                 columnsDataPreview.value = arrColumnDataPreview;
                 rowsDataPreview.value = arrLeadImport;
@@ -403,6 +473,29 @@ async function onFileSelected(event){
             }
         };
         reader.readAsArrayBuffer(file);
+    }
+}
+
+function isValidJSON(str){
+    if(typeof(str) == "string" && (str.includes("[") || str.includes("{"))){
+        try{
+            const standardJSONString = str.replace(/“|”/g, '"');
+            JSON.parse(standardJSONString);
+            return true;
+        }catch(e){
+            return false;
+        }
+    }else{
+        return false;
+    }
+}
+
+function parseJSON(str){
+    try{
+        const standardJSONString = str.replace(/“|”/g, '"');
+        return JSON.parse(standardJSONString);
+    }catch(e){
+        return null;
     }
 }
 
@@ -449,18 +542,24 @@ function onNextModalPreviewFromDriver(){
                 let arrFieldMapping = [];
                 let regexSdt = /^(\+84|0)\d{9}$/;
                 let regexEmail = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
-                let field_phone = "";
-                let field_email = "";
+
+
                 let arrFieldDist = [
-                    {'field': "first_name", 'label': "Tên"},
+                    {'field': "first_name", 'label': __("Name")},
                     {'field': "email", 'label': "Email"},
-                    {'field': "mobile_no", 'label': "Số điện thoại"},
-                    {'field': "gender", 'label': "Giới tính khách hàng"},
-                    {'field': "lead_owner", 'label': "Phân công cho"},
-                    {'field': "source", 'label': "Nguồn"},
-                    {'field': "status", 'label': "Trạng thái"},
-                    {'field': "territory", 'label': "Khu vực"},
-                    {'field': "industry", 'label': "Ngành nghề"}
+                    {'field': "mobile_no", 'label': __("Phone number")},
+                    {'field': "gender", 'label': __("Gender customer")},
+                    {'field': "lead_owner", 'label': "Lead Owner"},
+                    {'field': "assign_to", 'label': __("Assign To")},
+                    {'field': "source", 'label': __("Source")},
+                    {'field': "status", 'label': __("Status")},
+                    {'field': "territory", 'label': __("Territory")},
+                    {'field': "industry", 'label': __("Industry")},
+                    {'field': "job_title", 'label': __("Job Title")},
+                    {'field': "organization", 'label': __("Organization")},
+                    {'field': "website", 'label': __("Website")},
+                    {'field': "annual_revenue", 'label': __("Annual Revenue")},
+                    {'field': "no_of_employees", 'label': __("No. of Employees")}
                 ]
                 for(let i = 0; i < data[0].length; i++){
                     let itemColumn = {
@@ -469,6 +568,30 @@ function onNextModalPreviewFromDriver(){
                     let fieldMapping = {
                         'label': data[0][i], 'key': data[0][i], 'field_dict': ""
                     }
+                    let validJSON = isValidJSON(data[1][i]);
+                    if(validJSON){
+                        let obj = parseJSON(data[1][i]);
+                        if(obj != null){
+                            for(let t = 0; t < obj.length; t++){
+                                if(isEmail(obj[t])){
+                                    itemColumn["col_obj_email"] = true;
+                                    itemColumn['key_invalid'] = `key_${itemColumn.key}`;
+                                }
+                            }
+                        }
+                    }else{
+                        data[1][i] = data[1][i].toString();
+                        if(!data[1][i].includes("[")){
+                            if(isEmail(data[1][i])){
+                                itemColumn["col_email"] = true;
+                                itemColumn['key_invalid'] = `key_${itemColumn.key}`;
+                            }
+                            if(isNumeric(data[1][i])){
+                                itemColumn["col_numeric"] = true;
+                                itemColumn['key_invalid'] = `key_${itemColumn.key}`;
+                            }
+                        }
+                    }
                     let filterField = arrFieldDist.filter(x => x.label == data[0][i]);
                     if(filterField.length > 0) fieldMapping["field_dict"] = filterField[0].field;
                     arrColumnDataPreview.push(itemColumn);
@@ -476,30 +599,34 @@ function onNextModalPreviewFromDriver(){
                 }
                 for(let i = 1; i < data.length; i++){
                     let leadImport = {};
+                    let isPush = false;
                     for(let j = 0; j < data[0].length; j++){
                         leadImport[data[0][j]] = data[i][j] != null? data[i][j].toString() : null;
-                        if(isNumeric(jsonData[i][j])){
-                            field_phone = jsonData[0][j];
+                        if(data[i][j] != null && data[i][j].toString() != "") isPush = true;
+                        let validJSON = isValidJSON(data[i][j]);
+                        if(validJSON){
+                            let obj = parseJSON(data[i][j]);
+                            if(obj != null){
+                                leadImport[data[0][j]] = JSON.stringify(obj);
+                                for(let t = 0; t < obj.length; t++){
+                                    if(arrColumnDataPreview[j].col_obj_email){
+                                        if(!regexEmail.test(obj[t])) leadImport[`key_${data[0][j]}`] = true;
+                                    }
+                                }
+                            }
+                        }else{
+                            data[i][j] = data[i][j].toString();
+                            if(!data[i][j].includes("[")){
+                                if(arrColumnDataPreview[j].col_email){
+                                    if(!regexEmail.test(data[i][j])) leadImport[`key_${data[0][j]}`] = true;
+                                }
+                                if(arrColumnDataPreview[j].col_numeric){
+                                    if(!regexSdt.test(data[i][j])) leadImport[`key_${data[0][j]}`] = true;
+                                }
+                            }
                         }
-                        if(isEmail(jsonData[i][j])){
-                            field_email = jsonData[0][j];
-                        }
                     }
-                    arrLeadImport.push(leadImport);
-                }
-                for(let i = 0; i < arrLeadImport.length; i++){
-                    if(arrLeadImport[i][field_phone] != null && arrLeadImport[i][field_phone] != ""){
-                        if(regexSdt.test(arrLeadImport[i][field_phone].toString())) arrLeadImport[i]["valid_phone"] = true;
-                        else arrLeadImport[i]["valid_phone"] = false;
-                    }else{
-                        arrLeadImport[i]["valid_phone"] = true;
-                    }
-                    if(arrLeadImport[i][field_email] != null && arrLeadImport[i][field_email] != ""){
-                        if(regexEmail.test(arrLeadImport[i][field_email].toString())) arrLeadImport[i]["valid_email"] = true;
-                        else arrLeadImport[i]["valid_email"] = false;
-                    }else{
-                        arrLeadImport[i]["valid_email"] = true;
-                    }
+                    if(isPush) arrLeadImport.push(leadImport);
                 }
                 columnsDataPreview.value = arrColumnDataPreview;
                 rowsDataPreview.value = arrLeadImport;
@@ -530,11 +657,18 @@ function onBackModalPreviewData(){
 function onImportData(){
     loadingImport.value = true;
     let valid_email = true;
+    console.log(rowsDataPreview.value);
+    console.log(fieldsMapping.value);
+    console.log(columnsDataPreview.value);
     for(let i = 0; i < rowsDataPreview.value.length; i++){
-        if(!rowsDataPreview.value[i].valid_email){
-            valid_email = false;
+        for(let j = 0; j < columnsDataPreview.value.length; j++){
+            if(columnsDataPreview.value[j].col_email || columnsDataPreview.value[j].col_obj_email){
+                if(rowsDataPreview.value[i][columnsDataPreview.value[j].key_invalid]){
+                    valid_email = false;
+                    break;
+                }
+            }
         }
-        if(valid_email == false) break;
     }
     if(valid_email == false){
         createToast({

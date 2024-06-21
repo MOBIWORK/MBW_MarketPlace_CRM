@@ -341,6 +341,7 @@ def get_linked_tasks(name):
 			"priority",
 			"status",
 			"modified",
+			"remind_task"
 		],
 	)
 	return tasks or []

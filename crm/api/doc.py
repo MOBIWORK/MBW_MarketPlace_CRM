@@ -491,7 +491,11 @@ def import_data_leads(source_leads, fields_dict):
 								field_value = user_info
 							else:
 								field_value = user_info.name
-							setattr(doc_lead, "assign_to", json.dumps([field_value]))
+							#setattr(doc_lead, "assign_to", json.dumps([field_value]))
+					elif field_name == "assign_to":
+						print("Dòng 496 ", lead.get(field_dict.get('key')))
+						print(json.loads(lead.get(field_dict.get('key'))))
+						field_value = lead.get(field_dict.get('key'))
 					elif field_name == "source":
 						source_info = frappe.db.exists('CRM Lead Source', {'source_name': lead.get(field_dict.get('key'))})
 						if source_info is not None:
@@ -526,6 +530,9 @@ def import_data_leads(source_leads, fields_dict):
 						setattr(doc_lead, field_name, field_value)
 			if doc_lead.status is None:
 				doc_lead.status = "Mới"
+			if doc_lead.assign_to is None or doc_lead.assign_to == "":
+				if doc_lead.lead_owner is not None and doc_lead.lead_owner != "":
+					doc_lead.assign_to = json.dumps([doc_lead.lead_owner])
 			doc_lead.insert()
 		return gen_response(200, "ok", "Thành công")
 	except Exception as e:
@@ -537,18 +544,24 @@ def delete_items_for_leads_deals():
 		items = sorted(json.loads(frappe.form_dict.get("items")), reverse=True)
 		doctype = frappe.form_dict.get("doctype")
 		for item in items:
-			item_task = frappe.db.exists("CRM Task", {"reference_doctype": doctype, "reference_docname": item})
-			if item_task is not None:
+			lst_task = frappe.db.get_list('CRM Task',
+				filters={
+					'reference_doctype': doctype,
+					'reference_docname': item
+				},
+				fields=['custom_fields']
+			)
+			for item_task in lst_task:
 				custom_field = item_task.custom_fields
 				if custom_field is not None and custom_field != "":
 					custom_field = json.loads(custom_field)
-					id_reminder = custom_field.id_reminder
+					id_reminder = custom_field.get('id_reminder')
 					if id_reminder is not None and id_reminder != "":
 						frappe.db.delete("Reminder", {"name": id_reminder})
-				frappe.db.delete("CRM Task", {
-					"reference_doctype": doctype,
-					"reference_docname": item
-				})
+			frappe.db.delete("CRM Task", {
+				"reference_doctype": doctype,
+				"reference_docname": item
+			})
 			frappe.db.delete("FCRM Note", {"reference_doctype": doctype, "reference_docname": item})
 			frappe.db.delete("CRM Notification", {"reference_doctype": doctype, "reference_name": item})
 		if len(items) > 10:
@@ -557,7 +570,7 @@ def delete_items_for_leads_deals():
 			delete_bulk(doctype, items)
 		return gen_response(200, "ok", "Thành công")
 	except Exception as e:
-		return gen_response(500, "error", "Lỗi")
+		return gen_response(500, "error", str(e))
 
 @frappe.whitelist(methods=["POST"])
 def get_content_by_google_sheet(google_sheet_url):

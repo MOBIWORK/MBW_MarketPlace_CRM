@@ -7,7 +7,7 @@ import json
 def notify_owner_asign_contact(self, method):
     try:
         reference_doctype = ""
-        owner = self.owner
+        name_user_send = frappe.session.user
         if "CRM-DEAL" in self.name:
             reference_doctype = "CRM Deal"
             tasker = self.deal_owner
@@ -17,9 +17,9 @@ def notify_owner_asign_contact(self, method):
         doctype = reference_doctype
         if doctype.startswith("CRM "):
             doctype = doctype[4:].lower()
-        user_info = frappe.get_doc('User', owner)
+        user_info = frappe.get_doc('User', name_user_send)
         if tasker is not None and tasker != "":
-            if owner != tasker and tasker != frappe.session.user:
+            if tasker != frappe.session.user:
                 notification_text_owner = f"""
                     <div class="mb-2 leading-5 text-gray-600">
                         <span class="font-medium text-gray-900">{ user_info.username }</span>
@@ -29,7 +29,7 @@ def notify_owner_asign_contact(self, method):
                 """
                 value_notify_owner = frappe._dict(
                     doctype="CRM Notification",
-                    from_user=owner,
+                    from_user=name_user_send,
                     to_user=tasker,
                     type="Task",
                     message= _('{0} đã giao cho bạn làm {1} Owner {2}').format(user_info.username, doctype.capitalize(), self.name),
@@ -44,7 +44,7 @@ def notify_owner_asign_contact(self, method):
         if self.assign_to is not None and self.assign_to != "":
             assignTo = json.loads(self.assign_to)
             for assign in assignTo:
-                if assign is not None and assign != "" and assign != tasker and assign != owner and assign != frappe.session.user:
+                if assign is not None and assign != "" and assign != tasker and assign != frappe.session.user:
                     notify_assign_text = f"""
                         <div class="mb-2 leading-5 text-gray-600">
                             <span class="font-medium text-gray-900">{ user_info.username }</span>
@@ -54,7 +54,7 @@ def notify_owner_asign_contact(self, method):
                     """
                     value_notify_assign = frappe._dict(
                         doctype="CRM Notification",
-                        from_user=owner,
+                        from_user=name_user_send,
                         to_user=assign,
                         type="Task",
                         message= _('{0} đã giao cho bạn phụ trách {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
@@ -70,8 +70,8 @@ def notify_owner_asign_contact(self, method):
         pass
 
 def notify_unassign_contact(self, method):
-    owner = self.owner
-    user_info = frappe.get_doc('User', owner)
+    name_user_send = frappe.session.user
+    user_info = frappe.get_doc('User', name_user_send)
     if self.name is not None:
         reference_doctype = ""
         if "CRM-DEAL" in self.name:
@@ -83,7 +83,7 @@ def notify_unassign_contact(self, method):
             assign_to_old = json.loads(doc_old.assign_to)
             assign_to_new = json.loads(self.assign_to)
             for item in assign_to_old:
-                if item not in assign_to_new and owner != item and item != frappe.session.user:
+                if item not in assign_to_new and item != frappe.session.user:
                     doctype = reference_doctype
                     if doctype.startswith("CRM "):
                         doctype = doctype[4:].lower()
@@ -96,7 +96,7 @@ def notify_unassign_contact(self, method):
                     """
                     values_unasign = frappe._dict(
                         doctype="CRM Notification",
-                        from_user=owner,
+                        from_user=name_user_send,
                         to_user=item,
                         type="Task",
                         message= _('{0} đã bỏ gán bạn khỏi {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
@@ -109,7 +109,7 @@ def notify_unassign_contact(self, method):
                     if frappe.db.exists("CRM Notification", values_unasign) is None:
                         frappe.get_doc(values_unasign).insert()
             for item in assign_to_new:
-                if item not in assign_to_old and owner != item and item != frappe.session.user:
+                if item not in assign_to_old and item != frappe.session.user:
                     doctype = reference_doctype
                     if doctype.startswith("CRM "):
                         doctype = doctype[4:].lower()
@@ -122,7 +122,7 @@ def notify_unassign_contact(self, method):
                     """
                     values_asign = frappe._dict(
                         doctype="CRM Notification",
-                        from_user=owner,
+                        from_user=name_user_send,
                         to_user=item,
                         type="Task",
                         message= _('{0} đã giao cho bạn phụ trách {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
@@ -143,6 +143,7 @@ def notify_unasign_contact_owner(self, method):
             tasker_old = ""
             field_tasker_old = ""
             owner = self.owner
+            name_user_send = frappe.session.user
             if "CRM-DEAL" in self.name:
                 reference_doctype = "CRM Deal"
                 tasker_new = self.deal_owner
@@ -157,10 +158,10 @@ def notify_unasign_contact_owner(self, method):
                     doctype = doctype[4:].lower()
                 doc_old = frappe.get_doc(reference_doctype, self.name)
                 tasker_old = doc_old.get(field_tasker_old)
-                user_info = frappe.get_doc('User', owner)
+                user_info = frappe.get_doc('User', name_user_send)
                 user_info_new = frappe.get_doc('User', tasker_new)
                 if tasker_new != tasker_old:
-                    if tasker_old is not None and tasker_old != "" and tasker_old != owner and tasker_old != frappe.session.user:
+                    if tasker_old is not None and tasker_old != "" and tasker_old != frappe.session.user:
                         notify_unasign_owner = f"""
                             <div class="mb-2 leading-5 text-gray-600">
                                 <span class="font-medium text-gray-900">{ user_info.username }</span>
@@ -169,7 +170,7 @@ def notify_unasign_contact_owner(self, method):
                         """
                         value_unasign_owner = frappe._dict(
                             doctype="CRM Notification",
-                            from_user=owner,
+                            from_user=name_user_send,
                             to_user=tasker_old,
                             type="Task",
                             message= _('{0} đã đổi {1} Owner của {1} {2} sang {3}').format(user_info.username, doctype.capitalize(), self.name, user_info_new.username),
@@ -181,7 +182,7 @@ def notify_unasign_contact_owner(self, method):
                         )
                         if frappe.db.exists("CRM Notification", value_unasign_owner) is None:
                             frappe.get_doc(value_unasign_owner).insert()
-                    if tasker_new is not None and tasker_new != "" and tasker_new != owner and tasker_new != frappe.session.user:
+                    if tasker_new is not None and tasker_new != "" and tasker_new != frappe.session.user:
                         notify_assign_owner = f"""
                             <div class="mb-2 leading-5 text-gray-600">
                                 <span class="font-medium text-gray-900">{ user_info.username }</span>
@@ -191,7 +192,7 @@ def notify_unasign_contact_owner(self, method):
                         """
                         value_assign_owner = frappe._dict(
                             doctype="CRM Notification",
-                            from_user=owner,
+                            from_user=name_user_send,
                             to_user=tasker_new,
                             type="Task",
                             message= _('{0} đã giao cho bạn phụ trách {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
@@ -206,7 +207,7 @@ def notify_unasign_contact_owner(self, method):
                 assign_to_old = json.loads(doc_old.assign_to)
                 assign_to_new = json.loads(self.assign_to)
                 for item in assign_to_old:
-                    if item not in assign_to_new and owner != item and item != frappe.session.user:
+                    if item not in assign_to_new and item != frappe.session.user:
                         doctype = reference_doctype
                         if doctype.startswith("CRM "):
                             doctype = doctype[4:].lower()
@@ -219,7 +220,7 @@ def notify_unasign_contact_owner(self, method):
                         """
                         values_unasign = frappe._dict(
                             doctype="CRM Notification",
-                            from_user=owner,
+                            from_user=name_user_send,
                             to_user=item,
                             type="Task",
                             message= _('{0} đã bỏ gán bạn khỏi {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
@@ -232,7 +233,7 @@ def notify_unasign_contact_owner(self, method):
                         if frappe.db.exists("CRM Notification", values_unasign) is None:
                             frappe.get_doc(values_unasign).insert()
                 for item in assign_to_new:
-                    if item not in assign_to_old and owner != item and item != frappe.session.user:
+                    if item not in assign_to_old and item != frappe.session.user:
                         doctype = reference_doctype
                         if doctype.startswith("CRM "):
                             doctype = doctype[4:].lower()
@@ -245,7 +246,7 @@ def notify_unasign_contact_owner(self, method):
                         """
                         values_asign = frappe._dict(
                             doctype="CRM Notification",
-                            from_user=owner,
+                            from_user=name_user_send,
                             to_user=item,
                             type="Task",
                             message= _('{0} đã giao cho bạn phụ trách {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
@@ -265,7 +266,7 @@ def notify_change_info_lead(self, method):
         if self.name is not None:
             if frappe.db.exists('CRM Lead', self.name) is not None:
                 doc_old = frappe.get_doc("CRM Lead", self.name)
-                owner = self.owner
+                name_user_send = frappe.session.user
                 tasker = self.lead_owner
                 field_change = ""
                 value_old = ""
@@ -273,7 +274,7 @@ def notify_change_info_lead(self, method):
                 type_action = "update"
                 if doc_old.get('lead_owner') is None or doc_old.get('lead_owner') == "":
                     if doc_old.get('lead_owner') != self.get('lead_owner') and tasker != frappe.session.user:
-                        owner_info = frappe.get_doc('User', owner)
+                        owner_info = frappe.get_doc('User', name_user_send)
                         notification_text = f"""
                             <div class="mb-2 leading-5 text-gray-600">
                                 <span class="font-medium text-gray-900">{ owner_info.username }</span>
@@ -283,7 +284,7 @@ def notify_change_info_lead(self, method):
                         """
                         values = frappe._dict(
                             doctype="CRM Notification",
-                            from_user=owner,
+                            from_user=oname_user_sendwner,
                             to_user=tasker,
                             type="Task",
                             message= _('{0} đã giao cho bạn làm Lead Owner cho Lead {1}').format(owner_info.username, self.name),
@@ -297,7 +298,7 @@ def notify_change_info_lead(self, method):
                             return
                         frappe.get_doc(values).insert()
                 else:
-                    owner_info = frappe.get_doc('User', owner)
+                    owner_info = frappe.get_doc('User', name_user_send)
                     arr_field_check = ["organization", "website", "territory", "industry", "job_title", "source", "salutation", "first_name", "email", "mobile_no"]
                     for field_check in arr_field_check:
                         if self.get(field_check) != doc_old.get(field_check):
@@ -363,10 +364,10 @@ def notify_change_info_lead(self, method):
                                 </div>
                             """
                             message = _('{0} đã xóa thông tin {1}'.format(owner_info.username, field_change))
-                    if owner != tasker and tasker != frappe.session.user:
+                    if tasker != frappe.session.user:
                         doc_notify = frappe._dict(
                             doctype="CRM Notification",
-                            from_user=owner,
+                            from_user=name_user_send,
                             to_user=tasker,
                             type="Task",
                             message= message,
@@ -386,7 +387,7 @@ def notify_change_info_deal(self, method):
         if self.name is not None:
             if frappe.db.exists('CRM Deal', self.name) is not None:
                 doc_old = frappe.get_doc("CRM Deal", self.name)
-                owner = self.owner
+                name_user_send = frappe.session.user
                 tasker = self.deal_owner
                 field_change = ""
                 value_old = ""
@@ -394,7 +395,7 @@ def notify_change_info_deal(self, method):
                 type_action = "update"
                 if doc_old.get('deal_owner') is None or doc_old.get('deal_owner') == "":
                     if doc_old.get('deal_owner') != self.get('deal_owner') and tasker != frappe.session.user:
-                        owner_info = frappe.get_doc('User', owner)
+                        owner_info = frappe.get_doc('User', name_user_send)
                         notification_text = f"""
                             <div class="mb-2 leading-5 text-gray-600">
                                 <span class="font-medium text-gray-900">{ owner_info.username }</span>
@@ -404,7 +405,7 @@ def notify_change_info_deal(self, method):
                         """
                         values = frappe._dict(
                             doctype="CRM Notification",
-                            from_user=owner,
+                            from_user=name_user_send,
                             to_user=tasker,
                             type="Task",
                             message= _('{0} đã giao cho bạn làm Deal Owner cho Deal {1}').format(owner_info.username, self.name),
@@ -418,7 +419,7 @@ def notify_change_info_deal(self, method):
                             return
                         frappe.get_doc(values).insert()
                 else:
-                    owner_info = frappe.get_doc('User', owner)
+                    owner_info = frappe.get_doc('User', name_user_send)
                     arr_field_check = ["organization", "website", "territory", "annual_revenue", "close_date", "probability", "next_step"]
                     for field_check in arr_field_check:
                         if self.get(field_check) != doc_old.get(field_check):
@@ -478,10 +479,10 @@ def notify_change_info_deal(self, method):
                                 </div>
                             """
                             message = _('{0} đã xóa thông tin {1}'.format(owner_info.username, field_change))
-                    if owner != tasker and tasker != frappe.session.user:
+                    if tasker != frappe.session.user:
                         doc_notify = frappe._dict(
                             doctype="CRM Notification",
-                            from_user=owner,
+                            from_user=name_user_send,
                             to_user=tasker,
                             type="Task",
                             message= message,
@@ -504,8 +505,8 @@ def notify_change_contact_deal(self, method):
             if deal.get('deal_owner') not in arr_deal_owners:
                 arr_deal_owners.append(deal.get('deal_owner'))
         for deal_owner in arr_deal_owners:
-            if deal_owner != self.get('owner') and deal_owner != frappe.session.user:
-                owner_info = frappe.get_doc('User', self.get('owner'))
+            if deal_owner != frappe.session.user:
+                owner_info = frappe.get_doc('User', frappe.session.user)
                 notification_text = f"""
                     <div class="mb-2 leading-5 text-gray-600">
                         <span class="font-medium text-gray-900"> { owner_info.username }</span>
@@ -516,7 +517,7 @@ def notify_change_contact_deal(self, method):
                 message = _('{0} đã cập nhật thông tin cho liên hệ {1}'.format(owner_info.username, self.name))
                 doc_notify = frappe._dict(
                     doctype="CRM Notification",
-                    from_user=self.get('owner'),
+                    from_user=frappe.session.user,
                     to_user=deal_owner,
                     type="Task",
                     message= message,
