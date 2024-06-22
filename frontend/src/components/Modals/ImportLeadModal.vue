@@ -451,13 +451,15 @@ async function onFileSelected(event){
                                 }
                             }
                         }else{
-                            jsonData[i][j] = jsonData[i][j].toString();
-                            if(!jsonData[i][j].includes("[")){
-                                if(arrColumnDataPreview[j].col_email){
-                                    if(!regexEmail.test(jsonData[i][j])) leadImport[`key_${jsonData[0][j]}`] = true;
-                                }
-                                if(arrColumnDataPreview[j].col_numeric){
-                                    if(!regexSdt.test(jsonData[i][j])) leadImport[`key_${jsonData[0][j]}`] = true;
+                            if(jsonData[i][j] != null){
+                                jsonData[i][j] = jsonData[i][j].toString();
+                                if(!jsonData[i][j].includes("[")){
+                                    if(arrColumnDataPreview[j].col_email){
+                                        if(!regexEmail.test(jsonData[i][j])) leadImport[`key_${jsonData[0][j]}`] = true;
+                                    }
+                                    if(arrColumnDataPreview[j].col_numeric){
+                                        if(!regexSdt.test(jsonData[i][j])) leadImport[`key_${jsonData[0][j]}`] = true;
+                                    }
                                 }
                             }
                         }
