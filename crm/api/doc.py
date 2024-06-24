@@ -331,11 +331,15 @@ def apply_search_filter(searchText: str, doctype=None):
 def get_doctype_fields(doctype, name):
 	not_allowed_fieldtypes = [
 		"Section Break",
-		"Column Break",
+		"Column Break"
+	]
+
+	not_allowed_field = [
+		"last_name"
 	]
 
 	fields = frappe.get_meta(doctype).fields
-	fields = [field for field in fields if field.fieldtype not in not_allowed_fieldtypes]
+	fields = [field for field in fields if field.fieldtype not in not_allowed_fieldtypes and field.fieldname not in not_allowed_field]
 
 	sections = {}
 	section_fields = []

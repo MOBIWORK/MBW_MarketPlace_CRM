@@ -137,7 +137,7 @@ class CRMLead(Document):
 			contact.append("phone_nos", {"phone": self.mobile_no, "is_primary_mobile_no": 1})
 
 		contact.insert(ignore_permissions=True)
-		contact.reload()  # load changes by hooks on contact
+		#contact.reload()  # load changes by hooks on contact
 
 		return contact.name
 

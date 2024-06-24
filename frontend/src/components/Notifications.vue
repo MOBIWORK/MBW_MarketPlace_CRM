@@ -51,7 +51,7 @@
       >
       <div v-for="n in notificationsStore().allNotifications">
         <RouterLink
-          v-if="n.reference_name != ''"
+          v-if="n.reference_name != '' && n.reference_doctype != ''"
           :key="n.name"
           :to="getRoute(n)"
           class="flex cursor-pointer items-start gap-2.5 px-4 py-2.5 hover:bg-gray-100"
@@ -83,6 +83,38 @@
             </div>
           </div>
         </RouterLink>
+        <div v-if="n.reference_name == '' && n.reference_doctype != ''"
+          class="flex cursor-pointer items-start gap-2.5 px-4 py-2.5 hover:bg-gray-100"
+          @click="onLinkAndAsRead(n)">
+          <div class="mt-1 flex items-center gap-2.5">
+            <div
+              class="h-[5px] w-[5px] rounded-full"
+              :class="[n.read ? 'bg-transparent' : 'bg-gray-900']"
+            />
+            <WhatsAppIcon
+              v-if="n.type == 'WhatsApp'"
+              class="size-7 rounded-full"
+            />
+            <UserAvatar v-else :user="n.from_user.name" size="lg" />
+          </div>
+          <div>
+            <div v-if="n.notification_text" v-html="n.notification_text" />
+            <div v-else class="mb-2 space-x-1 leading-5 text-gray-600">
+              <span class="font-medium text-gray-900">
+                {{ n.from_user.full_name }}
+              </span>
+              <span>
+                {{ __('mentioned you in {0}', [n.reference_doctype]) }}
+              </span>
+              <span class="font-medium text-gray-900">
+                {{ n.reference_name }}
+              </span>
+            </div>
+            <div class="text-sm text-gray-600">
+              {{ __(timeAgo(n.creation)) }}
+            </div>
+          </div>
+        </div>
         <div v-else
           class="flex cursor-pointer items-start gap-2.5 px-4 py-2.5 hover:bg-gray-100"
           @click="mark_as_read(n.name || n.notification_type_doc)">
@@ -143,6 +175,7 @@ import { Tooltip } from 'frappe-ui'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { sessionStore } from '@/stores/session'
 import { createToast } from '@/utils'
+import router from '@/router'
 
 const { $socket } = globalStore()
 const { user } = sessionStore()
@@ -217,6 +250,19 @@ function getRoute(notification) {
     name: notification.route_name,
     params: params,
     hash: '#' + notification.notification_type_doc,
+  }
+}
+
+function onLinkAndAsRead(notification){
+  console.log(notification);
+  if(notification.read != 1){
+    let doc = "";
+    if(notification.name != null && notification.name != "") doc = notification.name;
+    if(notification.notification_type_doc != null && notification.notification_type_doc != "") doc = notification.notification_type_doc;
+    mark_as_read(doc);
+  }
+  if(notification.notification_type_doctype == "CRM Task"){
+    router.push('/tasks');
   }
 }
 

@@ -341,6 +341,9 @@ const lead = createResource({
 onMounted(() => {
   if (lead.data) return
   lead.fetch()
+  if(window.location.hash != null && window.location.hash != ""){
+    tabIndex.value = 4;
+  }
 })
 
 const reload = ref(false)
@@ -467,6 +470,7 @@ function validateFile(file) {
 const detailSections = computed(() => {
   let data = lead.data
   if (!data) return []
+  console.log(data.doctype_fields);
   return data.doctype_fields
 })
 
