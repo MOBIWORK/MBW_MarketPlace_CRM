@@ -579,6 +579,19 @@ def get_content_by_google_sheet(google_sheet_url):
 	if content:
 		return read_content(content, extension)
 
+@frappe.whitelist(methods=["POST"])
+def convert_to_deal(lead):
+	lead = frappe.get_cached_doc("CRM Lead", lead)
+	lead.status = "Chất lượng"
+	lead.converted = 1
+	if lead.sla:
+		lead.communication_status = 'Đã trả lời'
+	lead.save(ignore_permissions=True)
+	contact = lead.create_contact(False)
+	organization = lead.create_organization()
+	deal = lead.create_deal(contact, organization)
+	return deal
+
 def read_content(content, extension):
 	error_title = _("Template Error")
 	if extension not in ("csv", "xlsx", "xls"):

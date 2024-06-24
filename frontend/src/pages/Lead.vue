@@ -551,7 +551,7 @@ async function convertToDeal(updated) {
     showConvertToDealModal.value = false
   } else {
     let deal = await call(
-      'crm.fcrm.doctype.crm_lead.crm_lead.convert_to_deal',
+      'crm.api.doc.convert_to_deal',
       {
         lead: lead.data.name,
       }
