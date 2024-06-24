@@ -40,7 +40,7 @@
             ref="title"
             variant="outline"
             v-model="_task.title"
-            :placeholder="__('Call with customer')"
+            :placeholder="__('')"
           />
         </div>
         <div>
@@ -52,7 +52,7 @@
             :bubbleMenu="true"
             :content="_task.description"
             @change="(val) => (_task.description = val)"
-            :placeholder="__('Took a call with customer and discussed the new project.')"
+            :placeholder="__('')"
           />
         </div>
         <div class="flex items-center gap-4 grid grid-cols-3">
@@ -108,7 +108,7 @@
               icon-left="calendar"
               :value="_task.due_date"
               @change="(val) => (_task.due_date = val)"
-              :placeholder="__('Due Date')"
+              :placeholder="__('Select Due Date')"
               input-class="border-none"
             />
           </div>
@@ -118,7 +118,7 @@
               icon-left="calendar"
               :value="_task.remind_task"
               @change="(val) => (_task.remind_task = val)"
-              :placeholder="__('Remind task')"
+              :placeholder="__('Select Remind task')"
               input-class="border-none"
             />
           </div>

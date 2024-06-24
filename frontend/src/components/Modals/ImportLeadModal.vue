@@ -8,7 +8,7 @@
                 <div>
                     <div class="text-center my-3 text-icon">
                         <span>{{__("Select data source Leads by format")}} excel, csv. </span>
-                        <span> {{__("Download sample data")}} <a href="javascript:;" @click="onDownloadTemplateExcel()"
+                        <span> {{__("Download sample")}} <a href="javascript:;" @click="onDownloadTemplateExcel()"
                                 class="text-temp">{{__("here")}}</a></span>
                     </div>
                     <div class="flex action-import">
@@ -315,7 +315,7 @@ async function onDownloadTemplateExcel() {
         { 'label': "", 'cell': "C2" },
         { 'label': "Nam", 'cell': "D2" },
         { 'label': "example@gmail.com", 'cell': "E2" },
-        { 'label': "['example@gmail.com']", 'cell': "F2" },
+        { 'label': "example1@gmail.com;example2@gmail.com", 'cell': "F2" },
         { 'label': "Facebook", 'cell': "G2" },
         { 'label': "Mới", 'cell': "H2" },
         { 'label': "Hà Nội", 'cell': "I2" },
@@ -336,7 +336,7 @@ async function onDownloadTemplateExcel() {
 
     // Lưu file Excel
     const buffer = await workbook.xlsx.writeBuffer();
-    saveAsExcelFile(buffer, "sample_customer", false);
+    saveAsExcelFile(buffer, "sample_lead", false);
 }
 
 function saveAsExcelFile(buffer, fileName, convertName = true) {
@@ -403,30 +403,23 @@ async function onFileSelected(event){
                     let fieldMapping = {
                         'label': jsonData[0][i], 'key': jsonData[0][i], 'field_dict': ""
                     }
-                    let validJSON = isValidJSON(jsonData[1][i]);
-                    if(validJSON){
-                        let obj = parseJSON(jsonData[1][i]);
-                        console.log(obj)
-                        if(obj != null){
-                            for(let t = 0; t < obj.length; t++){
-                                if(isEmail(obj[t])){
+                    if(isEmail(jsonData[1][i])){
+                        if(jsonData[1][i].includes(";")){
+                            let arrEmail = jsonData[1][i].split(";");
+                            for(let t = 0; t < arrEmail.length; t++){
+                                if(isEmail(arrEmail[t])){
                                     itemColumn["col_obj_email"] = true;
                                     itemColumn['key_invalid'] = `key_${itemColumn.key}`;
                                 }
                             }
+                        }else{
+                            itemColumn["col_email"] = true;
+                            itemColumn['key_invalid'] = `key_${itemColumn.key}`;
                         }
-                    }else{
-                        jsonData[1][i] = jsonData[1][i].toString();
-                        if(!jsonData[1][i].includes("[")){
-                            if(isEmail(jsonData[1][i])){
-                                itemColumn["col_email"] = true;
-                                itemColumn['key_invalid'] = `key_${itemColumn.key}`;
-                            }
-                            if(isNumeric(jsonData[1][i])){
-                                itemColumn["col_numeric"] = true;
-                                itemColumn['key_invalid'] = `key_${itemColumn.key}`;
-                            }
-                        }
+                    }
+                    if(isNumeric(jsonData[1][i])){
+                        itemColumn["col_numeric"] = true;
+                        itemColumn['key_invalid'] = `key_${itemColumn.key}`;
                     }
                     let filterField = arrFieldDist.filter(x => x.label == jsonData[0][i]);
                     if(filterField.length > 0) fieldMapping["field_dict"] = filterField[0].field;
@@ -439,27 +432,22 @@ async function onFileSelected(event){
                     for(let j = 0; j < jsonData[0].length; j++){
                         leadImport[jsonData[0][j]] = jsonData[i][j] != null? jsonData[i][j].toString() : null;
                         if(jsonData[i][j] != null && jsonData[i][j].toString() != "") isPush = true;
-                        let validJSON = isValidJSON(jsonData[i][j]);
-                        if(validJSON){
-                            let obj = parseJSON(jsonData[i][j]);
-                            if(obj != null){
-                                leadImport[jsonData[0][j]] = JSON.stringify(obj)
-                                for(let t = 0; t < obj.length; t++){
-                                    if(arrColumnDataPreview[j].col_obj_email){
-                                        if(!regexEmail.test(obj[t])) leadImport[`key_${jsonData[0][j]}`] = true;
-                                    }
+                        if(jsonData[i][j] != null && jsonData[i][j].toString().includes(";")){
+                            let arrEmails = jsonData[i][j].split(";");
+                            console.log(arrEmails);
+                            for(let t = 0; t < arrEmails.length; t++){
+                                if(arrColumnDataPreview[j].col_obj_email){
+                                    if(!regexEmail.test(arrEmails[t])) leadImport[`key_${jsonData[0][j]}`] = true;
                                 }
                             }
-                        }else{
-                            if(jsonData[i][j] != null){
-                                jsonData[i][j] = jsonData[i][j].toString();
-                                if(!jsonData[i][j].includes("[")){
-                                    if(arrColumnDataPreview[j].col_email){
-                                        if(!regexEmail.test(jsonData[i][j])) leadImport[`key_${jsonData[0][j]}`] = true;
-                                    }
-                                    if(arrColumnDataPreview[j].col_numeric){
-                                        if(!regexSdt.test(jsonData[i][j])) leadImport[`key_${jsonData[0][j]}`] = true;
-                                    }
+                        }else if(jsonData[i][j] != null){
+                            jsonData[i][j] = jsonData[i][j].toString();
+                            if(!jsonData[i][j].includes("[")){
+                                if(arrColumnDataPreview[j].col_email){
+                                    if(!regexEmail.test(jsonData[i][j])) leadImport[`key_${jsonData[0][j]}`] = true;
+                                }
+                                if(arrColumnDataPreview[j].col_numeric){
+                                    if(!regexSdt.test(jsonData[i][j])) leadImport[`key_${jsonData[0][j]}`] = true;
                                 }
                             }
                         }
@@ -478,36 +466,13 @@ async function onFileSelected(event){
     }
 }
 
-function isValidJSON(str){
-    if(typeof(str) == "string" && (str.includes("[") || str.includes("{"))){
-        try{
-            const standardJSONString = str.replace(/“|”/g, '"');
-            JSON.parse(standardJSONString);
-            return true;
-        }catch(e){
-            return false;
-        }
-    }else{
-        return false;
-    }
-}
-
-function parseJSON(str){
-    try{
-        const standardJSONString = str.replace(/“|”/g, '"');
-        return JSON.parse(standardJSONString);
-    }catch(e){
-        return null;
-    }
-}
-
 function isNumeric(str){
     if(str == null) return false;
     return /^\d+$/.test(str.toString());
 }
 
 function isEmail(str){
-    if(str != null && str.toString().includes("@") && str.toString().includes(".")) return true;
+    if(str != null && str.toString().includes("@")) return true;
     return false;
 }
 
@@ -544,8 +509,6 @@ function onNextModalPreviewFromDriver(){
                 let arrFieldMapping = [];
                 let regexSdt = /^(\+84|0)\d{9}$/;
                 let regexEmail = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
-
-
                 let arrFieldDist = [
                     {'field': "first_name", 'label': __("Name")},
                     {'field': "email", 'label': "Email"},
@@ -563,6 +526,7 @@ function onNextModalPreviewFromDriver(){
                     {'field': "annual_revenue", 'label': __("Annual Revenue")},
                     {'field': "no_of_employees", 'label': __("No. of Employees")}
                 ]
+
                 for(let i = 0; i < data[0].length; i++){
                     let itemColumn = {
                         key: data[0][i], label: data[0][i], width: i == 0? '180px' : '150px'
@@ -570,29 +534,23 @@ function onNextModalPreviewFromDriver(){
                     let fieldMapping = {
                         'label': data[0][i], 'key': data[0][i], 'field_dict': ""
                     }
-                    let validJSON = isValidJSON(data[1][i]);
-                    if(validJSON){
-                        let obj = parseJSON(data[1][i]);
-                        if(obj != null){
-                            for(let t = 0; t < obj.length; t++){
-                                if(isEmail(obj[t])){
+                    if(isEmail(data[1][i])){
+                        if(data[1][i].includes(";")){
+                            let arrEmail = data[1][i].split(";");
+                            for(let t = 0; t < arrEmail.length; t++){
+                                if(isEmail(arrEmail[t])){
                                     itemColumn["col_obj_email"] = true;
                                     itemColumn['key_invalid'] = `key_${itemColumn.key}`;
                                 }
                             }
+                        }else{
+                            itemColumn["col_email"] = true;
+                            itemColumn['key_invalid'] = `key_${itemColumn.key}`;
                         }
-                    }else{
-                        data[1][i] = data[1][i].toString();
-                        if(!data[1][i].includes("[")){
-                            if(isEmail(data[1][i])){
-                                itemColumn["col_email"] = true;
-                                itemColumn['key_invalid'] = `key_${itemColumn.key}`;
-                            }
-                            if(isNumeric(data[1][i])){
-                                itemColumn["col_numeric"] = true;
-                                itemColumn['key_invalid'] = `key_${itemColumn.key}`;
-                            }
-                        }
+                    }
+                    if(isNumeric(data[1][i])){
+                        itemColumn["col_numeric"] = true;
+                        itemColumn['key_invalid'] = `key_${itemColumn.key}`;
                     }
                     let filterField = arrFieldDist.filter(x => x.label == data[0][i]);
                     if(filterField.length > 0) fieldMapping["field_dict"] = filterField[0].field;
@@ -605,18 +563,14 @@ function onNextModalPreviewFromDriver(){
                     for(let j = 0; j < data[0].length; j++){
                         leadImport[data[0][j]] = data[i][j] != null? data[i][j].toString() : null;
                         if(data[i][j] != null && data[i][j].toString() != "") isPush = true;
-                        let validJSON = isValidJSON(data[i][j]);
-                        if(validJSON){
-                            let obj = parseJSON(data[i][j]);
-                            if(obj != null){
-                                leadImport[data[0][j]] = JSON.stringify(obj);
-                                for(let t = 0; t < obj.length; t++){
-                                    if(arrColumnDataPreview[j].col_obj_email){
-                                        if(!regexEmail.test(obj[t])) leadImport[`key_${data[0][j]}`] = true;
-                                    }
+                        if(data[i][j] != null && data[i][j].toString().includes(";")){
+                            let arrEmails = data[i][j].split(";");
+                            for(let t = 0; t < arrEmails.length; t++){
+                                if(arrColumnDataPreview[j].col_obj_email){
+                                    if(!regexEmail.test(arrEmails[t])) leadImport[`key_${data[0][j]}`] = true;
                                 }
                             }
-                        }else{
+                        }else if(data[i][j] != null){
                             data[i][j] = data[i][j].toString();
                             if(!data[i][j].includes("[")){
                                 if(arrColumnDataPreview[j].col_email){
@@ -659,9 +613,6 @@ function onBackModalPreviewData(){
 function onImportData(){
     loadingImport.value = true;
     let valid_email = true;
-    console.log(rowsDataPreview.value);
-    console.log(fieldsMapping.value);
-    console.log(columnsDataPreview.value);
     for(let i = 0; i < rowsDataPreview.value.length; i++){
         for(let j = 0; j < columnsDataPreview.value.length; j++){
             if(columnsDataPreview.value[j].col_email || columnsDataPreview.value[j].col_obj_email){

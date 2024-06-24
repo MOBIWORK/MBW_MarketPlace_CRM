@@ -42,7 +42,7 @@
             ref="title"
             variant="outline"
             v-model="_note.title"
-            :placeholder="__('Call with customer')"
+            :placeholder="__('')"
           />
         </div>
         <div>
@@ -55,7 +55,7 @@
             :content="_note.content"
             @change="(val) => (_note.content = val)"
             :placeholder="
-              __('Took a call with customer and discussed the new project.')
+              __('')
             "
           />
         </div>

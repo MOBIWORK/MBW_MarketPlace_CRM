@@ -17,6 +17,7 @@
     "file-saver": "^2.0.5",
     "frappe-ui": "^0.1.53",
     "gemoji": "^8.1.0",
+    "lodash.debounce": "^4.0.8",
     "mime": "^4.0.1",
     "pinia": "^2.0.33",
     "socket.io-client": "^4.7.2",

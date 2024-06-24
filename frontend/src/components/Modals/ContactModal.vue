@@ -257,7 +257,7 @@ const sections = computed(() => {
           label: 'Salutation',
           name: 'salutation',
           type: 'link',
-          placeholder: __('Mr'),
+          placeholder: __('Select Salutation'),
           doctype: 'Salutation',
         },
       ],
@@ -291,14 +291,12 @@ const sections = computed(() => {
           label: 'Email',
           name: 'email_id',
           type: props.contact?.data?.name ? 'dropdown' : 'data',
-          placeholder: 'example@gmail.com',
           options:
             props.contact.data?.email_ids?.map((email) => {
               return {
                 name: email.name,
                 value: email.email_id,
                 selected: email.email_id === props.contact.data.email_id,
-                placeholder: 'example@gmail.com',
                 onClick: () => {
                   _contact.value.email_id = email.email_id
                   setAsPrimary('email', email.email_id)
@@ -349,17 +347,15 @@ const sections = computed(() => {
       hideBorder: true,
       fields: [
         {
-          label: 'Mobile No.',
+          label: 'Mobile No',
           name: 'actual_mobile_no',
           type: props.contact?.data?.name ? 'dropdown' : 'data',
-          placeholder: '0876543210',
           options:
             props.contact.data?.phone_nos?.map((phone) => {
               return {
                 name: phone.name,
                 value: phone.phone,
                 selected: phone.phone === props.contact.data.actual_mobile_no,
-                placeholder: '0876543210',
                 onClick: () => {
                   _contact.value.actual_mobile_no = phone.phone
                   _contact.value.mobile_no = phone.phone
@@ -408,7 +404,7 @@ const sections = computed(() => {
           name: 'gender',
           type: 'link',
           doctype: 'Gender',
-          placeholder: __('Male'),
+          placeholder: __('Select Gender'),
         },
       ],
     },
@@ -422,7 +418,7 @@ const sections = computed(() => {
           name: 'company_name',
           type: 'link',
           doctype: 'CRM Organization',
-          placeholder: __('MBW Technologies'),
+          placeholder: __('Select Organization'),
         },
       ],
     },
@@ -434,8 +430,7 @@ const sections = computed(() => {
         {
           label: 'Designation',
           name: 'designation',
-          type: 'data',
-          placeholder: __('CEO'),
+          type: 'data'
         },
       ],
     },

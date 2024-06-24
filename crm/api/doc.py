@@ -493,9 +493,9 @@ def import_data_leads(source_leads, fields_dict):
 								field_value = user_info.name
 							#setattr(doc_lead, "assign_to", json.dumps([field_value]))
 					elif field_name == "assign_to":
-						print("Dòng 496 ", lead.get(field_dict.get('key')))
-						print(json.loads(lead.get(field_dict.get('key'))))
-						field_value = lead.get(field_dict.get('key'))
+						assign_str = lead.get(field_dict.get('key'))
+						arr_assign = assign_str.split(';')
+						field_value = json.dumps(arr_assign)
 					elif field_name == "source":
 						source_info = frappe.db.exists('CRM Lead Source', {'source_name': lead.get(field_dict.get('key'))})
 						if source_info is not None:

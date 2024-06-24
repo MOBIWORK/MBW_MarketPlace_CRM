@@ -152,7 +152,8 @@ import { computed, ref, onMounted, watch, h, reactive, toRefs } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDebounceFn } from '@vueuse/core'
 import ConvertTaskCustomerModal from '@/components/Modals/ConvertTaskCustomerModal.vue'
-import { createToast } from '@/utils'
+import debounce from 'lodash.debounce';
+
 const props = defineProps({
   doctype: {
     type: String,
@@ -457,22 +458,22 @@ const viewsDropdownOptions = computed(() => {
   return _views
 })
 // Phương thức được gọi khi giá trị tìm kiếm thay đổi
-const updateSearch = (newValue) => {
-  // Xử lý logic khi giá trị tìm kiếm thay đổi
+const updateSearch = debounce(() => {
   viewUpdated.value = true
   if (!defaultParams.value) {
     defaultParams.value = getParams()
   }
   list.value.params = defaultParams.value
-  if(newValue){
-    list.value.params.searchText = newValue
-    view.value.searchText = newValue
+  if(searchValue.value){
+    list.value.params.searchText = searchValue.value
+    view.value.searchText = searchValue.value
   }else{
     list.value.params.searchText = ''
     view.value.searchText = ''
   }
   list.value.reload()
-};
+}, 700)
+
 function updateFilter(filters) {
 
   viewUpdated.value = true

@@ -678,6 +678,16 @@ Rating,Đánh giá
 Phone number,Số điện thoại
 Gender customer,Giới tính khách hàng
 Select data source Leads by format,Chọn nguồn nhập dữ liệu leads theo định dạng
-Download sample data,Tải dữ liệu mẫu
-here,tại đây
-
+Download sample,Tải mẫu
+here,tại đây,
+Select Salutation,Chọn xưng hô
+Select Gender,Chọn giới tính
+Select No Of Employees,Chọn số lượng nhân viên
+Select Territory,Chọn khu vực
+Select Industry,Chọn lĩnh vực
+Select Organization,Chọn tổ chức
+Select Contact,Chọn liên hệ
+New Contact,Liên hệ mới
+Designation,Chức danh
+Select Due Date, Chọn ngày đáo hạn
+Select Remind task,Chọn ngày nhắc nhở công việc

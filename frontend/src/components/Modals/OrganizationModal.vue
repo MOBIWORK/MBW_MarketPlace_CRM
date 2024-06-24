@@ -229,8 +229,7 @@ const sections = computed(() => {
         {
           label: 'Organization Name',
           name: 'organization_name',
-          type: 'data',
-          placeholder: __('MBW Technologies'),
+          type: 'data'
         },
       ],
     },
@@ -242,14 +241,12 @@ const sections = computed(() => {
         {
           label: 'Website',
           name: 'website',
-          type: 'data',
-          placeholder: __('https://example.com'),
+          type: 'data'
         },
         {
           label: 'Annual Revenue',
           name: 'annual_revenue',
-          type: 'data',
-          placeholder: '9,999,999',
+          type: 'data'
         },
       ],
     },
@@ -263,7 +260,7 @@ const sections = computed(() => {
           name: 'territory',
           type: 'link',
           doctype: 'CRM Territory',
-          placeholder: __('VietNam'),
+          placeholder: __('Select Territory'),
         },
       ],
     },
@@ -286,13 +283,14 @@ const sections = computed(() => {
             { label: __('5001-10000'), value: '5001-10000' },
             { label: __('10001+'), value: '10001+' },
           ],
+          placeholder: __('Select No Of Employees'),
         },
         {
           label: 'Industry',
           name: 'industry',
           type: 'link',
           doctype: 'CRM Industry',
-          placeholder: __('Technology'),
+          placeholder: __('Select Industry'),
         },
       ],
     },

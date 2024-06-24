@@ -67,15 +67,14 @@ const sections = computed(() => {
           label: 'Salutation',
           name: 'salutation',
           type: 'link',
-          placeholder: __('Mr'),
+          placeholder: __('Select Salutation'),
           doctype: 'Salutation',
         },
         {
           label: 'First Name',
           name: 'first_name',
           mandatory: true,
-          type: 'data',
-          placeholder: '',
+          type: 'data'
         },
         // {
         //   label: 'Last Name',
@@ -86,21 +85,19 @@ const sections = computed(() => {
         {
           label: 'Email',
           name: 'email',
-          type: 'data',
-          placeholder: __('example@gmail.com'),
+          type: 'data'
         },
         {
           label: 'Mobile No',
           name: 'mobile_no',
-          type: 'data',
-          placeholder: '0876543210',
+          type: 'data'
         },
         {
           label: 'Gender',
           name: 'gender',
           type: 'link',
           doctype: 'Gender',
-          placeholder: __('Male'),
+          placeholder: __('Select Gender'),
         },
       ],
     },
@@ -110,14 +107,12 @@ const sections = computed(() => {
         {
           label: 'Organization',
           name: 'organization',
-          type: 'data',
-          placeholder: __('MBW Technologies'),
+          type: 'data'
         },
         {
           label: 'Website',
           name: 'website',
-          type: 'data',
-          placeholder: __('https://example.com'),
+          type: 'data'
         },
         {
           label: 'No of Employees',
@@ -133,27 +128,26 @@ const sections = computed(() => {
             { label: __('5001-10000'), value: '5001-10000' },
             { label: __('10001+'), value: '10001+' },
           ],
-          placeholder: '1-10',
+          placeholder: __('Select No Of Employees'),
         },
         {
           label: 'Territory',
           name: 'territory',
           type: 'link',
           doctype: 'CRM Territory',
-          placeholder: __('VietNam'),
+          placeholder: __('Select Territory'),
         },
         {
           label: 'Annual Revenue',
           name: 'annual_revenue',
-          type: 'data',
-          placeholder: '1000000',
+          type: 'data'
         },
         {
           label: 'Industry',
           name: 'industry',
           type: 'link',
           doctype: 'CRM Industry',
-          placeholder: __('Technology'),
+          placeholder: __('Select Industry'),
         },
       ],
     },
