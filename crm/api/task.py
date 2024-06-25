@@ -499,34 +499,36 @@ def notify_change_info_deal(self, method):
 
 def notify_change_contact_deal(self, method):
     if self.name is not None:
-        deals = get_linked_deals(self.name)
-        arr_deal_owners = []
-        for deal in deals:
-            if deal.get('deal_owner') not in arr_deal_owners:
-                arr_deal_owners.append(deal.get('deal_owner'))
-        for deal_owner in arr_deal_owners:
-            if deal_owner != frappe.session.user:
-                owner_info = frappe.get_doc('User', frappe.session.user)
-                notification_text = f"""
-                    <div class="mb-2 leading-5 text-gray-600">
-                        <span class="font-medium text-gray-900"> { owner_info.username }</span>
-                        <span>{ _(' đã cập nhật thông tin cho liên hệ ') }</span>
-                        <span class="font-medium text-gray-900"> {self.name}</span>
-                    </div>
-                """
-                message = _('{0} đã cập nhật thông tin cho liên hệ {1}'.format(owner_info.username, self.name))
-                doc_notify = frappe._dict(
-                    doctype="CRM Notification",
-                    from_user=frappe.session.user,
-                    to_user=deal_owner,
-                    type="Task",
-                    message= message,
-                    notification_text=notification_text,
-                    notification_type_doctype="Contact",
-                    notification_type_doc=self.name,
-                    reference_doctype="Contact",
-                    reference_name=self.name,
-                )
-                if frappe.db.exists("CRM Notification", doc_notify) is None:
-                    frappe.get_doc(doc_notify).insert()
+        contact_info = frappe.db.exists('Contact', self.name)
+        if contact_info is not None:
+            deals = get_linked_deals(self.name)
+            arr_deal_owners = []
+            for deal in deals:
+                if deal.get('deal_owner') not in arr_deal_owners:
+                    arr_deal_owners.append(deal.get('deal_owner'))
+            for deal_owner in arr_deal_owners:
+                if deal_owner != frappe.session.user:
+                    owner_info = frappe.get_doc('User', frappe.session.user)
+                    notification_text = f"""
+                        <div class="mb-2 leading-5 text-gray-600">
+                            <span class="font-medium text-gray-900"> { owner_info.username }</span>
+                            <span>{ _(' đã cập nhật thông tin cho liên hệ ') }</span>
+                            <span class="font-medium text-gray-900"> {self.name}</span>
+                        </div>
+                    """
+                    message = _('{0} đã cập nhật thông tin cho liên hệ {1}'.format(owner_info.username, self.name))
+                    doc_notify = frappe._dict(
+                        doctype="CRM Notification",
+                        from_user=frappe.session.user,
+                        to_user=deal_owner,
+                        type="Task",
+                        message= message,
+                        notification_text=notification_text,
+                        notification_type_doctype="Contact",
+                        notification_type_doc=self.name,
+                        reference_doctype="Contact",
+                        reference_name=self.name,
+                    )
+                    if frappe.db.exists("CRM Notification", doc_notify) is None:
+                        frappe.get_doc(doc_notify).insert()
 
