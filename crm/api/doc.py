@@ -593,8 +593,8 @@ def convert_to_deal(lead):
 	lead.save(ignore_permissions=True)
 	contact = lead.create_contact(False)
 	organization = lead.create_organization()
-	deal = lead.create_deal(contact, organization)
-	return deal
+	#deal = lead.create_deal(contact, organization)
+	return "DEALSs"
 
 def read_content(content, extension):
 	error_title = _("Template Error")
