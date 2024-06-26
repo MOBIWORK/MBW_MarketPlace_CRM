@@ -215,7 +215,7 @@ const selectedValues = ref([])
 const unselectAllAction = ref(() => {})
 
 function apllyFilterFromCell(event, idx, column, item){
-  let arrField = ["mobile_no","email","lead_name"];
+  let arrField = ["mobile_no","email","lead_name","_assign","assign_to"];
   if(arrField.includes(column.key)) return;
   emit('applyFilter', { event, idx, column, item });
 }
