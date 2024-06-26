@@ -298,6 +298,7 @@ def notify_change_info_lead(self, method):
                             return
                         frappe.get_doc(values).insert()
                 else:
+                    print("Info lead", name_user_send)
                     owner_info = frappe.get_doc('User', name_user_send)
                     arr_field_check = ["organization", "website", "territory", "industry", "job_title", "source", "salutation", "first_name", "email", "mobile_no"]
                     for field_check in arr_field_check:
@@ -379,6 +380,23 @@ def notify_change_info_lead(self, method):
                         )
                         if frappe.db.exists("CRM Notification", doc_notify) is None:
                             frappe.get_doc(doc_notify).insert()
+                    assign_to = json.loads(self.assign_to)
+                    for assign in assign_to:
+                        if assign != tasker and assign != frappe.session.user:
+                            doc_notify_assign = frappe._dict(
+                                doctype="CRM Notification",
+                                from_user=name_user_send,
+                                to_user=assign,
+                                type="Task",
+                                message= message,
+                                notification_text=notification_text,
+                                notification_type_doctype="CRM Lead",
+                                notification_type_doc=self.name,
+                                reference_doctype="CRM Lead",
+                                reference_name=self.name,
+                            )
+                            if frappe.db.exists("CRM Notification", doc_notify_assign) is None:
+                                frappe.get_doc(doc_notify_assign).insert()
     except Exception as e:
         pass
 
@@ -494,6 +512,23 @@ def notify_change_info_deal(self, method):
                         )
                         if frappe.db.exists("CRM Notification", doc_notify) is None:
                             frappe.get_doc(doc_notify).insert()
+                    assign_to = json.loads(self.assign_to)
+                    for assign in assign_to:
+                        if assign != tasker and assign != frappe.session.user:
+                            doc_notify_deal = frappe._dict(
+                                doctype="CRM Notification",
+                                from_user=name_user_send,
+                                to_user=assign,
+                                type="Task",
+                                message= message,
+                                notification_text=notification_text,
+                                notification_type_doctype="CRM Deal",
+                                notification_type_doc=self.name,
+                                reference_doctype="CRM Deal",
+                                reference_name=self.name,
+                            )
+                            if frappe.db.exists("CRM Notification", doc_notify_deal) is None:
+                                frappe.get_doc(doc_notify_deal).insert()
     except Exception as e:
         pass
 
