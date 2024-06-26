@@ -298,7 +298,6 @@ def notify_change_info_lead(self, method):
                             return
                         frappe.get_doc(values).insert()
                 else:
-                    print("Info lead", name_user_send)
                     owner_info = frappe.get_doc('User', name_user_send)
                     arr_field_check = ["organization", "website", "territory", "industry", "job_title", "source", "salutation", "first_name", "email", "mobile_no"]
                     for field_check in arr_field_check:
