@@ -10,7 +10,8 @@
  "engine": "InnoDB",
  "field_order": [
   "source_name",
-  "details"
+  "details",
+  "source_label"
  ],
  "fields": [
   {
@@ -25,11 +26,16 @@
    "fieldname": "details",
    "fieldtype": "Text Editor",
    "label": "Details"
+  },
+  {
+   "fieldname": "source_label",
+   "fieldtype": "Data",
+   "label": "Label"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-19 21:56:04.702254",
+ "modified": "2024-06-27 10:00:21.297088",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Lead Source",

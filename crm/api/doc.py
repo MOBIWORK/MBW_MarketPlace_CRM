@@ -561,7 +561,8 @@ def delete_items_for_leads_deals():
 					custom_field = json.loads(custom_field)
 					id_reminder = custom_field.get('id_reminder')
 					if id_reminder is not None and id_reminder != "":
-						frappe.db.delete("Reminder", {"name": id_reminder})
+						if frappe.db.exists("CRM Reminder", id_reminder) is not None:
+							frappe.db.delete("CRM Reminder", {"name": id_reminder})
 			frappe.db.delete("CRM Task", {
 				"reference_doctype": doctype,
 				"reference_docname": item

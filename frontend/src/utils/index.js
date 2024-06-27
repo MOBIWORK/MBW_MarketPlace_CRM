@@ -102,11 +102,12 @@ export function secondsToDuration(seconds) {
 
 export function formatNumberIntoCurrency(value) {
   if (value) {
-    return value.toLocaleString('en-IN', {
+    let temp = value.toLocaleString('en-VN', {
       maximumFractionDigits: 2,
       style: 'currency',
-      currency: 'INR',
+      currency: 'VND',
     })
+    return temp.replace("₫","")
   }
   return ''
 }
