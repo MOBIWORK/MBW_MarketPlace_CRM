@@ -44,7 +44,7 @@ def get_deal_activities(name):
 			activities, calls, notes, tasks = info_activities[:4]
 		else:
 			activities, calls, notes, tasks = get_lead_activities(lead)
-		creation_text = "converted the lead to this deal"
+		creation_text = _("converted the lead to this deal")
 
 	activities.append({
 		"activity_type": "creation",

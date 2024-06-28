@@ -333,7 +333,6 @@ async function onDownloadTemplateExcel() {
             font: { bold: false, name: "Times New Roman", size: 13 },
         };
     }
-
     // Lưu file Excel
     const buffer = await workbook.xlsx.writeBuffer();
     saveAsExcelFile(buffer, "sample_lead", false);
