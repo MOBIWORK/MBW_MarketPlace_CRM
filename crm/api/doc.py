@@ -21,7 +21,7 @@ def sort_options(doctype: str):
 	fields = [field for field in fields if field.fieldtype not in no_value_fields]
 	fields_without = ['salutation', 'last_name', 'naming_series', 'middle_name', 'image', 'converted', 'sla', 'sla_creation', 'sla_status', 'communication_status','response_by','first_response_time',
 		'first_responded_on','full_name','google_contacts_id','sync_with_google_contacts','google_contacts','pulled_from_google_contacts','is_primary_contact','is_billing_contact','unsubscribed','organization_logo',
-		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','website','assign_to']
+		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','website','assign_to','first_name','probability']
 	fields = [
 		{
 			"label": _(field.label),
@@ -33,10 +33,10 @@ def sort_options(doctype: str):
 
 	standard_fields = [
 		# {"label": "Name", "value": "name"},
-		{"label": "Created On", "value": "creation"},
-		{"label": "Last Modified", "value": "modified"},
-		{"label": "Modified By", "value": "modified_by"},
-		{"label": "Owner", "value": "owner"},
+		{"label": _("Created On"), "value": "creation"},
+		{"label": _("Last Modified"), "value": "modified"},
+		{"label": _("Modified By"), "value": "modified_by"},
+		{"label": _("Owner"), "value": "owner"},
 	]
 
 	for field in standard_fields:
@@ -74,7 +74,7 @@ def get_filterable_fields(doctype: str):
 	res = []
 	fields_without = ['salutation', 'last_name', 'naming_series', 'middle_name', 'image', 'converted', 'sla', 'sla_creation', 'sla_status', 'communication_status','response_by','first_response_time',
 		'first_responded_on','full_name','google_contacts_id','sync_with_google_contacts','google_contacts','pulled_from_google_contacts','is_primary_contact','is_billing_contact','unsubscribed','organization_logo',
-		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','website', 'assign_to']
+		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','website', 'assign_to','first_name','probability']
 	# append DocFields
 	DocField = frappe.qb.DocType("DocField")
 	doc_fields = get_fields_meta(DocField, doctype, allowed_fieldtypes, restricted_fields)
@@ -219,7 +219,7 @@ def get_list_data(
 	) or []
 	fields_without = ['salutation', 'last_name', 'naming_series', 'middle_name', 'image', 'converted', 'sla', 'sla_creation', 'sla_status', 'communication_status','response_by','first_response_time',
 		'first_responded_on','full_name','google_contacts_id','sync_with_google_contacts','google_contacts','pulled_from_google_contacts','is_primary_contact','is_billing_contact','unsubscribed','organization_logo',
-		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name']
+		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','first_name','assign_to','probability']
 	fields = frappe.get_meta(doctype).fields
 	fields = [field for field in fields if field.fieldtype not in no_value_fields]
 	fields = [
@@ -234,17 +234,17 @@ def get_list_data(
 	]
 
 	std_fields = [
-		{"label": "Name", "type": "Data", "value": "name"},
-		{"label": "Created On", "type": "Datetime", "value": "creation"},
-		{"label": "Last Modified", "type": "Datetime", "value": "modified"},
+		{"label": _("ID"), "type": "Data", "value": "name"},
+		{"label": _("Created On"), "type": "Datetime", "value": "creation"},
+		{"label": _("Last Modified"), "type": "Datetime", "value": "modified"},
 		{
-			"label": "Modified By",
+			"label": _("Modified By"),
 			"type": "Link",
 			"value": "modified_by",
 			"options": "User",
 		},
-		{"label": "Assigned To", "type": "Text", "value": "_assign"},
-		{"label": "Owner", "type": "Link", "value": "owner", "options": "User"},
+		{"label": _("Assigned To"), "type": "Text", "value": "_assign"},
+		{"label": _("Owner"), "type": "Link", "value": "owner", "options": "User"},
 	]
 
 	for field in std_fields:
@@ -335,7 +335,7 @@ def get_doctype_fields(doctype, name):
 	]
 
 	not_allowed_field = [
-		"last_name"
+		"last_name", "probability"
 	]
 
 	fields = frappe.get_meta(doctype).fields

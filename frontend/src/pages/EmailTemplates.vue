@@ -17,14 +17,14 @@
       </Button>
     </template>
   </LayoutHeader>
-  <ViewControls
+  <!-- <ViewControls
     ref="viewControls"
     v-model="emailTemplates"
     v-model:loadMore="loadMore"
     v-model:resizeColumn="triggerResize"
     v-model:updatedPageCount="updatedPageCount"
     doctype="Email Template"
-  />
+  /> -->
   <EmailTemplatesListView
     ref="emailTemplatesListView"
     v-if="emailTemplates.data && rows.length"

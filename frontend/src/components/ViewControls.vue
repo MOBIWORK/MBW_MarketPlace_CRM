@@ -349,6 +349,7 @@ list.value = createResource({
       custom_view_name: cv?.name || '',
       default_filters: props.filters,
     }
+    console.log(data);
   },
 })
 
@@ -450,7 +451,7 @@ const viewsDropdownOptions = computed(() => {
       })
     pinnedViews.length &&
       _views.push({
-        group: "Ghim khung nhìn",
+        group: "Chế độ xem ghim",
         items: pinnedViews,
       })
   }

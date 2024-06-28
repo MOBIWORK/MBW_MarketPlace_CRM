@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between gap-3 border-t px-10 py-2.5">
-    <div class="flex gap-1.5">
+    <!-- <div class="flex gap-1.5">
       <Button
         v-if="isComment != false"
         ref="sendEmailRef"
@@ -23,7 +23,7 @@
           <CommentIcon class="h-4" />
         </template>
       </Button>
-    </div>
+    </div> -->
     <div v-if="showEmailBox" class="flex gap-1.5">
       <Button
         :label="__('CC')"

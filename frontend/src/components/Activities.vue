@@ -597,7 +597,7 @@
     <Button v-else-if="title == 'Emails'" :label="__('New Email')" @click="$refs.emailBox.show = true" />
     <Button v-else-if="title == 'Tasks'" :label="__('Create Task')" @click="showTask()" />
   </div>
-  <CommunicationArea ref="emailBox" v-if="['Emails', 'Activity', 'Comment'].includes(title)" v-model="doc"
+  <CommunicationArea ref="emailBox" v-if="['Emails', 'Activity', 'Comment', 'Tasks', 'Notes'].includes(title)" v-model="doc"
     v-model:reload="reload_email" :doctype="doctype" @scroll="scroll" :isComment="title == 'Comment' ? false : true" />
   <WhatsAppBox ref="whatsappBox" v-if="title == 'WhatsApp'" v-model="doc" v-model:reply="replyMessage"
     v-model:whatsapp="whatsappMessages" :doctype="doctype" @scroll="scroll" />

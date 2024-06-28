@@ -103,6 +103,7 @@
         </div>
         <div class="flex items-center gap-4 grid grid-cols-2">
           <div>
+            <div class="mb-1.5 text-sm text-gray-600">{{ __('Deadline') }}</div>
             <DatetimePicker
               class="datepicker" style="width: 100%"
               icon-left="calendar"
@@ -113,6 +114,7 @@
             />
           </div>
           <div>
+            <div class="mb-1.5 text-sm text-gray-600">{{ __('Remind task') }}</div>
             <DatetimePicker
               class="datepicker" style="width: 100%"
               icon-left="calendar"
