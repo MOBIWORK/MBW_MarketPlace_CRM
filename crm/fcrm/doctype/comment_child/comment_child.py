@@ -20,7 +20,7 @@ class CommentChild(Document):
 			notification_text_comment = f"""
 				<div class="mb-2 leading-5 text-gray-600">
 					<span class="font-medium text-gray-900">{ user_info.username }</span>
-					<span>{ _('đã đề cập đến bạn trong một bình luận/phản hồi') }</span>
+					<span>{ _('đã nhắc đến bạn trong một bình luận') }</span>
 				</div>
 			"""
 			value_notify_comment = frappe._dict(

@@ -82,7 +82,7 @@ Clear Sort,Xóa sắp xếp
 Clear Table,Xóa bảng
 Clear all Filter,Xóa tất cả bộ lọc
 Close,Đóng
-Close Date,Ngày gần
+Close Date,Ngày chốt dự kiến
 Collapse,Thu gọn
 Color,Màu sắc
 Columns,Tùy chỉnh cột
@@ -113,9 +113,9 @@ Create Task,Tạo công việc
 Create View,Tạo chế độ xem
 Create lead,Tạo Lead
 Date,Ngày
-Deal Owner,Người phụ trách Deal
+Deal Owner,Quản lí Deal
 Deal not found,Không tìm thấy Deal
-Deal owner,Người phụ trách Deal
+Deal owner,Quản lí Deal
 Deal updated,Đã cập nhật Deal
 Deals,Deal
 Dear {{ lead_name }} \n\nThis is a reminder for the payment of {{ grand_total }}. \n\nThanks \nMBW Cloud,
@@ -135,14 +135,14 @@ Details,Chi tiết
 Device,Thiết bị
 Dialog,Hộp thoại
 Discard,Hủy
-DocType,Loại tài liệu
+DocType,Module áp dụng
 Docs,Tài liệu
-Doctype,Loại tài liệu
+Doctype,Module áp dụng
 Document not found,Không tìm thấy tài liệu
 Documentation,Tài liệu
 Done,Đã xong
 Download,Tải xuống
-Due Date,Ngày đáo hạn
+Due Date,Deadline
 Duplicate,Tạo bản sao
 Duplicate View,Sao chép chế độ xem
 Duration,Thời lượng
@@ -154,9 +154,9 @@ Email,Email
 Email Templates,Mẫu Email
 Email from Lead,Email từ Lead
 Emails,Email
-Empty - Choose a field to filter by,Trống - Chọn một trường để lọc theo
-Empty - Choose a field to sort by,Trống - Chọn một trường để sắp xếp theo
-Enabled,Đã bật
+Empty - Choose a field to filter by,Trống - chọn trường để lọc
+Empty - Choose a field to sort by,Trống - chọn trường để sắp xếp
+Enabled,Kích hoạt
 End Date,Ngày kết thúc
 End Time,Thời gian kết thúc
 Equals,Bằng
@@ -236,16 +236,16 @@ Last Year,Năm trước
 last year,năm trước
 Last modified,Lần cuối chỉnh sửa
 Lead,Lead
-Lead Name,Tên Lead
-Lead Owner,Người phụ trách Lead
-Lead Owner cannot be same as the Lead Email Address,Người phụ trách Lead không thể trùng với địa chỉ Email Lead
+Lead Name,ID
+Lead Owner,Quản lí Lead
+Lead Owner cannot be same as the Lead Email Address,Quản lí Lead không thể trùng với địa chỉ Email Lead
 Lead not found,Không tìm thấy Lead
 Lead updated,Lead đã cập nhật
 Leads,Lead
 Left,Bên trái
 Like,Giống
 List,Danh sách
-List View,Danh sách xem
+List View,Chế độ xem
 Listen to Call,Nghe cuộc gọi
 Load Default Columns,Tải cột mặc định
 Loading...,Đang tải...
@@ -254,7 +254,7 @@ Log out,Đăng xuất
 Low,Thấp
 Make Call,Thực hiện cuộc gọi
 Make Private,Đặt ở chế độ riêng tư
-Make Public,Đặt công khai
+Make Public,Đặt ở chế độ công khai
 Make a Call,Thực hiện cuộc gọi
 Make a call,Thực hiện cuộc gọi
 Mark all as read,Đánh dấu tất cả là đã đọc
@@ -266,14 +266,14 @@ Mobile No,Di động
 Mobile No should be a number,Số di động phải có định dạng số
 Mobile no,Di động
 Monday,Thứ Hai
-More,Nhiều hơn
+More,Xem thêm
 My Open Deals,Các giao dịch của tôi đang mở
 My Profile,Hồ sơ của tôi
 My Settings,Cài đặt của tôi
-Name,Tên
+Name,Họ tên
 Naming Series,Đặt tên chuỗi
 New,Mới
-New Email,Email mới
+New Email,Tạo email
 New Note,Ghi chú mới
 New Organization,Tổ chức mới
 New Task,Công việc mới
@@ -337,13 +337,13 @@ Organizations,Tổ chức
 Others,Khác
 Outbound Call,Cuộc gọi đi
 Outgoing,Đang gọi đi
-Owner,Chủ sở hữu
+Owner,Người tạo
 Parent CRM Territory,
 Payment Reminder,Nhắc nhở thanh toán
 Payment Reminder from Frappé - (#{{ name }}),Nhắc nhở thanh toán từ Frappé - (#{{ name }})
 Person,Thông tin cá nhân
 Phone,Điện thoại
-Pin View,Xem ghim
+Pin View,Ghim
 Pinned,Ghim
 Please enable twilio settings before making a call.,Vui lòng bật thiết lập twilio trước khi thực hiện cuộc gọi.
 Please select an existing contact,Vui lòng chọn một liên hệ hiện có
@@ -356,8 +356,8 @@ Priorities,Mức ưu tiên
 Priority,Mức ưu tiên
 Probability,Xác suất
 Public,Công khai
-Public Views,Các chế độ xem công khai
-Pinned Views,Ghim khung nhìn
+Public Views,Chế độ xem chung
+Pinned Views,Chế độ xem ghim
 Queued,Đang chờ
 Read,Đã đọc
 Record Calls,Ghi âm cuộc gọi
@@ -374,8 +374,8 @@ Rename,Đổi tên
 Reply,Trả lời
 Reply All,Trả lời tất cả
 Report an Issue,Báo cáo một vấn đề
-Reset Changes,Tái thiết lập các thay đổi
-Reset to Default,Đặt lại thành mặc định
+Reset Changes,Đặt lại các thay đổi
+Reset to Default,Khôi phục mặc định
 Response By,Phản hồi bởi
 Response Details,Chi tiết phản hồi
 Response and Follow Up,Phản hồi và theo dõi
@@ -388,7 +388,7 @@ SLA,SLA
 SLA Creation,Khởi tạo SLA
 SLA Name,Tên SLA
 SLA Status,Trạng thái SLA
-SUBJECT,Chủ đề
+SUBJECT,Tiêu đề
 Sales Manager,Quản lý bán hàng
 Sales User,Sales
 Salutation,Xưng hô
@@ -414,11 +414,11 @@ Start Date,Ngày bắt đầu
 Start Time,Giờ bắt đầu
 Status,Trạng thái
 Status Change Log,Lịch sử thay đổi trạng thái
-Subject,Chủ đề
-Subject: {0},Chủ đề: {0}
+Subject,Tiêu đề
+Subject: {0},Tiêu đề: {0}
 Sunday,Chủ nhật
 Support,Hỗ trợ
-Switch to Desk,Chuyển sang trang thiết lập
+Switch to Desk,Cài đặt chung
 System Health,Tình trạng hệ thống
 System Manager,Quản lý hệ thống
 TO,ĐẾN
@@ -455,7 +455,7 @@ Twilio Settings,Cài đặt Twilio
 Type,Loại
 Type your comment here...,Nhập bình luận của bạn ở đây...
 Unknown,Không xác định
-Unpin View,Bỏ ghim Chế độ xem
+Unpin View,Bỏ ghim
 Untitled,Chưa có tiêu đề
 Update,Cập nhật
 Update {0} Records,Cập nhật {0} bản ghi
@@ -534,7 +534,7 @@ Ready to Close,Sẵn sàng chốt
 Won,Thắng
 Lost,Thua
 No Activities,Không có hoạt động
-No Email Communications,Không có giao tiếp email
+No Email Communications,Không có email
 No Call Logs,Không có nhật ký cuộc gọi
 No Notes,Không có ghi chú
 No Tasks,Không có công việc
@@ -572,7 +572,6 @@ Upload Video,Tải lên
 Remove,Xóa Video
 Insert Video,Thêm Video
 Import,Nhập dữ liệu
-Search customer,Tìm kiếm khách hàng
 Search organization,Tìm kiếm theo tên tổ chức
 Search content,Tìm kiếm theo tiêu đề
 Search task,Tìm kiếm theo tiêu đề
@@ -588,7 +587,7 @@ Select the mapping field,Chọn trường tương ứng
 Map columns from file to fields in Lead, Ánh xạ các trường từ tệp dữ liệu tới các trường trong Lead
 Creation,Ngày tạo
 Don't Import,Không nhập
-Name,Tên
+Name,Họ tên
 Invalid phone number,Số điện thoại không hợp lệ
 Open,Mở
 Replied,Đã trả lời
@@ -607,7 +606,7 @@ Select another image,Chọn ảnh khác
 Select an image,Chọn một ảnh
 Insert Image,Thêm ảnh
 Set Link,Đặt liên kết
-Due Date: 01/04/2024 11:30 PM,Ngày đáo hạn: 01/04/2024 11:30 PM
+Due Date: 01/04/2024 11:30 PM,Deadline: 01/04/2024 11:30 PM
 Remind task,Nhắc nhở công việc
 Remind Task, Thời gian nhắc nhở
 Hide all reply comments,Ẩn tất cả các bình luận
@@ -677,8 +676,8 @@ added a,đã thêm một
 Rating,Đánh giá
 Phone number,Số điện thoại
 Gender customer,Giới tính khách hàng
-Select data source Leads by format,Chọn nguồn nhập dữ liệu leads theo định dạng
-Download sample,Tải mẫu
+Select data source Leads by format,Tải file dữ liệu theo định dạng
+Download sample,Tải file mẫu
 here,tại đây,
 Select Salutation,Chọn xưng hô
 Select Gender,Chọn giới tính
@@ -689,5 +688,8 @@ Select Organization,Chọn tổ chức
 Select Contact,Chọn liên hệ
 New Contact,Liên hệ mới
 Designation,Chức danh
-Select Due Date, Chọn ngày đáo hạn
+Select Due Date, Chọn deadline
 Select Remind task,Chọn ngày nhắc nhở công việc
+Email name,Tên email
+Select field,Chọn trường thông tin
+Task name,Tên công việc

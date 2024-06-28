@@ -8,7 +8,7 @@
         ref="searchInput"
         v-model="search"
         type="text"
-        :placeholder="__('Payment Reminder')"
+        :placeholder="__('Search')"
       >
         <template #prefix>
           <FeatherIcon name="search" class="h-4 w-4 text-gray-500" />

@@ -7,7 +7,7 @@
           :value="field.label"
           :options="fields.data"
           @change="(e) => changeField(e)"
-          :placeholder="__('Source')"
+          :placeholder="__('Select field')"
         />
       </div>
       <div>
@@ -17,7 +17,6 @@
           :value="newValue"
           size="md"
           @change="(v) => updateValue(v)"
-          :placeholder="__('Contact Us')"
         />
       </div>
     </template>

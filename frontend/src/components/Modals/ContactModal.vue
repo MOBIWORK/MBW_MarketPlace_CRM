@@ -264,7 +264,7 @@ const sections = computed(() => {
     },
     {
       section: 'Full Name',
-      columns: 2,
+      columns: 1,
       hideBorder: true,
       fields: [
         {
@@ -274,12 +274,12 @@ const sections = computed(() => {
           mandatory: true,
           placeholder: '',
         },
-        {
-          label: 'Last Name',
-          name: 'last_name',
-          type: 'data',
-          placeholder: '',
-        },
+        // {
+        //   label: 'Last Name',
+        //   name: 'last_name',
+        //   type: 'data',
+        //   placeholder: '',
+        // },
       ],
     },
     {

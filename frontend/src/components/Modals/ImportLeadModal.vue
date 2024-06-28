@@ -285,7 +285,7 @@ async function onDownloadTemplateExcel() {
     sheet.properties.defaultColWidth = 30;
 
     let arrHeader = [
-        { 'label': "Tên", 'cell': "A1", 'column': "A" },
+        { 'label': "Họ tên", 'cell': "A1", 'column': "A" },
         { 'label': "Email", 'cell': "B1", 'column': "B" },
         { 'label': "Số điện thoại", 'cell': "C1", 'column': "C" },
         { 'label': "Giới tính khách hàng", 'cell': "D1", 'column': "D" },

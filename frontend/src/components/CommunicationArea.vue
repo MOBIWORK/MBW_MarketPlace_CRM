@@ -6,7 +6,7 @@
         ref="sendEmailRef"
         variant="ghost"
         :class="[showEmailBox ? '!bg-gray-300 hover:!bg-gray-200' : '']"
-        :label="__('Reply')"
+        :label="__('Email')"
         @click="toggleEmailBox()"
       >
         <template #prefix>

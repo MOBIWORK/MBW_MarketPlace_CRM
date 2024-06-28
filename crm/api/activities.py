@@ -39,7 +39,11 @@ def get_deal_activities(name):
 	creation_text = "created this deal"
 
 	if lead:
-		activities, calls, notes, tasks = get_lead_activities(lead)
+		info_activities = get_lead_activities(lead)
+		if len(info_activities) >= 4:
+			activities, calls, notes, tasks = info_activities[:4]
+		else:
+			activities, calls, notes, tasks = get_lead_activities(lead)
 		creation_text = "converted the lead to this deal"
 
 	activities.append({

@@ -28,7 +28,7 @@
     :showElement=true
     :showFuncImport=true
     :showFuncConvertTaskCustomer="showConvertTaskCustomer"
-    :placeholderText="__('Search customer')"  
+    :placeholderText="__('Search')"  
     @showImportModal="show"
     @afterConvertTaskCustomer="onAfterConvertTaskCustomer()"
   />

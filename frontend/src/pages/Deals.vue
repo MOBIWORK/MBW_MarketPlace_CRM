@@ -27,7 +27,7 @@
     :showElement=true
     :showFuncImport=false
     :showFuncConvertTaskCustomer="showConvertTaskCustomer"
-    :placeholderText="__('Search customer')"
+    :placeholderText="__('Search')"
     @afterConvertTaskCustomer="onAfterConvertTaskCustomer()"
   />
   <DealsListView

@@ -25,7 +25,7 @@
     v-model:updatedPageCount="updatedPageCount"
     doctype="Contact"
     :showElement=true
-    :placeholderText="__('Search customer')"
+    :placeholderText="__('Search')"
   />
   <ContactsListView
     ref="contactsListView"

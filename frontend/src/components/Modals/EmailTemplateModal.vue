@@ -18,7 +18,7 @@
         <div class="flex gap-4">
           <div class="flex-1">
             <div class="mb-1.5 text-sm text-gray-600">
-              {{ __('Name') }}
+              {{ __('Email name') }}
               <span class="text-red-500">*</span>
             </div>
             <TextInput

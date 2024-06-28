@@ -35,7 +35,7 @@
     <template #body-content>
       <div class="flex flex-col gap-4">
         <div>
-          <div class="mb-1.5 text-sm text-gray-600">{{ __('Title') }}</div>
+          <div class="mb-1.5 text-sm text-gray-600">{{ __('Task name') }}</div>
           <TextInput
             ref="title"
             variant="outline"
