@@ -385,7 +385,7 @@ function updateDeal(fieldname, value, callback) {
   value = Array.isArray(fieldname) ? '' : value
 
   if (validateRequired(fieldname, value)) return
-
+  let error_sum = 1;
   createResource({
     url: 'frappe.client.set_value',
     params: {
@@ -406,12 +406,15 @@ function updateDeal(fieldname, value, callback) {
       callback?.()
     },
     onError: (err) => {
-      createToast({
-        title: __('Error updating deal'),
-        text: __(err.messages?.[0]),
-        icon: 'x',
-        iconClasses: 'text-red-600',
-      })
+      if(error_sum > 0){
+        createToast({
+          title: __('Error updating deal'),
+          text: __(err.messages?.[0]),
+          icon: 'x',
+          iconClasses: 'text-red-600',
+        })
+        error_sum -= 1;
+      }
     },
   })
 }

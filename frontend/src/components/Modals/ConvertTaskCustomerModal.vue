@@ -130,6 +130,7 @@
 
   async function onConvertTaskAndCustomer(){
     isLoadingConverting.value = true;
+    let error_sum = 1;
     createResource({
     url: 'crm.api.activities_sys.convert_task_customer',
     params: { from_user: convertTaskCustomer.value.from_user, to_user: convertTaskCustomer.value.to_user},
@@ -148,13 +149,16 @@
       }
     },
     onError(error){
-      isLoadingConverting.value = false;
-      createToast({
-        title: __('Error'),
-        text: __("Trong quá trình bàn giao gặp lỗi. Vui lòng liên hệ Admin để tiếp tục bàn giao"),
-        icon: 'x',
-        iconClasses: 'text-red-600',
-      })
+      if(error_sum > 0){
+        isLoadingConverting.value = false;
+        createToast({
+          title: __('Error'),
+          text: __("Trong quá trình bàn giao gặp lỗi. Vui lòng liên hệ Admin để tiếp tục bàn giao"),
+          icon: 'x',
+          iconClasses: 'text-red-600',
+        })
+        error_sum -= 1;
+      }
     }
   })
   }

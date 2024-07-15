@@ -208,6 +208,7 @@ const rows = computed(() => {
   })
 })
 const rating = (data) => {
+  let error_sum = 1;
   createResource({
     url: 'frappe.client.set_value',
     params: {
@@ -227,12 +228,15 @@ const rating = (data) => {
       
     },
     onError: (err) => {
-      createToast({
-        title: __('Error updating lead'),
-        text: __(err.messages?.[0]),
-        icon: 'x',
-        iconClasses: 'text-red-600',
-      })
+      if(error_sum > 0){
+        createToast({
+          title: __('Error updating lead'),
+          text: __(err.messages?.[0]),
+          icon: 'x',
+          iconClasses: 'text-red-600',
+        })
+        error_sum -= 1;
+      }
     },
   })
   

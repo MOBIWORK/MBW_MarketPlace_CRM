@@ -29,21 +29,22 @@ def notify_rely_comment(doc):
                 <span> của bạn</span>
             </div>
         """
-        values = frappe._dict(
-            doctype="CRM Notification",
-            from_user=owner_comment,
-            to_user=owner_lead_deal,
-            type="RelyComment",
-            message=doc.content,
-            notification_text=notification_text,
-            notification_type_doctype="Comment",
-            notification_type_doc=doc.name,
-            reference_doctype=doc.reference_doctype,
-            reference_name=doc.reference_name,
-        )
-        if frappe.db.exists("CRM Notification", values):
-            return
-        frappe.get_doc(values).insert()
+        if owner_lead_deal is not None:
+            values = frappe._dict(
+                doctype="CRM Notification",
+                from_user=owner_comment,
+                to_user=owner_lead_deal,
+                type="RelyComment",
+                message=doc.content,
+                notification_text=notification_text,
+                notification_type_doctype="Comment",
+                notification_type_doc=doc.name,
+                reference_doctype=doc.reference_doctype,
+                reference_name=doc.reference_name,
+            )
+            if frappe.db.exists("CRM Notification", values):
+                return
+            frappe.get_doc(values).insert()
 
 def notify_mentions(doc):
     """

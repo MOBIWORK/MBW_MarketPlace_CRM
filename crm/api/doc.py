@@ -500,7 +500,12 @@ def import_data_leads(source_leads, fields_dict):
 						assign_str = lead.get(field_dict.get('key'))
 						if assign_str is not None:
 							arr_assign = assign_str.split(';')
-							field_value = json.dumps(arr_assign)
+							arr_assigned = []
+							for assigned in arr_assign:
+								user_info = frappe.db.exists('User', {'email': assigned})
+								if user_info is not None:
+									arr_assigned.append(assigned)
+							field_value = json.dumps(arr_assigned)
 					elif field_name == "source":
 						source_info = frappe.db.exists('CRM Lead Source', {'source_name': lead.get(field_dict.get('key'))})
 						if source_info is not None:

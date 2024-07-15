@@ -69,7 +69,7 @@
           <div>
             <div class="mb-1.5 text-sm text-gray-600">{{ __('Assign To') }}</div>
             <Link
-              class="form-control"
+              class="form-control truncate"
               :value="getUser(_task.assigned_to).full_name"
               doctype="User"
               @change="(option) => (_task.assigned_to = option)"

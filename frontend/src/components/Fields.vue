@@ -15,17 +15,17 @@
               </Tooltip>
             </div>
           </div>
-          <FormControl v-if="field.type === 'select'" type="select" class="form-control"
+          <FormControl v-if="field.type === 'select'" type="select" class="form-control truncate"
             :class="field.prefix ? 'prefix' : ''" :options="field.options" v-model="data[field.name]"
             :placeholder="__(field.placeholder)">
             <template v-if="field.prefix" #prefix>
               <IndicatorIcon :class="field.prefix" />
             </template>
           </FormControl>
-          <Link v-else-if="field.type === 'link'" class="form-control" :value="data[field.name]"
+          <Link v-else-if="field.type === 'link'" class="form-control truncate" :value="data[field.name]"
             :doctype="field.doctype" @change="(v) => (data[field.name] = v)" :placeholder="__(field.placeholder)"
             :onCreate="field.create" />
-          <Link v-else-if="field.type === 'user'" class="form-control" :value="getUser(data[field.name]).full_name"
+          <Link v-else-if="field.type === 'user'" class="form-control truncate" :value="getUser(data[field.name]).full_name"
             :doctype="field.doctype" @change="(v) => (data[field.name] = v)" :placeholder="__(field.placeholder)"
             :hideMe="true">
           <template #prefix>
@@ -46,7 +46,7 @@
             <NestedPopover>
               <template #target="{ open }">
                 <Button :label="data[field.name]"
-                  class="dropdown-button flex w-full items-center justify-between rounded border border-gray-100 bg-gray-100 px-2 py-1.5 text-base text-gray-800 placeholder-gray-500 transition-colors hover:border-gray-200 hover:bg-gray-200 focus:border-gray-500 focus:bg-white focus:shadow-sm focus:outline-none focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400">
+                  class="truncate dropdown-button flex w-full items-center justify-between rounded border border-gray-100 bg-gray-100 px-2 py-1.5 text-base text-gray-800 placeholder-gray-500 transition-colors hover:border-gray-200 hover:bg-gray-200 focus:border-gray-500 focus:bg-white focus:shadow-sm focus:outline-none focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400">
                   <div class="truncate">{{ data[field.name] }}</div>
                   <template #suffix>
                     <FeatherIcon :name="open ? 'chevron-up' : 'chevron-down'" class="h-4 text-gray-600" />
@@ -92,7 +92,7 @@
               </div>
             </div>
           </div>
-          <FormControl v-else type="text" :placeholder="__(field.placeholder)" v-model="data[field.name]"
+          <FormControl v-else type="text" :placeholder="__(field.placeholder)" v-model="data[field.name]" class="truncate"
             @focus="handleFocus(data[field.name], field.name)" @blur="handleBlur(data[field.name], field.name)" />
           <div v-if="showAutoRepairEmail[field.name]">
             <div style="display: flex;justify-content:space-between;" class="mt-2">

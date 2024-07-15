@@ -494,6 +494,7 @@ function onBackModalChooseActionFromDriver(){
 
 function onNextModalPreviewFromDriver(){
     loadingReadLinkSheet.value = true;
+    let error_sum = 1;
     let linkFile = createResource({
         url: 'crm.api.doc.get_content_by_google_sheet',
         method: 'POST',
@@ -591,13 +592,16 @@ function onNextModalPreviewFromDriver(){
             }
         },
         onError(error){
-            loadingReadLinkSheet.value = false;
-            createToast({
-                title: __('Error'),
-                text: __("Trong quá trình đọc dữ liệu. Vui lòng liên hệ Admin để tiếp tục"),
-                icon: 'x',
-                iconClasses: 'text-red-600',
-            })
+            if(error_sum > 0){
+                loadingReadLinkSheet.value = false;
+                createToast({
+                    title: __('Error'),
+                    text: __("Trong quá trình đọc dữ liệu. Vui lòng liên hệ Admin để tiếp tục"),
+                    icon: 'x',
+                    iconClasses: 'text-red-600',
+                })
+                error_sum -= 1;
+            }
         }
     })
     linkFile.fetch();
@@ -612,6 +616,7 @@ function onBackModalPreviewData(){
 function onImportData(){
     loadingImport.value = true;
     let valid_email = true;
+    let error_sum = 1;
     for(let i = 0; i < rowsDataPreview.value.length; i++){
         for(let j = 0; j < columnsDataPreview.value.length; j++){
             if(columnsDataPreview.value[j].col_email || columnsDataPreview.value[j].col_obj_email){
@@ -652,13 +657,16 @@ function onImportData(){
             }
         },
         onError(error){
-            loadingImport.value = false;
-            createToast({
-                title: __('Error'),
-                text: __("Trong quá trình nhập tệp lỗi. Vui lòng liên hệ Admin để tiếp tục"),
-                icon: 'x',
-                iconClasses: 'text-red-600',
-            })
+            if(error_sum > 0){
+                loadingImport.value = false;
+                createToast({
+                    title: __('Error'),
+                    text: __("Trong quá trình nhập tệp lỗi. Vui lòng liên hệ Admin để tiếp tục"),
+                    icon: 'x',
+                    iconClasses: 'text-red-600',
+                })
+                error_sum -= 1;
+            }
         }
     })
     leadsImport.fetch()

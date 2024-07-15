@@ -10,7 +10,7 @@ class CommentChildReaction(Document):
 	def before_save(self):
 		if frappe.db.exists("CommentChild Reaction", self.name) is None:
 			comment_child = frappe.get_doc('Comment Child', self.id_comment)
-			comment_root = frappe.get_doc('Comment', self.id_comment_parent)
+			comment_root = frappe.get_doc('Comment', comment_child.id_comment_parent)
 			if comment_child.owner != frappe.session.user:
 				user_info = frappe.get_doc('User', self.owner)
 				notification_text = f"""

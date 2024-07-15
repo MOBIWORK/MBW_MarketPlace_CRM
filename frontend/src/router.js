@@ -98,11 +98,7 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import('@/pages/Login.vue'),
-  },
-  {
-    path: '/app/data-import/new-data-import',
-    name: 'ImportData',
-  },
+  }
 ]
 
 const scrollBehavior = (to, from, savedPosition) => {
@@ -150,5 +146,4 @@ router.beforeEach(async (to, from, next) => {
     next()
   }
 })
-console.log(router);
 export default router
