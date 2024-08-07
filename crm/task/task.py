@@ -52,9 +52,6 @@ def send_reminders():
 		pluck="name",
 	)
 
-	doc_test = frappe.new_doc('Doc_Test')
-	doc_test.label = str(pending_reminders) + str(upper_threshold) + str(lower_threshold)
-	doc_test.save()
 	for reminder_name in pending_reminders:
 		send_notify_for_reminder(reminder_name)
 
