@@ -31,7 +31,6 @@
                   :value="f.field.fieldname"
                   :options="filterableFields.data"
                   @change="(e) => updateFilter(e, i)"
-                  :placeholder="__('First Name')"
                 />
               </div>
               <div id="operator">
@@ -40,7 +39,6 @@
                   v-model="f.operator"
                   @change="(e) => updateOperator(e, f)"
                   :options="getOperators(f.field.fieldtype, f.field.fieldname)"
-                  :placeholder="__('Equals')"
                 />
               </div>
               <div id="value" class="!min-w-[140px]">
@@ -48,7 +46,6 @@
                   :is="getValSelect(f)"
                   v-model="f.value"
                   @change="(v) => updateValue(v, f)"
-                  :placeholder="__('John Doe')"
                 />
               </div>
             </div>
@@ -250,9 +247,9 @@ function getOperators(fieldtype, fieldname) {
       ...[
         { label: __('Equals'), value: 'equals' },
         { label: __('Not Equals'), value: 'not equals' },
-        { label: __('Like'), value: 'like' },
+        /*{ label: __('Like'), value: 'like' },
         { label: __('Not Like'), value: 'not like' },
-        /*{ label: __('In'), value: 'in' },
+        { label: __('In'), value: 'in' },
         { label: __('Not In'), value: 'not in' },
         { label: __('Is'), value: 'is' },*/
       ]
@@ -371,6 +368,7 @@ function getSelectOptions(options) {
 }
 
 function setfilter(data) {
+  console.log(data)
   if (!data) return
   filters.value.add({
     field: {
@@ -464,12 +462,14 @@ function apply() {
       value: f.value,
     })
   })
-  emit('update', parseFilters(_filters))
+  let configFilter = parseFilters(_filters)
+  console.log("Dòng 466 ", configFilter)
+  emit('update', configFilter)
 }
 
-function parseFilters(filters) {
-  const filtersArray = Array.from(filters)
-  const obj = filtersArray.map(transformIn).reduce((p, c) => {
+function parseFilters(arr_filters) {
+  const filtersArray = Array.from(arr_filters)
+  const obj = filtersArray.reduce((p, c) => {
     if (['equals', '='].includes(c.operator)) {
       p[c.fieldname] =
         c.value == 'Yes' ? true : c.value == 'No' ? false : c.value

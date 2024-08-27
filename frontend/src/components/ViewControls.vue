@@ -451,7 +451,7 @@ const viewsDropdownOptions = computed(() => {
       })
     pinnedViews.length &&
       _views.push({
-        group: "Chế độ xem ghim",
+        group: __('Pinned Views'),
         items: pinnedViews,
       })
   }

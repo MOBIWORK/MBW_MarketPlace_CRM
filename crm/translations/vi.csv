@@ -99,11 +99,12 @@ Contact already exists with {0},Địa chỉ liên hệ đã tồn tại với {
 Contact not found,Không tìm thấy liên hệ
 Contact removed,Đã xóa liên hệ
 Contacts,Liên hệ
+contacts,liên hệ
 Content,Nội dung
 Convert,Chuyển đổi
 Convert to Deal,Chuyển đổi thành Deal
 Converted,Đã chuyển đổi
-Create,Tạo mới
+Create,Tạo
 Create Deal,Tạo Deal
 Create Email Template,Tạo mẫu Email
 Create Lead,Tạo Lead
@@ -118,6 +119,7 @@ Deal not found,Không tìm thấy Deal
 Deal owner,Quản lí Deal
 Deal updated,Đã cập nhật Deal
 Deals,Deal
+deal,deal
 Dear {{ lead_name }} \n\nThis is a reminder for the payment of {{ grand_total }}. \n\nThanks \nMBW Cloud,
 Default,Mặc định
 Default Priority,Mức ưu tiên Mặc định
@@ -223,7 +225,7 @@ Is Primary,Là chính
 Job Title,Chức danh
 John Doe,khách hàng
 Keyboard Shortcuts,Phím tắt bàn phím
-Label,Nhãn
+Label,Trường thông tin
 Last 6 Months,Sáu tháng trước
 Last Month,Tháng trước
 last month,tháng trước
@@ -242,8 +244,9 @@ Lead Owner cannot be same as the Lead Email Address,Quản lí Lead không thể
 Lead not found,Không tìm thấy Lead
 Lead updated,Lead đã cập nhật
 Leads,Lead
+lead,lead
 Left,Bên trái
-Like,Giống
+Like,Bao gồm
 List,Danh sách
 List View,Chế độ xem
 Listen to Call,Nghe cuộc gọi
@@ -273,7 +276,7 @@ My Settings,Cài đặt của tôi
 Name,Họ tên
 Naming Series,Đặt tên chuỗi
 New,Mới
-New Email,Tạo email
+New Email,Email mới
 New Note,Ghi chú mới
 New Organization,Tổ chức mới
 New Task,Công việc mới
@@ -305,23 +308,24 @@ No results found,Không tìm thấy kết quả
 No templates found,Không tìm thấy mẫu
 No website set,Không có địa chỉ web được thiết lập
 No {0} Available,{0} không có sẵn
-No {0} Found,{0} không tìm thấy
+No {0} Found,Chưa có {0}
 No. of Employees,Quy mô tổ chức
 Not Equals,Không bằng
 Not In,Không chứa
-Not Like,Không giống
+Not Like,Không bao gồm
 Not allowed to add contact to Deal,Không được phép thêm liên hệ vào Deals
 Not allowed to convert Lead to Deal,Không được phép chuyển đổi Leads thành Deals
 Not allowed to remove contact from Deal,Không được phép xóa liên hệ khỏi Deals
 Not allowed to set primary contact for Deal,Không được phép đặt liên hệ chính cho Deals
 Note,Ghi chú
 Notes,Ghi chú
+notes,ghi chú
 Notes View,Chế độ xem Ghi chú
 Notification Text,Thông báo chữ
 Notification Type Doc,Tài liệu loại thông báo
 Notification Type Doctype,
 Notifications,Thông báo
-Now,Hiện tại
+Now,Bây giờ
 Only PNG and JPG images are allowed,Chỉ cho phép tải lên hình ảnh PNG và JPG
 Only one {0} can be set as primary.,Chỉ có thể đặt một {0} làm chính.
 Open Deal,Mở Deal
@@ -334,6 +338,7 @@ Organization Logo,Logo tổ chức
 Organization Name,Tên tổ chức
 Organization logo,Logo tổ chức
 Organizations,Tổ chức
+organizations,tổ chức
 Others,Khác
 Outbound Call,Cuộc gọi đi
 Outgoing,Đang gọi đi
@@ -421,8 +426,9 @@ Support,Hỗ trợ
 Switch to Desk,Cài đặt chung
 System Health,Tình trạng hệ thống
 System Manager,Quản lý hệ thống
-TO,ĐẾN
+TO,Đến
 Tasks,Công việc
+tasks,công việc
 Territory,Khu vực
 Territory Manager,Quản lý khu vực
 Territory Name,Tên khu vực
@@ -468,7 +474,7 @@ User Forum,Diễn đàn người dùng
 User Name,Tên người dùng
 Validity,Hiệu lực
 Value,Giá trị
-View Name,Xem tên
+View Name,Tên
 View Website,Xem trang web
 Website,Trang web
 Wednesday,Thứ tư
@@ -535,10 +541,10 @@ Won,Thắng
 Lost,Thua
 No Activities,Không có hoạt động
 No Email Communications,Không có email
-No Call Logs,Không có nhật ký cuộc gọi
-No Notes,Không có ghi chú
-No Tasks,Không có công việc
-No WhatsApp Messages,Không có tin nhắn WhatsApp
+No Call Logs,Chưa có nhật ký cuộc gọi
+No Notes,Chưa có ghi chú
+No Tasks,Chưa có công việc
+No WhatsApp Messages,Chưa có tin nhắn WhatsApp
 Add Next Step...,Thêm bước tiếp theo
 Madam,Bà
 Master,Bậc thầy
@@ -574,7 +580,6 @@ Insert Video,Thêm Video
 Import,Nhập dữ liệu
 Search organization,Tìm kiếm theo tên tổ chức
 Search content,Tìm kiếm theo tiêu đề
-Search task,Tìm kiếm theo tiêu đề
 Write Content...,Nhập nội dung...
 Mobile No should be 10 digits,Số điện thoại phải bao gồm 10 số
 New Comment,Thêm bình luận
@@ -689,7 +694,7 @@ Select Contact,Chọn liên hệ
 New Contact,Liên hệ mới
 Designation,Chức danh
 Select Due Date, Chọn deadline
-Select Remind task,Chọn ngày nhắc nhở công việc
+Select Reminder,Chọn ngày nhắc nhở
 Email name,Tên email
 Select field,Chọn trường thông tin
 Task name,Tên công việc
@@ -697,3 +702,5 @@ Remind task,Ngày nhắc nhở
 Created On,Ngày tạo,
 Modified By,Chỉnh sửa bởi
 converted the lead to this deal,đã chuyển đổi lead thành deal này
+Mark as read,Đánh dấu đã đọc
+Width can be in number pixel or rem (eg. 30px or 10rem),Điều chỉnh chiều rộng bằng đơn vị rem hoặc pixel (Ví dụ 30px hoặc 10rem)

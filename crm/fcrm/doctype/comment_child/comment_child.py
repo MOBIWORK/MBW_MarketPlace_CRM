@@ -19,7 +19,7 @@ class CommentChild(Document):
 			user_info = frappe.get_doc('User', owner_child)
 			notification_text_comment = f"""
 				<div class="mb-2 leading-5 text-gray-600">
-					<span class="font-medium text-gray-900">{ user_info.username }</span>
+					<span class="font-medium text-gray-900">{ user_info.first_name }</span>
 					<span>{ _('đã nhắc đến bạn trong một bình luận') }</span>
 				</div>
 			"""
@@ -50,7 +50,7 @@ class CommentChild(Document):
 			user_info = frappe.get_doc('User', owner_child)
 			notification_txt_owner = f"""
 				<div class="mb-2 leading-5 text-gray-600">
-					<span class="font-medium text-gray-900">{ user_info.username }</span>
+					<span class="font-medium text-gray-900">{ user_info.first_name }</span>
 					<span>{ _('đã bình luận về ') } {dict_doc} của bạn</span>
 				</div>
 			"""

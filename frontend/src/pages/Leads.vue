@@ -56,7 +56,7 @@
       class="flex flex-col items-center gap-3 text-xl font-medium text-gray-500"
     >
       <LeadsIcon class="h-10 w-10" />
-      <span>{{ __('No {0} Found', [__('Leads')]) }}</span>
+      <span>{{ __('No {0} Found', [__('lead')]) }}</span>
       <Button :label="__('Create')" @click="showLeadModal = true">
         <template #prefix><FeatherIcon name="plus" class="h-4" /></template>
       </Button>

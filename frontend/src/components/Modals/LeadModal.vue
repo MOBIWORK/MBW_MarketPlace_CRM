@@ -181,6 +181,7 @@ const sections = computed(() => {
           type: 'user',
           placeholder: __('Lead Owner'),
           doctype: 'User',
+          hidden_delete: true
         },
       ],
     },

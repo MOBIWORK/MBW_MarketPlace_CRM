@@ -74,7 +74,7 @@ def get_filterable_fields(doctype: str):
 	res = []
 	fields_without = ['salutation', 'last_name', 'naming_series', 'middle_name', 'image', 'converted', 'sla', 'sla_creation', 'sla_status', 'communication_status','response_by','first_response_time',
 		'first_responded_on','full_name','google_contacts_id','sync_with_google_contacts','google_contacts','pulled_from_google_contacts','is_primary_contact','is_billing_contact','unsubscribed','organization_logo',
-		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','website', 'assign_to','first_name','probability']
+		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','website','first_name', 'assign_to','probability', 'phone']
 	# append DocFields
 	DocField = frappe.qb.DocType("DocField")
 	doc_fields = get_fields_meta(DocField, doctype, allowed_fieldtypes, restricted_fields)
@@ -108,8 +108,10 @@ def get_filterable_fields(doctype: str):
 		# {"fieldname": "_comments", "fieldtype": "Text", "label": "Comments"},
 		{"fieldname": "_assign", "fieldtype": "Text", "label": "Assigned To"},
 		{"fieldname": "creation", "fieldtype": "Datetime", "label": "Created On"},
-		{"fieldname": "modified", "fieldtype": "Datetime", "label": "Last Updated On"},
+		{"fieldname": "modified", "fieldtype": "Datetime", "label": "Last Updated On"}
 	]
+	if doctype != "CRM Deal" and doctype != "CRM Organization" and doctype != "CRM Contact" and doctype != "FCRM Note" and doctype != "CRM Task" and doctype != "Email Template":
+		standard_fields.append({"fieldname": "first_name", "fieldtype": "Data", "label": "Full Name"})
 	for field in standard_fields:
 		if (
 			field.get("fieldname") not in restricted_fields and
@@ -161,6 +163,8 @@ def get_list_data(
 	for key in filters:
 		value = filters[key]
 		if isinstance(value, list):
+			if value[0] == "LIKE":
+				value[1] = f'%{value[1]}%'
 			if "@me" in value:
 				value[value.index("@me")] = frappe.session.user
 			elif "%@me%" in value:
@@ -283,24 +287,21 @@ def apply_search_filter(searchText: str, doctype=None):
             # Tạo các điều kiện OR cho trường "email", "first_name", "organization", "phone"
             or_filters = [
                 ["email", "LIKE", f'%{searchText}%'],   
-                ["first_name", "LIKE", f'%{searchText}%'],
-                ["phone", "=", searchText],  
+                ["first_name", "LIKE", f'%{searchText}%'], 
                 ["mobile_no", "=", searchText]   
             ]   
         elif doctype == "CRM Deal":
             # Tạo các điều kiện OR cho trường "email", "organization", "phone"
             or_filters = [
                 ["email", "LIKE", f'%{searchText}%'],
-                ["organization", "LIKE", f'%{searchText}%'], 
-                ["phone", "=", searchText],
+                ["organization", "LIKE", f'%{searchText}%'],
                 ["mobile_no", "=", searchText]  
             ]   
         elif doctype == "Contact":
             # Tạo các điều kiện OR cho trường "email", "first_name", "organization", "phone"
             or_filters = [
                 ["email_id", "LIKE", f'%{searchText}%'],   
-                ["first_name", "LIKE", f'%{searchText}%'],  
-                ["phone", "=", searchText], 
+                ["first_name", "LIKE", f'%{searchText}%'],
                 ["mobile_no", "=", searchText],   
             ]   
         elif doctype == "CRM Organization":

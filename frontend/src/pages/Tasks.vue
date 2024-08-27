@@ -23,7 +23,7 @@
     :showElement=true
     :showFuncImport=false
     :showFuncConvertTaskCustomer="showConvertTaskCustomer"
-    :placeholderText="__('Search task')"
+    :placeholderText="__('Search')"
     @afterConvertTaskCustomer="onAfterConvertTaskCustomer()"
   />
   <TasksListView
@@ -50,7 +50,7 @@
       class="flex flex-col items-center gap-3 text-xl font-medium text-gray-500"
     >
       <EmailIcon class="h-10 w-10" />
-      <span>{{ __('No {0} Found', [__('Tasks')]) }}</span>
+      <span>{{ __('No {0} Found', [__('tasks')]) }}</span>
       <Button :label="__('Create')" @click="showTaskModal = true">
         <template #prefix><FeatherIcon name="plus" class="h-4" /></template>
       </Button>
@@ -69,8 +69,9 @@ import TaskModal from '@/components/Modals/TaskModal.vue'
 import { usersStore } from '@/stores/users'
 import { dateFormat, dateTooltipFormat, timeAgo } from '@/utils'
 import { Breadcrumbs } from 'frappe-ui'
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { sessionStore } from '@/stores/session'
+import emitter from '../eventBus';
 
 const breadcrumbs = [{ label: __('Tasks'), route: { name: 'Tasks' } }]
 
@@ -80,6 +81,16 @@ const { roles } = sessionStore()
 const tasksListView = ref(null)
 const showConvertTaskCustomer = ref(false)
 
+const onCustomEvent = (payload) => {
+  let idTaskView = payload.message
+  if(idTaskView != null && idTaskView != ""){
+    let taskFilter = tasks.value?.data?.data.filter(x => x.name == idTaskView)
+    if(taskFilter.length > 0){
+      showTask(taskFilter[0].name)
+    }
+  }
+}
+
 onMounted(()=>{
   let arrRole = roles.data;
   for(let i = 0; i < arrRole.length; i++){
@@ -88,6 +99,20 @@ onMounted(()=>{
       break;
     }
   }
+  setTimeout(()=>{
+    let idTaskView = window.location.hash.substring(1)
+    if(idTaskView != null && idTaskView != ""){
+      let taskFilter = tasks.value?.data?.data.filter(x => x.name == idTaskView)
+      if(taskFilter.length > 0){
+        showTask(taskFilter[0].name)
+      }
+    }
+  }, 400)
+  emitter.on('custom-event', onCustomEvent);
+})
+
+onUnmounted(() => {
+  emitter.off('custom-event', onCustomEvent);
 })
 
 // tasks data is loaded in the ViewControls component

@@ -108,7 +108,7 @@
                 class="w-full"
                 v-model="column.width"
                 placeholder="10rem"
-                :description="__('Width can be in number, pixel or rem (eg. 3, 30px, 10rem)')"
+                :description="__('Width can be in number pixel or rem (eg. 30px or 10rem)')"
                 :debounce="500"
               />
             </div>

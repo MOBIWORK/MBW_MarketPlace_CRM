@@ -63,26 +63,36 @@
             v-for="(week, i) in datesAsWeeks"
             :key="i"
           >
-            <div
-              v-for="date in week"
-              :key="toValue(date)"
-              class="flex h-8 w-8 cursor-pointer items-center justify-center rounded hover:bg-gray-50"
-              :class="{
-                'text-gray-400': date.getMonth() !== currentMonth - 1,
-                'font-extrabold text-gray-900':
-                  toValue(date) === toValue(today),
-                'bg-gray-800 text-white hover:bg-gray-800':
-                  toValue(date) === value,
-              }"
-              @click="
-                () => {
-                  selectDate(date)
-                  togglePopover()
-                }
-              "
-            >
-              {{ date.getDate() }}
-            </div>
+            <template v-for="date in week" :key="toValue(date)">
+              <div v-if="validDateTime(date)"
+                class="flex h-8 w-8 cursor-pointer items-center justify-center rounded hover:bg-gray-50"
+                :class="{
+                  'text-gray-400': date.getMonth() !== currentMonth - 1,
+                  'font-extrabold text-gray-900':
+                    toValue(date) === toValue(today),
+                  'bg-gray-800 text-white hover:bg-gray-800':
+                    toValue(date) === value,
+                }"
+                @click="
+                  () => {
+                    selectDate(date)
+                    togglePopover()
+                  }
+                "
+              >
+                {{ date.getDate() }}
+              </div>
+              <div v-else
+                class="flex h-8 w-8 cursor-pointer items-center justify-center rounded hover:bg-gray-50 text-gray-400"
+                @click="
+                  () => {
+                    notificationInvalidDatetime()
+                  }
+                "
+              >
+                {{ date.getDate() }}
+              </div>
+            </template>
           </div>
         </div>
         <div class="flex items-center justify-around gap-2 p-1">
@@ -159,10 +169,15 @@
 </template>
 
 <script>
-import { Popover, Select } from 'frappe-ui'
+import { Select } from 'frappe-ui'
+import Popover from '@/components/frappe-ui/Popover.vue'
+import {
+  createToast
+} from '@/utils'
+
 export default {
   name: 'DatePicker',
-  props: ['value', 'placeholder', 'formatter', 'readonly', 'inputClass'],
+  props: ['value', 'placeholder', 'formatter', 'readonly', 'inputClass', 'maxDate'],
   emits: ['change'],
   components: {
     Popover,
@@ -244,8 +259,38 @@ export default {
       )
       return `${month}, ${date.getFullYear()}`
     },
+    convertMaxDate(){
+      if(this.maxDate != null && this.maxDate != "" && this.maxDate != " "){
+        return new Date(this.maxDate)
+      }
+      return null
+    }
   },
   methods: {
+    validDateTime(date) {
+      if(this.convertMaxDate != null && this.convertMaxDate != ""){
+        const dateOnly = this.toDateOnly(date)
+        const maxDateOnly = this.toDateOnly(this.convertMaxDate)
+        const todayOnly = this.toDateOnly(this.today)
+        if (dateOnly <= maxDateOnly && todayOnly <= dateOnly) return true
+        return false
+      }else{
+        return true
+      }
+    },
+    toDateOnly(date){
+      const newDate = new Date(date);
+      newDate.setHours(0, 0, 0, 0);
+      return newDate;
+    },
+    notificationInvalidDatetime(){
+      createToast({
+        title: __('Error'),
+        text: __("Thời gian nhắc nhở không hợp lệ"),
+        icon: 'x',
+        iconClasses: 'text-red-600',
+      })
+    },
     changeTime() {
       let date = this.value ? this.getDate(this.value) : this.getDate()
       this.selectDate(date, true)
@@ -350,7 +395,7 @@ export default {
       this.second = date.getSeconds()
       this.selectDate(date, true)
     },
-  },
+  }
 }
 </script>
 

@@ -33,6 +33,8 @@ def get_notifications(type_notify=None):
         elif notification.reference_doctype == "Contact":
             reference_doctype = "contact"
             route_name = "Contact"
+        elif notification.reference_doctype == "CRM Task":
+            reference_doctype = "task"
         _notifications.append(
             {
                 "name": notification.name,

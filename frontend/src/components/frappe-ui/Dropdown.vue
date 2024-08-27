@@ -101,7 +101,6 @@ const props = defineProps({
 
 const router = useRouter()
 const slots = useSlots()
-console.log("Vào đây")
 const dropdownTransition = {
   enterActiveClass: 'transition duration-100 ease-out',
   enterFromClass: 'transform scale-95 opacity-0',

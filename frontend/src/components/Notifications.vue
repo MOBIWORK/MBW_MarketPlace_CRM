@@ -13,9 +13,10 @@
           <Tooltip :text="__('Mark all as read')">
             <div>
               <Button variant="ghost" @click="() => notificationsStore().mark_as_read.reload()">
-                <template #icon>
+                <!-- <template #icon>
                   <MarkAsDoneIcon class="h-4 w-4" />
-                </template>
+                </template> -->
+                {{__('Mark as read')}}
               </Button>
             </div>
           </Tooltip>
@@ -42,7 +43,7 @@
       </div>
       <div v-if="notificationsStore().allNotifications?.length" class="divide-y overflow-auto text-base">
         <div v-for="n in notificationsStore().allNotifications">
-          <template v-if="n.reference_name != '' && n.reference_doctype != ''">
+          <template v-if="n.isRouteLink">
             <RouterLink :key="n.name" :to="getRoute(n)"
               class="flex cursor-pointer items-start gap-2.5 px-4 py-2.5 hover:bg-gray-100"
               @click="mark_as_read(n.name || n.notification_type_doc)">
@@ -70,36 +71,9 @@
               </div>
             </RouterLink>
           </template>
-          <template v-else-if="n.reference_name == '' && n.reference_doctype != ''">
-            <div class="flex cursor-pointer items-start gap-2.5 px-4 py-2.5 hover:bg-gray-100"
-              @click="onLinkAndAsRead(n)">
-              <div class="mt-1 flex items-center gap-2.5">
-                <div class="h-[5px] w-[5px] rounded-full" :class="[n.read ? 'bg-transparent' : 'bg-gray-900']" />
-                <WhatsAppIcon v-if="n.type == 'WhatsApp'" class="size-7 rounded-full" />
-                <UserAvatar v-else :user="n.from_user.name" size="lg" />
-              </div>
-              <div>
-                <div v-if="n.notification_text" v-html="n.notification_text" />
-                <div v-else class="mb-2 space-x-1 leading-5 text-gray-600">
-                  <span class="font-medium text-gray-900">
-                    {{ n.from_user.full_name }}
-                  </span>
-                  <span>
-                    {{ __('mentioned you in {0}', [n.reference_doctype]) }}
-                  </span>
-                  <span class="font-medium text-gray-900">
-                    {{ n.reference_name }}
-                  </span>
-                </div>
-                <div class="text-sm text-gray-600">
-                  {{ __(timeAgo(n.creation)) }}
-                </div>
-              </div>
-            </div>
-          </template>
           <template v-else>
             <div class="flex cursor-pointer items-start gap-2.5 px-4 py-2.5 hover:bg-gray-100"
-              @click="mark_as_read(n.name || n.notification_type_doc)">
+              @click="onLinkAndAsRead(n)">
               <div class="mt-1 flex items-center gap-2.5">
                 <div class="h-[5px] w-[5px] rounded-full" :class="[n.read ? 'bg-transparent' : 'bg-gray-900']" />
                 <WhatsAppIcon v-if="n.type == 'WhatsApp'" class="size-7 rounded-full" />
@@ -149,12 +123,16 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { sessionStore } from '@/stores/session'
 import { createToast } from '@/utils'
 import router from '@/router'
+import emitter from '@/eventBus'
+import { useRouter } from 'vue-router'
 
 const { $socket } = globalStore()
 const { user } = sessionStore()
 
 const target = ref(null)
 const notify_type = ref("all")
+
+const routerUse = useRouter()
 
 onClickOutside(
   target,
@@ -227,16 +205,23 @@ function getRoute(notification) {
 }
 
 function onLinkAndAsRead(notification) {
-  console.log(notification);
   if (notification.read != 1) {
     let doc = "";
     if (notification.name != null && notification.name != "") doc = notification.name;
     if (notification.notification_type_doc != null && notification.notification_type_doc != "") doc = notification.notification_type_doc;
     mark_as_read(doc);
   }
-  if (notification.notification_type_doctype == "CRM Task") {
+  if(notification.reference_doctype == "task" && notification.reference_name != null && notification.reference_name != ""){
+    let is_route_task = false
+    if(routerUse.currentRoute['_value'].name == "Tasks") is_route_task = true
+    router.push({path: '/tasks', hash: `#${notification.reference_name}`})
+    if(is_route_task){
+      emitter.emit('custom-event', { message: notification.reference_name });
+    }
+  }else if(notification.reference_doctype == "task" && (notification.reference_name == null || notification.reference_name == "")){
     router.push('/tasks');
   }
+  toggleNotificationPanel()
 }
 
 onMounted(() => { })

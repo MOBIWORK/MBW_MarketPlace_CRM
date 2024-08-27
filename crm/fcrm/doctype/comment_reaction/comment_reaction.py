@@ -14,7 +14,7 @@ class CommentReaction(Document):
 				user_info = frappe.get_doc('User', self.owner)
 				notification_text = f"""
 					<div class="mb-2 leading-5 text-gray-600">
-						<span class="font-medium text-gray-900">{ user_info.username }</span>
+						<span class="font-medium text-gray-900">{ user_info.first_name }</span>
 						<span> đã bày tỏ cảm xúc về bình luận của bạn</span>
 					</div>
 				"""

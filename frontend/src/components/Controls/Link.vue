@@ -11,6 +11,7 @@
       :variant="attrs.variant"
       :placeholder="attrs.placeholder"
       :filterable="false"
+      :disabled="disable"
     >
       <template #target="{ open, togglePopover }">
         <slot name="target" v-bind="{ open, togglePopover }" />
@@ -41,7 +42,7 @@
             </template>
           </Button>
         </div>
-        <div>
+        <div v-if="!hideClear">
           <Button
             variant="ghost"
             class="w-full !justify-start"
@@ -77,6 +78,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hideClear: {
+    type: Boolean,
+    default: false
+  },
+  disable: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const emit = defineEmits(['update:modelValue', 'change'])

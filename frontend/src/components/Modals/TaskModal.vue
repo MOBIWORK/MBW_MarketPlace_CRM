@@ -11,6 +11,7 @@
         },
       ],
     }"
+    @after-leave="onAfterLeaveDialogTask()"
   >
     <template #body-title>
       <div class="flex items-center gap-3">
@@ -105,7 +106,7 @@
           <div>
             <div class="mb-1.5 text-sm text-gray-600">{{ __('Deadline') }}</div>
             <DatetimePicker
-              class="datepicker" style="width: 100%"
+              class="datepicker"
               icon-left="calendar"
               :value="_task.due_date"
               @change="(val) => (_task.due_date = val)"
@@ -116,12 +117,13 @@
           <div>
             <div class="mb-1.5 text-sm text-gray-600">{{ __('Remind task') }}</div>
             <DatetimePicker
-              class="datepicker" style="width: 100%"
+              class="datepicker"
               icon-left="calendar"
               :value="_task.remind_task"
               @change="(val) => (_task.remind_task = val)"
-              :placeholder="__('Select Remind task')"
+              :placeholder="__('Select Reminder')"
               input-class="border-none"
+              :maxDate="_task.due_date"
             />
           </div>
         </div>
@@ -139,9 +141,9 @@ import Link from '@/components/Controls/Link.vue'
 import { taskStatusOptions, taskPriorityOptions } from '@/utils'
 import { usersStore } from '@/stores/users'
 import DatetimePicker from '@/components/Controls/DatetimePicker.vue'
-import { TextEditor, Dropdown, Tooltip, call,Select } from 'frappe-ui'
+import { TextEditor, Dropdown, Tooltip, call,Dialog } from 'frappe-ui'
 import { ref, watch, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'  
 
 const props = defineProps({
   task: {
@@ -186,6 +188,9 @@ function updateTaskStatus(status) {
 
 function updateTaskPriority(priority) {
   _task.value.priority = priority
+}
+
+function onAfterLeaveDialogTask(){
 }
 
 function redirect() {
@@ -241,6 +246,7 @@ watch(
     })
   }
 )
+
 </script>
 
 <style scoped>

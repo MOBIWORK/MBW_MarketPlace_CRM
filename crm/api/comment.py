@@ -24,7 +24,7 @@ def notify_rely_comment(doc):
             doctype = doctype[4:].lower()
         notification_text = f"""
             <div class="mb-2 leading-5 text-gray-600">
-                <span class="font-medium text-gray-900">{ user_info.username }</span>
+                <span class="font-medium text-gray-900">{ user_info.first_name }</span>
                 <span>{ _('đã bình luận về {0}').format(doctype) }</span>
                 <span> của bạn</span>
             </div>
@@ -56,7 +56,7 @@ def notify_mentions(doc):
         return
     mentions = extract_mentions(content)
     for mention in mentions:
-        owner = frappe.get_cached_value("User", doc.owner, "username")
+        owner = frappe.get_cached_value("User", doc.owner, "first_name")
         doctype = doc.reference_doctype
         if doctype.startswith("CRM "):
             doctype = doctype[4:].lower()

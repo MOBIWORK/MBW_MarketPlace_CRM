@@ -321,7 +321,6 @@ function handleIncomingCall(call) {
   _call = call
 
   _call.on('accept', (conn) => {
-    console.log('conn', conn)
   })
 
   // add event listener to call object

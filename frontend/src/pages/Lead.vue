@@ -324,7 +324,18 @@ const lead = createResource({
   url: 'crm.fcrm.doctype.crm_lead.api.get_lead',
   params: { name: props.leadId },
   cache: ['lead', props.leadId],
+  transform(data){
+    for(let i = 0; i < data.doctype_fields.length; i++){
+      for(let j = 0; j < data.doctype_fields[i].fields.length; j++){
+        if(data.doctype_fields[i].fields[j].name == "lead_owner"){
+          data.doctype_fields[i].fields[j]["hidden_delete"] = true
+        }
+      }
+    }
+    return data
+  },
   onSuccess: (data) => {
+    console.log("Dòng 338 ", data)
     setupAssignees(data)
     setupCustomActions(data, {
       doc: data,
@@ -473,7 +484,7 @@ function validateFile(file) {
 const detailSections = computed(() => {
   let data = lead.data
   if (!data) return []
-  console.log(data.doctype_fields);
+  console.log("Dòng 476 ", data.doctype_fields)
   return data.doctype_fields
 })
 

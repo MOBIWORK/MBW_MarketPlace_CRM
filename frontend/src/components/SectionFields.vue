@@ -67,6 +67,7 @@
           @change="(data) => emit('update', field.name, data)"
           :placeholder="__('Select' + ' ' + field.label + '...' )"
           :hideMe="true"
+          :hideClear="field.hidden_delete"
         >
           <template v-if="data[field.name]" #prefix>
             <UserAvatar class="mr-1.5" :user="data[field.name]" size="sm" />
@@ -82,6 +83,17 @@
             </Tooltip>
           </template>
         </Link>
+        <div 
+          v-else-if="['owner'].includes(field.name)"
+          class="w-full py-1.5 px-2 text-gray-800 transition-colors flex items-center text-ellipsis whitespace-nowrap text-base leading-5"
+        >
+          <UserAvatar class="mr-1.5" :user="field.value" size="sm" />
+          <Tooltip :text="field.value">
+              <div class="cursor-pointer">
+                {{ getUser(field.value).full_name }}
+              </div>
+            </Tooltip>
+        </div>
         <Link
           v-else-if="field.type === 'link'"
           class="form-control select-text"
@@ -135,9 +147,12 @@ const data = defineModel()
 const _fields = computed(() => {
   let all_fields = []
   props.fields?.forEach((field) => {
-    let df = field.all_properties
-    if (df.depends_on) evaluate_depends_on(df.depends_on, field)
-    all_fields.push(field)
+    if(field.name == "owner") all_fields.push(field)
+    else{
+      let df = field.all_properties
+      if (df.depends_on) evaluate_depends_on(df.depends_on, field)
+      all_fields.push(field)
+    }
   })
   return all_fields
 })

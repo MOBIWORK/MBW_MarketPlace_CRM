@@ -22,7 +22,7 @@ def notify_owner_asign_contact(self, method):
             if tasker != frappe.session.user:
                 notification_text_owner = f"""
                     <div class="mb-2 leading-5 text-gray-600">
-                        <span class="font-medium text-gray-900">{ user_info.username }</span>
+                        <span class="font-medium text-gray-900">{ user_info.first_name }</span>
                         <span>{ _('đã giao cho bạn làm {0} Owner ').format(doctype.capitalize()) }</span>
                         <span class="font-medium text-gray-900"> {self.name}</span>
                     </div>
@@ -32,7 +32,7 @@ def notify_owner_asign_contact(self, method):
                     from_user=name_user_send,
                     to_user=tasker,
                     type="Task",
-                    message= _('{0} đã giao cho bạn làm {1} Owner {2}').format(user_info.username, doctype.capitalize(), self.name),
+                    message= _('{0} đã giao cho bạn làm {1} Owner {2}').format(user_info.first_name, doctype.capitalize(), self.name),
                     notification_text=notification_text_owner,
                     notification_type_doctype=reference_doctype,
                     notification_type_doc=self.name,
@@ -47,7 +47,7 @@ def notify_owner_asign_contact(self, method):
                 if assign is not None and assign != "" and assign != tasker and assign != frappe.session.user:
                     notify_assign_text = f"""
                         <div class="mb-2 leading-5 text-gray-600">
-                            <span class="font-medium text-gray-900">{ user_info.username }</span>
+                            <span class="font-medium text-gray-900">{ user_info.first_name }</span>
                             <span>{ _('đã giao cho bạn phụ trách {0}').format(doctype.capitalize()) }</span>
                             <span class="font-medium text-gray-900"> {self.name}</span>
                         </div>
@@ -57,7 +57,7 @@ def notify_owner_asign_contact(self, method):
                         from_user=name_user_send,
                         to_user=assign,
                         type="Task",
-                        message= _('{0} đã giao cho bạn phụ trách {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
+                        message= _('{0} đã giao cho bạn phụ trách {1} {2}').format(user_info.first_name, doctype.capitalize(), self.name),
                         notification_text=notify_assign_text,
                         notification_type_doctype=reference_doctype,
                         notification_type_doc=self.name,
@@ -89,7 +89,7 @@ def notify_unassign_contact(self, method):
                         doctype = doctype[4:].lower()
                     notification_text_unassign = f"""
                         <div class="mb-2 leading-5 text-gray-600">
-                            <span class="font-medium text-gray-900">{ user_info.username }</span>
+                            <span class="font-medium text-gray-900">{ user_info.first_name }</span>
                             <span>{ _('đã bỏ gán bạn khỏi {0}').format(doctype.capitalize()) }</span>
                             <span class="font-medium text-gray-900"> {self.name}</span>
                         </div>
@@ -99,7 +99,7 @@ def notify_unassign_contact(self, method):
                         from_user=name_user_send,
                         to_user=item,
                         type="Task",
-                        message= _('{0} đã bỏ gán bạn khỏi {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
+                        message= _('{0} đã bỏ gán bạn khỏi {1} {2}').format(user_info.first_name, doctype.capitalize(), self.name),
                         notification_text=notification_text_unassign,
                         notification_type_doctype=reference_doctype,
                         notification_type_doc="",
@@ -115,7 +115,7 @@ def notify_unassign_contact(self, method):
                         doctype = doctype[4:].lower()
                     notification_text = f"""
                         <div class="mb-2 leading-5 text-gray-600">
-                            <span class="font-medium text-gray-900">{ user_info.username }</span>
+                            <span class="font-medium text-gray-900">{ user_info.first_name }</span>
                             <span>{ _('đã giao cho bạn phụ trách {0}').format(doctype.capitalize()) }</span>
                             <span class="font-medium text-gray-900"> {self.name}</span>
                         </div>
@@ -125,7 +125,7 @@ def notify_unassign_contact(self, method):
                         from_user=name_user_send,
                         to_user=item,
                         type="Task",
-                        message= _('{0} đã giao cho bạn phụ trách {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
+                        message= _('{0} đã giao cho bạn phụ trách {1} {2}').format(user_info.first_name, doctype.capitalize(), self.name),
                         notification_text=notification_text,
                         notification_type_doctype=reference_doctype,
                         notification_type_doc=self.name,
@@ -164,8 +164,8 @@ def notify_unasign_contact_owner(self, method):
                     if tasker_old is not None and tasker_old != "" and tasker_old != frappe.session.user:
                         notify_unasign_owner = f"""
                             <div class="mb-2 leading-5 text-gray-600">
-                                <span class="font-medium text-gray-900">{ user_info.username }</span>
-                                <span>{ _('đã đổi {0} Owner của {0} {1} sang {2}').format(doctype.capitalize(), self.name, user_info_new.username) }</span>
+                                <span class="font-medium text-gray-900">{ user_info.first_name }</span>
+                                <span>{ _('đã đổi {0} Owner của {0} {1} sang {2}').format(doctype.capitalize(), self.name, user_info_new.first_name) }</span>
                             </div>
                         """
                         value_unasign_owner = frappe._dict(
@@ -173,7 +173,7 @@ def notify_unasign_contact_owner(self, method):
                             from_user=name_user_send,
                             to_user=tasker_old,
                             type="Task",
-                            message= _('{0} đã đổi {1} Owner của {1} {2} sang {3}').format(user_info.username, doctype.capitalize(), self.name, user_info_new.username),
+                            message= _('{0} đã đổi {1} Owner của {1} {2} sang {3}').format(user_info.first_name, doctype.capitalize(), self.name, user_info_new.first_name),
                             notification_text=notify_unasign_owner,
                             notification_type_doctype=reference_doctype,
                             notification_type_doc="",
@@ -185,7 +185,7 @@ def notify_unasign_contact_owner(self, method):
                     if tasker_new is not None and tasker_new != "" and tasker_new != frappe.session.user:
                         notify_assign_owner = f"""
                             <div class="mb-2 leading-5 text-gray-600">
-                                <span class="font-medium text-gray-900">{ user_info.username }</span>
+                                <span class="font-medium text-gray-900">{ user_info.first_name }</span>
                                 <span>{ _('đã giao cho bạn phụ trách {0}').format(doctype.capitalize()) }</span>
                                 <span class="font-medium text-gray-900"> {self.name}</span>
                             </div>
@@ -195,7 +195,7 @@ def notify_unasign_contact_owner(self, method):
                             from_user=name_user_send,
                             to_user=tasker_new,
                             type="Task",
-                            message= _('{0} đã giao cho bạn phụ trách {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
+                            message= _('{0} đã giao cho bạn phụ trách {1} {2}').format(user_info.first_name, doctype.capitalize(), self.name),
                             notification_text=notify_assign_owner,
                             notification_type_doctype=reference_doctype,
                             notification_type_doc=self.name,
@@ -213,7 +213,7 @@ def notify_unasign_contact_owner(self, method):
                             doctype = doctype[4:].lower()
                         notification_text_unassign = f"""
                             <div class="mb-2 leading-5 text-gray-600">
-                                <span class="font-medium text-gray-900">{ user_info.username }</span>
+                                <span class="font-medium text-gray-900">{ user_info.first_name }</span>
                                 <span>{ _('đã bỏ gán bạn khỏi {0}').format(doctype.capitalize()) }</span>
                                 <span class="font-medium text-gray-900"> {self.name}</span>
                             </div>
@@ -223,7 +223,7 @@ def notify_unasign_contact_owner(self, method):
                             from_user=name_user_send,
                             to_user=item,
                             type="Task",
-                            message= _('{0} đã bỏ gán bạn khỏi {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
+                            message= _('{0} đã bỏ gán bạn khỏi {1} {2}').format(user_info.first_name, doctype.capitalize(), self.name),
                             notification_text=notification_text_unassign,
                             notification_type_doctype=reference_doctype,
                             notification_type_doc="",
@@ -239,7 +239,7 @@ def notify_unasign_contact_owner(self, method):
                             doctype = doctype[4:].lower()
                         notification_text = f"""
                             <div class="mb-2 leading-5 text-gray-600">
-                                <span class="font-medium text-gray-900">{ user_info.username }</span>
+                                <span class="font-medium text-gray-900">{ user_info.first_name }</span>
                                 <span>{ _('đã giao cho bạn phụ trách {0}').format(doctype.capitalize()) }</span>
                                 <span class="font-medium text-gray-900"> {self.name}</span>
                             </div>
@@ -249,7 +249,7 @@ def notify_unasign_contact_owner(self, method):
                             from_user=name_user_send,
                             to_user=item,
                             type="Task",
-                            message= _('{0} đã giao cho bạn phụ trách {1} {2}').format(user_info.username, doctype.capitalize(), self.name),
+                            message= _('{0} đã giao cho bạn phụ trách {1} {2}').format(user_info.first_name, doctype.capitalize(), self.name),
                             notification_text=notification_text,
                             notification_type_doctype=reference_doctype,
                             notification_type_doc=self.name,
@@ -277,7 +277,7 @@ def notify_change_info_lead(self, method):
                         owner_info = frappe.get_doc('User', name_user_send)
                         notification_text = f"""
                             <div class="mb-2 leading-5 text-gray-600">
-                                <span class="font-medium text-gray-900">{ owner_info.username }</span>
+                                <span class="font-medium text-gray-900">{ owner_info.first_name }</span>
                                 <span>{ _('đã giao cho bạn làm Lead Owner cho Lead')}</span>
                                 <span class="font-medium text-gray-900"> {self.name}</span>
                             </div>
@@ -287,7 +287,7 @@ def notify_change_info_lead(self, method):
                             from_user=oname_user_sendwner,
                             to_user=tasker,
                             type="Task",
-                            message= _('{0} đã giao cho bạn làm Lead Owner cho Lead {1}').format(owner_info.username, self.name),
+                            message= _('{0} đã giao cho bạn làm Lead Owner cho Lead {1}').format(owner_info.first_name, self.name),
                             notification_text=notification_text,
                             notification_type_doctype="CRM Lead",
                             notification_type_doc=self.name,
@@ -332,20 +332,20 @@ def notify_change_info_lead(self, method):
                     if type_action == "add":
                         notification_text = f"""
                             <div class="mb-2 leading-5 text-gray-600">
-                                <span class="font-medium text-gray-900"> { owner_info.username }</span>
+                                <span class="font-medium text-gray-900"> { owner_info.first_name }</span>
                                 <span>{ _(' đã thêm ') }</span>
                                 <span class="font-medium text-gray-900"> {field_change}</span>
                                 <span>{ _(' thành ') }</span>
                                 <span class="font-medium text-gray-900"> {value_new}</span>
                             </div>
                         """
-                        message = _('{0} đã thêm {1} thành {2}'.format(owner_info.username, field_change, value_new))
+                        message = _('{0} đã thêm {1} thành {2}'.format(owner_info.first_name, field_change, value_new))
                     elif type_action == "update":
                         if value_old == "" and value_new == "":
                             return
                         notification_text = f"""
                             <div class="mb-2 leading-5 text-gray-600">
-                                <span class="font-medium text-gray-900"> { owner_info.username }</span>
+                                <span class="font-medium text-gray-900"> { owner_info.first_name }</span>
                                 <span>{ _(' đã thay đổi  ') }</span>
                                 <span class="font-medium text-gray-900"> {field_change}</span>
                                 <span>{ _(' từ ') }</span>
@@ -354,16 +354,16 @@ def notify_change_info_lead(self, method):
                                 <span class="font-medium text-gray-900"> {value_new}</span>
                             </div>
                         """
-                        message = _('{0} đã thay đổi {1} từ {2} thành {3}'.format(owner_info.username, field_change, value_old, value_new))
+                        message = _('{0} đã thay đổi {1} từ {2} thành {3}'.format(owner_info.first_name, field_change, value_old, value_new))
                         if value_new == "":
                             notification_text = f"""
                                 <div class="mb-2 leading-5 text-gray-600">
-                                    <span class="font-medium text-gray-900"> { owner_info.username }</span>
+                                    <span class="font-medium text-gray-900"> { owner_info.first_name }</span>
                                     <span>{ _(' đã xóa thông tin  ') }</span>
                                     <span class="font-medium text-gray-900"> {field_change}</span>
                                 </div>
                             """
-                            message = _('{0} đã xóa thông tin {1}'.format(owner_info.username, field_change))
+                            message = _('{0} đã xóa thông tin {1}'.format(owner_info.first_name, field_change))
                     if tasker != frappe.session.user:
                         doc_notify = frappe._dict(
                             doctype="CRM Notification",
@@ -415,7 +415,7 @@ def notify_change_info_deal(self, method):
                         owner_info = frappe.get_doc('User', name_user_send)
                         notification_text = f"""
                             <div class="mb-2 leading-5 text-gray-600">
-                                <span class="font-medium text-gray-900">{ owner_info.username }</span>
+                                <span class="font-medium text-gray-900">{ owner_info.first_name }</span>
                                 <span>{ _('đã giao cho bạn làm Deal Owner cho Deal')}</span>
                                 <span class="font-medium text-gray-900"> {self.name}</span>
                             </div>
@@ -425,7 +425,7 @@ def notify_change_info_deal(self, method):
                             from_user=name_user_send,
                             to_user=tasker,
                             type="Task",
-                            message= _('{0} đã giao cho bạn làm Deal Owner cho Deal {1}').format(owner_info.username, self.name),
+                            message= _('{0} đã giao cho bạn làm Deal Owner cho Deal {1}').format(owner_info.first_name, self.name),
                             notification_text=notification_text,
                             notification_type_doctype="CRM Deal",
                             notification_type_doc=self.name,
@@ -464,20 +464,20 @@ def notify_change_info_deal(self, method):
                     if type_action == "add":
                         notification_text = f"""
                             <div class="mb-2 leading-5 text-gray-600">
-                                <span class="font-medium text-gray-900"> { owner_info.username }</span>
+                                <span class="font-medium text-gray-900"> { owner_info.first_name }</span>
                                 <span>{ _(' đã thêm ') }</span>
                                 <span class="font-medium text-gray-900"> {field_change}</span>
                                 <span>{ _(' thành ') }</span>
                                 <span class="font-medium text-gray-900"> {value_new}</span>
                             </div>
                         """
-                        message = _('{0} đã thêm {1} thành {2}'.format(owner_info.username, field_change, value_new))
+                        message = _('{0} đã thêm {1} thành {2}'.format(owner_info.first_name, field_change, value_new))
                     elif type_action == "update":
                         if value_old == "" and value_new == "":
                             return
                         notification_text = f"""
                             <div class="mb-2 leading-5 text-gray-600">
-                                <span class="font-medium text-gray-900"> { owner_info.username }</span>
+                                <span class="font-medium text-gray-900"> { owner_info.first_name }</span>
                                 <span>{ _(' đã thay đổi  ') }</span>
                                 <span class="font-medium text-gray-900"> {field_change}</span>
                                 <span>{ _(' từ ') }</span>
@@ -486,16 +486,16 @@ def notify_change_info_deal(self, method):
                                 <span class="font-medium text-gray-900"> {value_new}</span>
                             </div>
                         """
-                        message = _('{0} đã thay đổi {1} từ {2} thành {3}'.format(owner_info.username, field_change, value_old, value_new))
+                        message = _('{0} đã thay đổi {1} từ {2} thành {3}'.format(owner_info.first_name, field_change, value_old, value_new))
                         if value_new == "":
                             notification_text = f"""
                                 <div class="mb-2 leading-5 text-gray-600">
-                                    <span class="font-medium text-gray-900"> { owner_info.username }</span>
+                                    <span class="font-medium text-gray-900"> { owner_info.first_name }</span>
                                     <span>{ _(' đã xóa thông tin  ') }</span>
                                     <span class="font-medium text-gray-900"> {field_change}</span>
                                 </div>
                             """
-                            message = _('{0} đã xóa thông tin {1}'.format(owner_info.username, field_change))
+                            message = _('{0} đã xóa thông tin {1}'.format(owner_info.first_name, field_change))
                     if tasker != frappe.session.user:
                         doc_notify = frappe._dict(
                             doctype="CRM Notification",
@@ -545,12 +545,12 @@ def notify_change_contact_deal(self, method):
                     owner_info = frappe.get_doc('User', frappe.session.user)
                     notification_text = f"""
                         <div class="mb-2 leading-5 text-gray-600">
-                            <span class="font-medium text-gray-900"> { owner_info.username }</span>
+                            <span class="font-medium text-gray-900"> { owner_info.first_name }</span>
                             <span>{ _(' đã cập nhật thông tin cho liên hệ ') }</span>
                             <span class="font-medium text-gray-900"> {self.name}</span>
                         </div>
                     """
-                    message = _('{0} đã cập nhật thông tin cho liên hệ {1}'.format(owner_info.username, self.name))
+                    message = _('{0} đã cập nhật thông tin cho liên hệ {1}'.format(owner_info.first_name, self.name))
                     doc_notify = frappe._dict(
                         doctype="CRM Notification",
                         from_user=frappe.session.user,

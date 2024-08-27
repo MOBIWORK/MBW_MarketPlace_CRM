@@ -206,8 +206,8 @@ function parseView(views) {
 }
 
 function localize_name(name){
-  if( name == "Pinned views" ) return "Chế độ xem chung";
-  else if(name == "Public views") return "Chế độ xem ghim"; 
+  if( name == "Pinned views" ) return __('Pinned Views');
+  else if(name == "Public views") return __('Public Views'); 
 }
 
 function getIcon(routeName) {

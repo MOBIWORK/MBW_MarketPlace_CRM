@@ -26,7 +26,7 @@ class CRMTask(Document):
 			user_info = frappe.get_doc('User', self.owner)
 			notification_text = f"""
 				<div class="mb-2 leading-5 text-gray-600">
-					<span class="font-medium text-gray-900">{ user_info.username }</span>
+					<span class="font-medium text-gray-900">{ user_info.first_name }</span>
 					<span>{ _('đã giao cho bạn công việc')}</span>
 					<span class="font-medium text-gray-900"> {self.title}</span>
 				</div>
@@ -36,12 +36,12 @@ class CRMTask(Document):
 				from_user=self.owner,
 				to_user=self.assigned_to,
 				type="Task",
-				message= _('{0} đã giao cho bạn công việc {1}').format(user_info.username, self.title),
+				message= _('{0} đã giao cho bạn công việc {1}').format(user_info.first_name, self.title),
 				notification_text=notification_text,
 				notification_type_doctype="CRM Task",
 				notification_type_doc="",
 				reference_doctype="CRM Task",
-				reference_name=""
+				reference_name=self.name
 			)
 			if frappe.db.exists("CRM Notification", values):
 				return
@@ -55,7 +55,7 @@ class CRMTask(Document):
 		if task_info is not None and self.owner != self.assigned_to and task_info.assigned_to != self.assigned_to:
 			notification_text = f"""
 				<div class="mb-2 leading-5 text-gray-600">
-					<span class="font-medium text-gray-900">{ user_info.username }</span>
+					<span class="font-medium text-gray-900">{ user_info.first_name }</span>
 					<span>{ _('đã giao cho bạn công việc')}</span>
 					<span class="font-medium text-gray-900"> {self.title}</span>
 				</div>
@@ -65,12 +65,12 @@ class CRMTask(Document):
 				from_user=self.owner,
 				to_user=self.assigned_to,
 				type="Task",
-				message= _('{0} đã giao cho bạn công việc {1}').format(user_info.username, self.title),
+				message= _('{0} đã giao cho bạn công việc {1}').format(user_info.first_name, self.title),
 				notification_text=notification_text,
 				notification_type_doctype="CRM Task",
 				notification_type_doc="",
 				reference_doctype="CRM Task",
-				reference_name=""
+				reference_name = self.name
 			)
 			if frappe.db.exists("CRM Notification", values):
 				return

@@ -5,7 +5,6 @@
       <div class="grid gap-4" :class="section.columns ? 'grid-cols-' + section.columns : 'grid-cols-3'
         ">
         <div v-for="field in section.fields" :key="field.name">
-
           <div class="mb-2 text-sm text-gray-600" style="display: flex; justify-content: space-between;">
             {{ __(field.label) }}
             <span class="text-red-500" v-if="field.mandatory">*</span>
@@ -26,8 +25,8 @@
             :doctype="field.doctype" @change="(v) => (data[field.name] = v)" :placeholder="__(field.placeholder)"
             :onCreate="field.create" />
           <Link v-else-if="field.type === 'user'" class="form-control truncate" :value="getUser(data[field.name]).full_name"
-            :doctype="field.doctype" @change="(v) => (data[field.name] = v)" :placeholder="__(field.placeholder)"
-            :hideMe="true">
+            :doctype="field.doctype" @change="(v) => (data[field.name] = v)" :placeholder="__(field.placeholder)" 
+            :hideMe="true" :hideClear="field.hidden_delete">
           <template #prefix>
             <UserAvatar class="mr-2" :user="data[field.name]" size="sm" />
           </template>

@@ -9,6 +9,16 @@ export const notificationsStore = defineStore('crm-notifications', () => {
     url: 'crm.api.notifications.get_notifications',
     initialData: [],
     auto: true,
+    transform(data){
+      for(let i = 0; i < data.length; i++){
+        if(data[i].reference_doctype != null && data[i].reference_doctype != "" && data[i].reference_name != null && data[i].reference_name != "" && data[i].reference_doctype != "task"){
+          data[i]["isRouteLink"] = true
+        }else{
+          data[i]["isRouteLink"] = false
+        }
+      }
+      return data
+    }
   })
 
   const mark_as_read = createResource({
