@@ -585,7 +585,7 @@ Mobile No should be 10 digits,Số điện thoại phải bao gồm 10 số
 New Comment,Thêm bình luận
 Drive,Drive
 Preview,Xem trước dữ liệu
-Next,Tiếp theo
+Next,Tiếp tục
 Back,Quay lại
 Mapping Columns,Trường ánh xạ
 Select the mapping field,Chọn trường tương ứng
@@ -704,3 +704,5 @@ Modified By,Chỉnh sửa bởi
 converted the lead to this deal,đã chuyển đổi lead thành deal này
 Mark as read,Đánh dấu đã đọc
 Width can be in number pixel or rem (eg. 30px or 10rem),Điều chỉnh chiều rộng bằng đơn vị rem hoặc pixel (Ví dụ 30px hoặc 10rem)
+record,bản ghi
+records,bản ghi

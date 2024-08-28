@@ -17,7 +17,15 @@
           :value="newValue"
           size="md"
           @change="(v) => updateValue(v)"
-        />
+        >
+        <template #item-label="{ option }" v-if="field.value=='lead_owner'">
+            <Tooltip :text="option.value">
+              <div class="cursor-pointer">
+                {{ getUser(option.value).first_name }}
+              </div>
+            </Tooltip>
+          </template>
+        </component>
       </div>
     </template>
     <template #actions>
@@ -38,6 +46,7 @@ import Link from '@/components/Controls/Link.vue'
 import Autocomplete from '@/components/frappe-ui/Autocomplete.vue'
 import { FormControl, call, createResource, TextEditor } from 'frappe-ui'
 import { ref, computed, onMounted, h } from 'vue'
+import { usersStore } from '@/stores/users'
 
 const typeCheck = ['Check']
 const typeLink = ['Link', 'Dynamic Link']
@@ -59,6 +68,7 @@ const props = defineProps({
 
 const show = defineModel()
 const unselectAll = defineModel('unselectAll')
+const { getUser } = usersStore()
 
 const emit = defineEmits(['reload'])
 

@@ -26,6 +26,7 @@
     doctype="CRM Organization"
     :showElement=true
     :placeholderText="__('Search organization')"
+    :docSelect="organizationSelect"
   />
   <OrganizationsListView
     ref="organizationsListView"
@@ -44,6 +45,7 @@
     @columnWidthUpdated="() => triggerResize++"
     @updatePageCount="(count) => (updatedPageCount = count)"
     @applyFilter="(data) => viewControls.applyFilter(data)"
+    @update:selections="(selections) => onUpdateSelection(selections)"
   />
   <div
     v-else-if="organizations.data"
@@ -82,6 +84,7 @@ const route = useRoute()
 
 const organizationsListView = ref(null)
 const showOrganizationModal = ref(false)
+const organizationSelect = ref([])
 
 const currentOrganization = computed(() => {
   return organizations.value?.data?.data?.find(
@@ -138,5 +141,8 @@ const rows = computed(() => {
 
 function website(url) {
   return url && url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '')
+}
+function onUpdateSelection(selections){
+  organizationSelect.value = selections
 }
 </script>

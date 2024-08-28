@@ -9,6 +9,7 @@
       resizeColumn: options.resizeColumn,
     }"
     row-key="name"
+    @update:selections="(evt) => onRowSelect(evt)"
   >
     <ListHeader class="mx-5" @columnWidthUpdated="emit('columnWidthUpdated')" />
     <ListRows id="list-rows">
@@ -156,6 +157,7 @@ const emit = defineEmits([
   'showTask',
   'columnWidthUpdated',
   'applyFilter',
+  'update:selections'
 ])
 
 const pageLengthCount = defineModel()
@@ -226,6 +228,14 @@ function bulkActions(selections, unselectAll) {
     },
   ]
   return actions
+}
+
+function onRowSelect(evt){
+  let rowSelect = []
+  evt.forEach(item => {
+    rowSelect.push(item)
+  })
+  emit('update:selections', rowSelect)
 }
 
 onMounted(() => {

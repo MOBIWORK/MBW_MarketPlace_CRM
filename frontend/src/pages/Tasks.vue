@@ -25,6 +25,7 @@
     :showFuncConvertTaskCustomer="showConvertTaskCustomer"
     :placeholderText="__('Search')"
     @afterConvertTaskCustomer="onAfterConvertTaskCustomer()"
+    :docSelect="taskSelect"
   />
   <TasksListView
     ref="tasksListView"
@@ -44,6 +45,7 @@
     @updatePageCount="(count) => (updatedPageCount = count)"
     @showTask="showTask"
     @applyFilter="(data) => viewControls.applyFilter(data)"
+    @update:selections="(selections) => onUpdateSelection(selections)"
   />
   <div v-else-if="tasks.data" class="flex h-full items-center justify-center">
     <div
@@ -80,6 +82,7 @@ const { roles } = sessionStore()
 
 const tasksListView = ref(null)
 const showConvertTaskCustomer = ref(false)
+const taskSelect = ref([])
 
 const onCustomEvent = (payload) => {
   let idTaskView = payload.message
@@ -195,5 +198,9 @@ function createTask() {
 
 function onAfterConvertTaskCustomer(){
   tasks.value.reload();
+}
+
+function onUpdateSelection(selections){
+  taskSelect.value = selections
 }
 </script>

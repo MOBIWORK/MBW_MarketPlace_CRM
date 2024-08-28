@@ -7,9 +7,10 @@
       getRowRoute: (row) => ({ name: 'Lead', params: { leadId: row.name } }),
       selectable: options.selectable,
       showTooltip: options.showTooltip,
-      resizeColumn: options.resizeColumn,
+      resizeColumn: options.resizeColumn
     }"
     row-key="name"
+    @update:selections="(evt) => onRowSelect(evt)"
   >
     <ListHeader class="mx-5" @columnWidthUpdated="emit('columnWidthUpdated')" />
     <ListRows id="list-rows">
@@ -232,7 +233,6 @@ import {
   ListHeader,
   ListRows,
   ListRow,
-  ListSelectBanner,
   ListRowItem,
   ListFooter,
   Dropdown,
@@ -243,6 +243,7 @@ import { setupListActions, createToast } from '@/utils'
 import { globalStore } from '@/stores/global'
 import { onMounted, ref, watch,computed } from 'vue'
 import { useRouter } from 'vue-router'
+import ListSelectBanner from '@/components/frappe-ui/ListSelectBanner.vue'
 
 const props = defineProps({
   rows: {
@@ -275,7 +276,8 @@ const emit = defineEmits([
   'updatePageCount',
   'columnWidthUpdated',
   'applyFilter',
-  'rating'
+  'rating',
+  'update:selections'
 ])
 
 const pageLengthCount = defineModel()
@@ -338,6 +340,14 @@ function deleteValues(selections, unselectAll) {
   })
 }
 
+function onRowSelect(evt){
+  let rowSelect = []
+  evt.forEach(item => {
+    rowSelect.push(item)
+  })
+  emit('update:selections', rowSelect)
+}
+
 const customBulkActions = ref([])
 const customListActions = ref([])
 
@@ -371,27 +381,27 @@ function bulkActions(selections, unselectAll) {
 }
 const calcRate = (row , value) => {
   if (value) {
-  row.rating = value;
- }
- 
- const r = row.rating * 5;
-      const f = Math.floor(r);
-      const id = row.name + 'star' + `${r}`;
-      // Lấy tất cả các nút radio liên quan đến row.name
-      const radioButtons = document.querySelectorAll(`input[id^='${row.name}star']`);
-      
-      // Đặt tất cả các nút radio về trạng thái không được chọn
-      radioButtons.forEach(radio => {
-        radio.checked = false;
-      });
-
-      // Đánh dấu nút radio đúng
-      if (id) {
-        const radioButton = document.getElementById(id);
-        if (radioButton) {
-          radioButton.checked = true;
-        }
+    row.rating = value;
+  }
+  const r = row.rating * 5;
+  const f = Math.floor(r);
+  const id = row.name + 'star' + `${r}`;
+  // Lấy tất cả các nút radio liên quan đến row.name
+  const radioButtons = document.querySelectorAll(`input[id^='${row.name}star']`);    
+  // Đặt tất cả các nút radio về trạng thái không được chọn
+  radioButtons.forEach(radio => {
+    radio.checked = false;
+  });
+  if(value != 0){
+    // Đánh dấu nút radio đúng
+    if (id) {
+      const radioButton = document.getElementById(id);
+      if (radioButton) {
+        radioButton.checked = true;
       }
+    }
+  }
+  
 };
 onMounted(() => {
   if (!list.value?.data) return
@@ -415,7 +425,8 @@ const handleStarClick = (evt,value , row  ) => {
   evt.stopPropagation()
   evt.preventDefault()
   let fieldname = 'rating'
-  const newvalue = parseFloat(value)/5
+  let newvalue = parseFloat(value)/5
+  if(row.rating == newvalue) newvalue = 0
   calcRate(row,newvalue)
   emit('rating', {fieldname,newvalue,row} )
 

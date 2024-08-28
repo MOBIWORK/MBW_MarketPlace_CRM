@@ -29,6 +29,7 @@
     :showFuncConvertTaskCustomer="showConvertTaskCustomer"
     :placeholderText="__('Search')"
     @afterConvertTaskCustomer="onAfterConvertTaskCustomer()"
+    :docSelect="dealSelect"
   />
   <DealsListView
     ref="dealsListView"
@@ -47,6 +48,7 @@
     @columnWidthUpdated="() => triggerResize++"
     @updatePageCount="(count) => (updatedPageCount = count)"
     @applyFilter="(data) => viewControls.applyFilter(data)"
+    @update:selections="(selections) => onUpdateSelection(selections)"
   />
   <div v-else-if="deals.data" class="flex h-full items-center justify-center">
     <div
@@ -94,6 +96,7 @@ const dealsListView = ref(null)
 const showDealModal = ref(false)
 
 const showConvertTaskCustomer = ref(false)
+const dealSelect = ref([])
 
 onMounted(()=>{
   let arrRole = roles.data;
@@ -194,5 +197,8 @@ const rows = computed(() => {
 })
 function onAfterConvertTaskCustomer(){
   deals.value.reload();
+}
+function onUpdateSelection(selections){
+  dealSelect.value = selections
 }
 </script>

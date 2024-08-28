@@ -26,6 +26,7 @@
     doctype="Contact"
     :showElement=true
     :placeholderText="__('Search')"
+    :docSelect="contactSelect"
   />
   <ContactsListView
     ref="contactsListView"
@@ -44,6 +45,7 @@
     @columnWidthUpdated="() => triggerResize++"
     @updatePageCount="(count) => (updatedPageCount = count)"
     @applyFilter="(data) => viewControls.applyFilter(data)"
+    @update:selections="(selections) => onUpdateSelection(selections)"
   />
   <div
     v-else-if="contacts.data"
@@ -107,6 +109,7 @@ const loadMore = ref(1)
 const triggerResize = ref(1)
 const updatedPageCount = ref(20)
 const viewControls = ref(null)
+const contactSelect = ref([])
 
 const columns = computed(() => {
   return contacts.value?.data.columns.forEach(field => {
@@ -143,5 +146,9 @@ const rows = computed(() => {
     return _rows
   })
 })
+
+function onUpdateSelection(selections){
+  contactSelect.value = selections
+}
 
 </script>

@@ -55,7 +55,7 @@
             {{ __('Content') }}
             <span class="text-red-500">*</span>
           </div>
-          <TextEditor
+          <!-- <TextEditor
             variant="outline"
             ref="content"
             editor-class="!prose-sm overflow-auto min-h-[180px] max-h-80 py-1.5 px-2 rounded border border-gray-300 bg-white hover:border-gray-400 hover:shadow-sm focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 text-gray-800 transition-colors"
@@ -63,7 +63,37 @@
             :content="_emailTemplate.response"
             @change="(val) => (_emailTemplate.response = val)"
             :placeholder="__('')"
-          />
+          /> -->
+          <TextEditor
+            variant="outline"
+            ref="content"
+            :class="'rounded border border-gray-300 bg-white hover:border-gray-400 hover:shadow-sm focus:bg-white focus:border-gray-500 focus:shadow-sm focus:ring-0 focus-visible:ring-2 focus-visible:ring-gray-400 text-gray-800 transition-colors'"
+            :editor-class="'!prose-sm max-w-none min-h-[7rem] overflow-auto py-1.5 px-2'"
+            :content="_emailTemplate.response"
+            @change="(val) => (_emailTemplate.response = val)"
+            :starterkit-options="{ heading: { levels: [2, 3, 4, 5, 6] } }"
+          >
+            <template v-slot:editor="{ editor }">
+              <EditorContent
+                :class="'max-h-[50vh] overflow-y-auto py-3'"
+                :editor="editor"
+              />
+            </template>
+            <template v-slot:bottom>
+              <div class="flex flex-col gap-2">
+                <div
+                  class="flex justify-between gap-2 overflow-hidden py-2.5 px-1"
+                >
+                  <div class="flex items-center overflow-x-auto">
+                    <TextEditorFixedMenu
+                      class="-ml-1"
+                      :buttons="textEditorMenuButtons"
+                    />
+                  </div>
+                </div>
+              </div>
+            </template>
+          </TextEditor>
         </div>
         <div>
           <Checkbox v-model="_emailTemplate.enabled" :label="__('Enabled')" />
@@ -75,8 +105,10 @@
 </template>
 
 <script setup>
-import { Checkbox, Select, TextEditor, call } from 'frappe-ui'
+import { Checkbox, Select, TextEditorFixedMenu, TextEditor, call } from 'frappe-ui'
 import { ref, nextTick, watch } from 'vue'
+import { validateEmail } from '@/utils'
+import { EditorContent } from '@tiptap/vue-3'
 
 const props = defineProps({
   emailTemplate: {
@@ -196,4 +228,41 @@ watch(
     })
   }
 )
+const textEditorMenuButtons = [
+  'Paragraph',
+  ['Heading 2', 'Heading 3', 'Heading 4', 'Heading 5', 'Heading 6'],
+  'Separator',
+  'Bold',
+  'Italic',
+  'Separator',
+  'Bullet List',
+  'Numbered List',
+  'Separator',
+  'Align Left',
+  'Align Center',
+  'Align Right',
+  'FontColor',
+  'Separator',
+  'Image',
+  'Video',
+  'Link',
+  'Blockquote',
+  'Code',
+  'Horizontal Rule',
+  [
+    'InsertTable',
+    'AddColumnBefore',
+    'AddColumnAfter',
+    'DeleteColumn',
+    'AddRowBefore',
+    'AddRowAfter',
+    'DeleteRow',
+    'MergeCells',
+    'SplitCell',
+    'ToggleHeaderColumn',
+    'ToggleHeaderRow',
+    'ToggleHeaderCell',
+    'DeleteTable',
+  ],
+]
 </script>

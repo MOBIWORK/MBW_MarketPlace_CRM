@@ -31,6 +31,7 @@
     :placeholderText="__('Search')"  
     @showImportModal="show"
     @afterConvertTaskCustomer="onAfterConvertTaskCustomer()"
+    :docSelect="leadSelect"
   />
   <LeadsListView
     ref="leadsListView"
@@ -50,6 +51,7 @@
     @updatePageCount="(count) => (updatedPageCount = count)"
     @applyFilter="(data) => viewControls.applyFilter(data)"
     @rating="(data) => rating(data)"
+    @update:selections="(selections) => onUpdateSelection(selections)"
   />
   <div v-else-if="leads.data" class="flex h-full items-center justify-center">
     <div
@@ -122,6 +124,7 @@ const loadMore = ref(1)
 const triggerResize = ref(1)
 const updatedPageCount = ref(20)
 const viewControls = ref(null)
+const leadSelect = ref([])
 
 // Rows
 const rows = computed(() => {
@@ -208,6 +211,7 @@ const rows = computed(() => {
   })
 })
 const rating = (data) => {
+  console.log(data)
   let error_sum = 1;
   createResource({
     url: 'frappe.client.set_value',
@@ -215,7 +219,7 @@ const rating = (data) => {
       doctype: 'CRM Lead',
       name: data.row?.name,
       fieldname:data.fieldname,
-      value:data.value,
+      value:data.newvalue
     },
     auto: true,
     onSuccess: () => {
@@ -298,5 +302,8 @@ function onAfterConvertTaskCustomer(){
 }
 function onAfterImportData(){
   leads.value.reload();
+}
+function onUpdateSelection(selections){
+  leadSelect.value = selections
 }
 </script>

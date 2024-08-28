@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between px-5 py-4">
+  <div class="flex items-center justify-between px-5 py-4" v-if="showLayout">
     <div class="flex items-center gap-2">
       <Dropdown :options="viewsDropdownOptions">
         <template #default="{ open }">
@@ -100,6 +100,7 @@
           label: __('Download'),
           variant: 'solid',
           onClick: () => exportRows(),
+          disabled: disabledExport
         },
       ],
     }"
@@ -153,6 +154,9 @@ import { useRouter, useRoute } from 'vue-router'
 import { useDebounceFn } from '@vueuse/core'
 import ConvertTaskCustomerModal from '@/components/Modals/ConvertTaskCustomerModal.vue'
 import debounce from 'lodash.debounce';
+import * as ExcelJS from "exceljs";
+import * as FileSaver from "file-saver";
+import { createToast } from '@/utils'
 
 const props = defineProps({
   doctype: {
@@ -184,6 +188,14 @@ const props = defineProps({
   showFuncConvertTaskCustomer: {
     type: Boolean,
     default: false
+  },
+  showLayout: {
+    type: Boolean,
+    default: true
+  },
+  docSelect: {
+    type: Array,
+    default: []
   }
 })
 const {showFuncImport, showFuncConvertTaskCustomer} = toRefs(props);
@@ -213,6 +225,11 @@ const arrItem = computed(() => {
     })
   }
   return arrItem;
+})
+const disabledExport = computed(() => {
+  if(props.docSelect.length > 0) return false
+  if(export_all.value) return false
+  return true
 })
 const searchValue = ref('');
 const { $dialog } = globalStore()
@@ -349,7 +366,6 @@ list.value = createResource({
       custom_view_name: cv?.name || '',
       default_filters: props.filters,
     }
-    console.log(data);
   },
 })
 
@@ -375,24 +391,61 @@ function hadelClickConvertTask(){
 }
 
 async function exportRows() {
-  let fields = JSON.stringify(list.value.data.columns.map((f) => f.key))
-  let filters = JSON.stringify(list.value.params.filters)
-  let order_by = list.value.params.order_by
-  let page_length = list.value.params.page_length
-  if (export_all.value) {
+  console.log(list.value.data)
+  if(export_all.value){
+    let fields = JSON.stringify(list.value.data.columns.map((f) => f.key))
+    let filters = JSON.stringify(list.value.params.filters)
+    let order_by = list.value.params.order_by
+    let page_length = list.value.params.page_length
     page_length = list.value.data.total_count
+    window.location.href = `/api/method/frappe.desk.reportview.export_query?file_format_type=${export_type.value}&title=${props.doctype}&doctype=${props.doctype}&fields=${fields}&filters=${filters}&order_by=${order_by}&page_length=${page_length}&start=0&view=Report&with_comment_count=1`
+  }else{
+    if(export_type.value == "Excel"){
+      const workbook = new ExcelJS.Workbook();
+      const sheet = workbook.addWorksheet("Sheet1");
+      let rowHeader = sheet.getRow(1);
+      for(let i = 0; i < list.value.data.columns.length; i++){
+        let cellHeader = rowHeader.getCell(i+1)
+        cellHeader.value = list.value.data.columns[i].label
+      }
+      let dataFilter = list.value.data.data.filter(x => props.docSelect.indexOf(x.name) > -1)
+      for(let i = 0; i < dataFilter.length; i++){
+        let row = sheet.getRow(i+2)
+        let cellStart = 1
+        for(let j = 0; j < list.value.data.columns.length; j++){
+          row.getCell(cellStart).value = dataFilter[i][list.value.data.columns[j].key]
+          cellStart +=1
+        }
+      }
+      const buffer = await workbook.xlsx.writeBuffer();
+      saveAsExcelFile(buffer, props.doctype);
+    }else{
+      createToast({
+        title: __('Info'),
+        text: __("Phiên bản hiện tại chưa hỗ trợ tệp csv"),
+        icon: 'check',
+        iconClasses: 'text-blue-600',
+      })
+    }
   }
-
-  window.location.href = `/api/method/frappe.desk.reportview.export_query?file_format_type=${export_type.value}&title=${props.doctype}&doctype=${props.doctype}&fields=${fields}&filters=${filters}&order_by=${order_by}&page_length=${page_length}&start=0&view=Report&with_comment_count=1`
   showExportDialog.value = false
   export_all.value = false
   export_type.value = 'Excel'
-  // createToast({
-  //   title: __('Đã xuất tệp dữ liệu thành công'),
-  //   icon: 'check',
-  //   iconClasses: 'text-green-600',
-  // })
 }
+
+function saveAsExcelFile(buffer, fileName){
+  let EXCEL_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+  let EXCEL_EXTENSION = ".xlsx";
+  const data = new Blob([buffer], {
+    type: EXCEL_TYPE,
+  });
+  let fileNameExport = fileName + EXCEL_EXTENSION;
+  FileSaver.saveAs(
+    data,
+    fileNameExport
+  );
+}
+
 const emit = defineEmits(['showImportModal', 'afterConvertTaskCustomer'])
 function hadelClick(){
   emit('showImportModal', true)

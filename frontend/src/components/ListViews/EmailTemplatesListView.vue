@@ -10,7 +10,7 @@
     }"
     row-key="name"
   >
-    <ListHeader class="mx-5" @columnWidthUpdated="emit('columnWidthUpdated')" />
+    <ListHeader class="mx-5 mt-4" @columnWidthUpdated="emit('columnWidthUpdated')" />
     <ListRows id="list-rows">
       <ListRow
         class="mx-5"

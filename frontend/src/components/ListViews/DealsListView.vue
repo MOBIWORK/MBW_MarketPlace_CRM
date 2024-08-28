@@ -10,6 +10,7 @@
       resizeColumn: options.resizeColumn,
     }"
     row-key="name"
+    @update:selections="(evt) => onRowSelect(evt)"
   >
     <ListHeader class="mx-5" @columnWidthUpdated="emit('columnWidthUpdated')" />
     <ListRows id="list-rows">
@@ -99,6 +100,9 @@
                 "
               />
             </div>
+            <div v-else-if="column.key === 'modified_by'">
+              <div>{{getUser(item).first_name}}</div>
+            </div>
             <div v-else-if="column.type === 'Check'">
               <FormControl
                 type="checkbox"
@@ -169,6 +173,7 @@ import { setupListActions, createToast } from '@/utils'
 import { globalStore } from '@/stores/global'
 import { onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { usersStore } from '@/stores/users'
 
 const props = defineProps({
   rows: {
@@ -196,6 +201,7 @@ const emit = defineEmits([
   'updatePageCount',
   'columnWidthUpdated',
   'applyFilter',
+  'update:selections'
 ])
 
 const pageLengthCount = defineModel()
@@ -204,6 +210,7 @@ const list = defineModel('list')
 const router = useRouter()
 
 const { $dialog } = globalStore()
+const { getUser } = usersStore()
 
 watch(pageLengthCount, (val, old_value) => {
   if (val === old_value) return
@@ -218,6 +225,14 @@ function apllyFilterFromCell(event, idx, column, item){
   let arrField = ["mobile_no","email","lead_name","_assign","assign_to"];
   if(arrField.includes(column.key)) return;
   emit('applyFilter', { event, idx, column, item });
+}
+
+function onRowSelect(evt){
+  let rowSelect = []
+  evt.forEach(item => {
+    rowSelect.push(item)
+  })
+  emit('update:selections', rowSelect)
 }
 
 function editValues(selections, unselectAll) {

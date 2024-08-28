@@ -57,11 +57,11 @@ def add_default_lead_statuses():
 
 def add_default_deal_statuses():
 	statuses = {
-		"Trình độ": {
+		"Chất lượng": {
 			"color": "gray",
 			"position": 1,
 		},
-		"Demo/Tạo": {
+		"Demo": {
 			"color": "orange",
 			"position": 2,
 		},

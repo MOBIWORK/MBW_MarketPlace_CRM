@@ -102,6 +102,7 @@
           :placeholder="__(field.placeholder)"
           @change="(data) => emit('update', field.name, data)"
           :onCreate="field.create"
+          :hideClear="field.hideClear"
         />
         <FormControl
           v-else

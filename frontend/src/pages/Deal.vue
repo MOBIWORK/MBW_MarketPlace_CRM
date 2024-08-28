@@ -516,6 +516,7 @@ function getParsedFields(sections, contacts) {
               name: 'Organization',
               params: { organizationId: org },
             })
+          field.hideClear = true
         }
       })
     }
