@@ -177,7 +177,7 @@
                                                 value: 'none',
                                             },
                                             {
-                                                label: __('Full Name'),
+                                                label: __('First Name'),
                                                 value: 'first_name',
                                             },
                                             {
@@ -185,7 +185,7 @@
                                                 value: 'email',
                                             },
                                             {
-                                                label: __('Mobile No'),
+                                                label: __('Phone number'),
                                                 value: 'mobile_no',
                                             },
                                             {
@@ -402,25 +402,31 @@ async function onFileSelected(event){
                     let fieldMapping = {
                         'label': jsonData[0][i], 'key': jsonData[0][i], 'field_dict': ""
                     }
-                    if(isEmail(jsonData[1][i])){
-                        if(jsonData[1][i].includes(";")){
-                            let arrEmail = jsonData[1][i].split(";");
-                            for(let t = 0; t < arrEmail.length; t++){
-                                if(isEmail(arrEmail[t])){
-                                    itemColumn["col_obj_email"] = true;
-                                    itemColumn['key_invalid'] = `key_${itemColumn.key}`;
+                    for(let j = 1; j < jsonData.length; j++){
+                        if(isEmail(jsonData[j][i])){
+                            if(jsonData[j][i].includes(";")){
+                                let arrEmail = jsonData[j][i].split(";");
+                                for(let t = 0; t < arrEmail.length; t++){
+                                    if(isEmail(arrEmail[t])){
+                                        itemColumn["col_obj_email"] = true;
+                                        itemColumn['key_invalid'] = `key_${itemColumn.key}`;
+                                    }
                                 }
+                            }else{
+                                itemColumn["col_email"] = true;
+                                itemColumn['key_invalid'] = `key_${itemColumn.key}`;
                             }
-                        }else{
-                            itemColumn["col_email"] = true;
+                            break
+                        }
+                        if(isNumeric(jsonData[j][i])){
+                            itemColumn["col_numeric"] = true;
                             itemColumn['key_invalid'] = `key_${itemColumn.key}`;
+                            break
                         }
                     }
-                    if(isNumeric(jsonData[1][i])){
-                        itemColumn["col_numeric"] = true;
-                        itemColumn['key_invalid'] = `key_${itemColumn.key}`;
-                    }
                     let filterField = arrFieldDist.filter(x => x.label == jsonData[0][i]);
+                    console.log("Dòng 428 ", jsonData[0][i])
+                    console.log("Dòng 429", arrFieldDist)
                     if(filterField.length > 0) fieldMapping["field_dict"] = filterField[0].field;
                     arrColumnDataPreview.push(itemColumn);
                     arrFieldMapping.push(fieldMapping);
@@ -442,6 +448,7 @@ async function onFileSelected(event){
                         }else if(jsonData[i][j] != null){
                             jsonData[i][j] = jsonData[i][j].toString();
                             if(!jsonData[i][j].includes("[")){
+                                console.log(arrColumnDataPreview[j].col_numeric)
                                 if(arrColumnDataPreview[j].col_email){
                                     if(!regexEmail.test(jsonData[i][j])) leadImport[`key_${jsonData[0][j]}`] = true;
                                 }

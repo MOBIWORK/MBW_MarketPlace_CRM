@@ -112,7 +112,7 @@ def add_property_setter():
 	if not frappe.db.exists("Property Setter", {"name": "Contact-main-search_fields"}):
 		doc = frappe.new_doc("Property Setter")
 		doc.doctype_or_field = "DocType"
-		doc.doc_type = "Contact"
+		doc.doc_type = "FCRM Contact"
 		doc.property = "search_fields"
 		doc.property_type = "Data"
 		doc.value = "email_id"

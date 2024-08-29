@@ -118,7 +118,7 @@ before_uninstall = "crm.uninstall.before_uninstall"
 # Override standard doctype classes
 
 override_doctype_class = {
-	"Contact": "crm.overrides.contact.CustomContact",
+	"FCRM Contact": "crm.overrides.contact.CustomContact",
 	"Email Template": "crm.overrides.email_template.CustomEmailTemplate",
 }
 
@@ -127,7 +127,7 @@ override_doctype_class = {
 # Hook on document methods and events
 
 doc_events = {
-	"Contact": {
+	"FCRM Contact": {
 		"validate": ["crm.api.contact.validate"],
 		"before_save": ["crm.api.task.notify_change_contact_deal"]
 	},

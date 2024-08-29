@@ -362,7 +362,7 @@ const deals = createListResource({
 
 const contacts = createListResource({
   type: 'list',
-  doctype: 'Contact',
+  doctype: 'FCRM Contact',
   cache: ['contacts', props.organizationId],
   fields: [
     'name',

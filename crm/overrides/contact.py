@@ -1,9 +1,9 @@
 # import frappe
 from frappe import _
-from frappe.contacts.doctype.contact.contact import Contact
+from crm.fcrm.doctype.fcrm_contact.fcrm_contact import FCRMContact
 
 
-class CustomContact(Contact):
+class CustomContact(FCRMContact):
 	@staticmethod
 	def default_list_data():
 		columns = [

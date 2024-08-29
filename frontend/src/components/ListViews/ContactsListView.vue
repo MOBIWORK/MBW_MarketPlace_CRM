@@ -102,7 +102,7 @@
   <EditValueModal
     v-model="showEditModal"
     v-model:unselectAll="unselectAllAction"
-    doctype="Contact"
+    doctype="FCRM Contact"
     :selectedValues="selectedValues"
     @reload="list.reload()"
   />
@@ -194,7 +194,7 @@ function deleteValues(selections, unselectAll) {
         onClick: (close) => {
           call('frappe.desk.reportview.delete_items', {
             items: JSON.stringify(Array.from(selections)),
-            doctype: 'Contact',
+            doctype: 'FCRM Contact',
           }).then(() => {
             createToast({
               title: __('Deleted successfully'),

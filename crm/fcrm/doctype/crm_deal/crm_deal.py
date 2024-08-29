@@ -259,7 +259,7 @@ def create_contact(doc):
 	if existing_contact:
 		return existing_contact
 
-	contact = frappe.new_doc("Contact")
+	contact = frappe.new_doc("FCRM Contact")
 	contact.update(
 		{
 			"first_name": doc.get("first_name"),

@@ -142,10 +142,10 @@ watchDebounced(
 const filterOptions = createResource({
   url: 'frappe.desk.search.search_link',
   method: 'POST',
-  cache: [text.value, 'Contact'],
+  cache: [text.value, 'FCRM Contact'],
   params: {
     txt: text.value,
-    doctype: 'Contact',
+    doctype: 'FCRM Contact',
   },
   transform: (data) => {
     let allData = data
@@ -178,7 +178,7 @@ function reload(val) {
   filterOptions.update({
     params: {
       txt: val,
-      doctype: 'Contact',
+      doctype: 'FCRM Contact',
     },
   })
   filterOptions.reload()

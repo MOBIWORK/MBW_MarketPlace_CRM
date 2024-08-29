@@ -116,7 +116,7 @@
    "color": "Grey",
    "doc_view": "List",
    "label": "Contacts",
-   "link_to": "Contact",
+   "link_to": "FCRM Contact",
    "stats_filter": "[]",
    "type": "DocType"
   },

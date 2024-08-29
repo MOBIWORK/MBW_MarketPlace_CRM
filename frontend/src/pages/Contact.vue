@@ -274,7 +274,7 @@ function validateFile(file) {
 
 async function changeContactImage(file) {
   await call('frappe.client.set_value', {
-    doctype: 'Contact',
+    doctype: 'FCRM Contact',
     name: props.contactId,
     fieldname: 'image',
     value: file?.file_url || '',
@@ -293,7 +293,7 @@ async function deleteContact() {
         variant: 'solid',
         async onClick(close) {
           await call('frappe.client.delete', {
-            doctype: 'Contact',
+            doctype: 'FCRM Contact',
             name: props.contactId,
           })
           close()
@@ -315,7 +315,7 @@ const tabs = [
 
 const contact = createResource({
   url: 'crm.api.contact.get_contact',
-  cache: ['contact', props.contactId],
+  cache: ['FCRM Contact', props.contactId],
   params: {
     name: props.contactId,
   },

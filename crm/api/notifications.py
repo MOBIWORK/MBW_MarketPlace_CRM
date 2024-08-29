@@ -30,8 +30,8 @@ def get_notifications(type_notify=None):
         if notification.reference_doctype == "CRM Lead":
             reference_doctype = "lead"
             route_name = "Lead"
-        elif notification.reference_doctype == "Contact":
-            reference_doctype = "contact"
+        elif notification.reference_doctype == "FCRM Contact":
+            reference_doctype = "FCRM Contact"
             route_name = "Contact"
         elif notification.reference_doctype == "CRM Task":
             reference_doctype = "task"

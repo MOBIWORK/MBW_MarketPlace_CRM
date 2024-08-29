@@ -27,7 +27,7 @@ def set_primary_mobile_no(doc):
 
 @frappe.whitelist()
 def get_contact(name):
-	Contact = frappe.qb.DocType("Contact")
+	Contact = frappe.qb.DocType("FCRM Contact")
 
 	query = (
 		frappe.qb.from_(Contact)
@@ -41,7 +41,7 @@ def get_contact(name):
 		frappe.throw(_("Contact not found"), frappe.DoesNotExistError)
 	contact = contact.pop()
 
-	contact["doctype"] = "Contact"
+	contact["doctype"] = "FCRM Contact"
 	contact["email_ids"] = frappe.get_all(
 		"Contact Email", filters={"parent": name}, fields=["name", "email_id", "is_primary"]
 	)
@@ -54,7 +54,7 @@ def get_contact(name):
 def get_linked_deals(contact):
 	"""Get linked deals for a contact"""
 
-	if not frappe.has_permission("Contact", "read", contact):
+	if not frappe.has_permission("FCRM Contact", "read", contact):
 		frappe.throw("Not permitted", frappe.PermissionError)
 
 	deal_names = frappe.get_all(
@@ -89,10 +89,10 @@ def get_linked_deals(contact):
 @frappe.whitelist()
 def create_new(contact, field, value):
 	"""Create new email or phone for a contact"""
-	if not frappe.has_permission("Contact", "write", contact):
+	if not frappe.has_permission("FCRM Contact", "write", contact):
 		frappe.throw("Not permitted", frappe.PermissionError)
 
-	contact = frappe.get_doc("Contact", contact)
+	contact = frappe.get_doc("FCRM Contact", contact)
 
 	if field == "email":
 		contact.append("email_ids", {"email_id": value})
@@ -108,10 +108,10 @@ def create_new(contact, field, value):
 @frappe.whitelist()
 def set_as_primary(contact, field, value):
 	"""Set email or phone as primary for a contact"""
-	if not frappe.has_permission("Contact", "write", contact):
+	if not frappe.has_permission("FCRM Contact", "write", contact):
 		frappe.throw("Not permitted", frappe.PermissionError)
 
-	contact = frappe.get_doc("Contact", contact)
+	contact = frappe.get_doc("FCRM Contact", contact)
 
 	if field == "email":
 		for email in contact.email_ids:

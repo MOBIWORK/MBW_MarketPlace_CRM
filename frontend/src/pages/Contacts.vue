@@ -23,7 +23,7 @@
     v-model:loadMore="loadMore"
     v-model:resizeColumn="triggerResize"
     v-model:updatedPageCount="updatedPageCount"
-    doctype="Contact"
+    doctype="FCRM Contact"
     :showElement=true
     :placeholderText="__('Search')"
     :docSelect="contactSelect"

@@ -533,7 +533,7 @@ def notify_change_info_deal(self, method):
 
 def notify_change_contact_deal(self, method):
     if self.name is not None:
-        contact_info = frappe.db.exists('Contact', self.name)
+        contact_info = frappe.db.exists('FCRM Contact', self.name)
         if contact_info is not None:
             deals = get_linked_deals(self.name)
             arr_deal_owners = []
@@ -558,9 +558,9 @@ def notify_change_contact_deal(self, method):
                         type="Task",
                         message= message,
                         notification_text=notification_text,
-                        notification_type_doctype="Contact",
+                        notification_type_doctype="FCRM Contact",
                         notification_type_doc=self.name,
-                        reference_doctype="Contact",
+                        reference_doctype="FCRM Contact",
                         reference_name=self.name,
                     )
                     if frappe.db.exists("CRM Notification", doc_notify) is None:

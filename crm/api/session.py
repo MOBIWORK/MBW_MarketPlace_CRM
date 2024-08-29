@@ -22,7 +22,7 @@ def get_users():
 @frappe.whitelist()
 def get_contacts():
 	contacts = frappe.get_all(
-		"Contact",
+		"FCRM Contact",
 		fields=[
 			"name",
 			"salutation",
@@ -46,13 +46,13 @@ def get_contacts():
 	for contact in contacts:
 		contact["email_ids"] = frappe.get_all(
 			"Contact Email",
-			filters={"parenttype": "Contact", "parent": contact.name},
+			filters={"parenttype": "FCRM Contact", "parent": contact.name},
 			fields=["name", "email_id", "is_primary"],
 		)
 
 		contact["phone_nos"] = frappe.get_all(
 			"Contact Phone",
-			filters={"parenttype": "Contact", "parent": contact.name},
+			filters={"parenttype": "FCRM Contact", "parent": contact.name},
 			fields=["name", "phone", "is_primary_phone", "is_primary_mobile_no"],
 		)
 

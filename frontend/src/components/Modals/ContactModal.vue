@@ -131,7 +131,7 @@ async function updateContact() {
 
 async function callSetValue(values) {
   const d = await call('frappe.client.set_value', {
-    doctype: 'Contact',
+    doctype: 'FCRM Contact',
     name: props.contact.data.name,
     fieldname: values,
   })
@@ -139,7 +139,6 @@ async function callSetValue(values) {
 }
 
 async function callInsertDoc() {
-  console.log(_contact);
   if(_contact.value.first_name == null || _contact.value.first_name == ""){
     error.value = __('First Name is mandatory');
     return;
@@ -166,7 +165,7 @@ async function callInsertDoc() {
 
   const doc = await call('frappe.client.insert', {
     doc: {
-      doctype: 'Contact',
+      doctype: 'FCRM Contact',
       ..._contact.value,
     },
   })

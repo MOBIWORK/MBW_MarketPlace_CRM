@@ -29,7 +29,7 @@ Are you sure you want to delete {0} item(s).All related documents will be delete
 Are you sure you want to delete {0} item(s)?,Bạn có chắc muốn xóa {0} mục?
 Ascending,Từ A-> Z
 Assign To,Phân công cho
-Assigned To,Đã phân công cho
+Assigned To,Phân công cho
 Auth Token,Mã xác thực
 BCC,BCC
 Backlog,Tồn đọng
@@ -195,7 +195,7 @@ From,Từ
 From Date,Từ ngày
 From User,Từ người dùng
 Fulfilled,Đã hoàn thành
-Full Name,Họ và tên đầy đủ
+Full Name,Họ và tên
 Gender,Giới tính
 Go to website,Đi tới trang web
 Hide Recording,Ẩn ghi âm
@@ -265,9 +265,9 @@ Medium,Trung bình
 Mention,Đề cập
 Message,Tin nhắn
 Middle Name,Tên đệm
-Mobile No,Di động
+Mobile No,Điện thoại
 Mobile No should be a number,Số di động phải có định dạng số
-Mobile no,Di động
+Mobile no,Điện thoại
 Monday,Thứ Hai
 More,Xem thêm
 My Open Deals,Các giao dịch của tôi đang mở

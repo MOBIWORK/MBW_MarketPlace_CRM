@@ -123,7 +123,7 @@
                 <div v-if="section.contacts" class="pr-2">
                   <Link
                     value=""
-                    doctype="Contact"
+                    doctype="FCRM Contact"
                     @change="(e) => addContact(e)"
                     :onCreate="
                       (value, close) => {

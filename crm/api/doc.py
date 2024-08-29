@@ -297,7 +297,7 @@ def apply_search_filter(searchText: str, doctype=None):
                 ["organization", "LIKE", f'%{searchText}%'],
                 ["mobile_no", "=", searchText]  
             ]   
-        elif doctype == "Contact":
+        elif doctype == "FCRM Contact":
             # Tạo các điều kiện OR cho trường "email", "first_name", "organization", "phone"
             or_filters = [
                 ["email_id", "LIKE", f'%{searchText}%'],   

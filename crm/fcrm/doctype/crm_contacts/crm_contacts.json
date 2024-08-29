@@ -21,7 +21,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Contact",
-   "options": "Contact"
+   "options": "FCRM Contact"
   },
   {
    "fetch_from": "contact.full_name",
@@ -79,7 +79,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-11-12 14:58:18.846919",
+ "modified": "2024-08-29 10:40:06.459436",
  "modified_by": "Administrator",
  "module": "FCRM",
  "name": "CRM Contacts",

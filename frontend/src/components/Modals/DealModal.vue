@@ -148,7 +148,7 @@ const sections = computed(() => {
           name: 'contact',
           type: 'link',
           placeholder: __('Select Contact'),
-          doctype: 'Contact',
+          doctype: 'FCRM Contact',
         },
       ],
     })

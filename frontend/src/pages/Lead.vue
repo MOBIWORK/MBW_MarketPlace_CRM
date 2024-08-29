@@ -247,7 +247,7 @@
           variant="outline"
           size="md"
           :value="existingContact"
-          doctype="Contact"
+          doctype="FCRM Contact"
           @change="(data) => (existingContact = data)"
         />
         <div v-else class="mt-2.5 text-base">
