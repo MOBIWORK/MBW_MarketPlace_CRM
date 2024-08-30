@@ -889,6 +889,7 @@ const activities = computed(() => {
       })
     }
   })
+  console.log("Dòng 892 ", activities)
   return sortByCreation(activities)
 })
 

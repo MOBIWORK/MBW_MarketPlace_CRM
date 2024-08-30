@@ -74,7 +74,7 @@ Cancel,Hủy
 Canceled,Đã hủy
 Change Status,Thay đổi trạng thái
 Change image,Thay đổi hình ảnh
-Choose Existing,Chọn có sẵn
+Choose Existing,Chọn từ danh sách hiện có
 Choose Existing Contact,Chọn Liên hệ sẵn có
 Choose Existing Organization,Chọn Tổ chức sẵn có
 Clear,Xóa
@@ -114,9 +114,9 @@ Create Task,Tạo công việc
 Create View,Tạo chế độ xem
 Create lead,Tạo Lead
 Date,Ngày
-Deal Owner,Quản lí Deal
+Deal Owner,Phụ trách Deal
 Deal not found,Không tìm thấy Deal
-Deal owner,Quản lí Deal
+Deal owner,Phụ trách Deal
 Deal updated,Đã cập nhật Deal
 Deals,Deal
 deal,deal
@@ -195,7 +195,7 @@ From,Từ
 From Date,Từ ngày
 From User,Từ người dùng
 Fulfilled,Đã hoàn thành
-Full Name,Họ và tên
+Full Name,Họ tên
 Gender,Giới tính
 Go to website,Đi tới trang web
 Hide Recording,Ẩn ghi âm
@@ -239,8 +239,8 @@ last year,năm trước
 Last modified,Lần cuối chỉnh sửa
 Lead,Lead
 Lead Name,ID
-Lead Owner,Quản lí Lead
-Lead Owner cannot be same as the Lead Email Address,Quản lí Lead không thể trùng với địa chỉ Email Lead
+Lead Owner,Phụ trách Lead
+Lead Owner cannot be same as the Lead Email Address,Phụ trách Lead không thể trùng với địa chỉ Email Lead
 Lead not found,Không tìm thấy Lead
 Lead updated,Lead đã cập nhật
 Leads,Lead
@@ -304,7 +304,6 @@ No mobile number set,Không có số di động được thiết lập
 No new notifications,Không có thông báo mới
 No phone number set,Không có số điện thoại được thiết lập
 No primary contact set,Không có liên hệ chính được thiết lập
-No results found,Không tìm thấy kết quả
 No templates found,Không tìm thấy mẫu
 No website set,Không có địa chỉ web được thiết lập
 No {0} Available,{0} không có sẵn
@@ -544,6 +543,8 @@ No Email Communications,Không có email
 No Call Logs,Chưa có nhật ký cuộc gọi
 No Notes,Chưa có ghi chú
 No Tasks,Chưa có công việc
+No organization,Chưa có tổ chức
+No contact,Chưa có liên hệ
 No WhatsApp Messages,Chưa có tin nhắn WhatsApp
 Add Next Step...,Thêm bước tiếp theo
 Madam,Bà
@@ -630,7 +631,7 @@ days ago,ngày trước
 weeks ago,tuần trước
 months ago,tháng trước
 years ago,năm trước
-as,bằng
+as,là
 removed,đã xóa
 value,giá trị
 changed,đã thay đổi
@@ -706,3 +707,6 @@ Mark as read,Đánh dấu đã đọc
 Width can be in number pixel or rem (eg. 30px or 10rem),Điều chỉnh chiều rộng bằng đơn vị rem hoặc pixel (Ví dụ 30px hoặc 10rem)
 record,bản ghi
 records,bản ghi
+Creator,Người tạo
+Select organization from the list, Chọn tổ chức từ danh sách
+Select contact from the list, Chọn liên hệ từ danh sách

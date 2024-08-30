@@ -4,7 +4,7 @@ import json
 
 import frappe
 from frappe import _
-from frappe.desk.form.assign_to import add as assign
+from frappe.desk.form.assign_to import add as assign, remove
 from frappe.model.document import Document
 
 from frappe.utils import has_gravatar, validate_email_address
@@ -78,10 +78,9 @@ class CRMLead(Document):
 
 		assignees = self.get_assigned_users()
 		if assignees:
+			#Xóa toàn bộ những assign cũ
 			for assignee in assignees:
-				if assignee in agents:
-					# the agent is already set as an assignee
-					return
+				remove("CRM Lead", self.name, assignee, ignore_permissions=True)
 
 		assign({"assign_to": agents, "doctype": "CRM Lead", "name": self.name})
 

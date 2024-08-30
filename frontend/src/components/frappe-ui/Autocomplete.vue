@@ -100,7 +100,7 @@
                 v-if="groups.length == 0"
                 class="mt-1.5 rounded-md px-2.5 py-1.5 text-base text-gray-600"
               >
-              {{ __('No results found') }}
+              {{ __(emptyText) }}
               </li>
             </ComboboxOptions>
             <div v-if="slots.footer" class="border-t p-1.5 pb-0.5">
@@ -155,6 +155,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  emptyText: {
+    type: String,
+    default: "No results found"
+  }
 })
 const emit = defineEmits(['update:modelValue', 'update:query', 'change'])
 

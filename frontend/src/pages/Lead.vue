@@ -205,15 +205,14 @@
     }"
   >
     <template #body-content>
-      <div class="mb-4 flex items-center gap-2 text-gray-600">
-        <OrganizationsIcon class="h-4 w-4" />
-        <label class="block text-base">{{ __('Organization') }}</label>
+      <div class="mb-3 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <OrganizationsIcon class="h-4 w-4" />
+          <label class="block text-base">{{ __('Select organization from the list') }}</label>
+        </div>
+        <Switch v-model="existingOrganizationChecked" />
       </div>
       <div class="ml-6">
-        <div class="flex items-center justify-between text-base">
-          <div>{{ __('Choose Existing') }}</div>
-          <Switch v-model="existingOrganizationChecked" />
-        </div>
         <Link
           v-if="existingOrganizationChecked"
           class="form-control mt-2.5"
@@ -222,8 +221,9 @@
           :value="existingOrganization"
           doctype="CRM Organization"
           @change="(data) => (existingOrganization = data)"
+          :emptyText="'No organization'"
         />
-        <div v-else class="mt-2.5 text-base">
+        <div v-else class="mt-2.5 text-base text-gray-600">
           {{
             __(
               'New organization will be created based on the data in details section'
@@ -232,15 +232,14 @@
         </div>
       </div>
 
-      <div class="mb-4 mt-6 flex items-center gap-2 text-gray-600">
-        <ContactsIcon class="h-4 w-4" />
-        <label class="block text-base">{{ __('Contact') }}</label>
+      <div class="mb-3 mt-6 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <ContactsIcon class="h-4 w-4" />
+          <label class="block text-base">{{ __('Select contact from the list') }}</label>
+        </div>
+        <Switch v-model="existingContactChecked" />
       </div>
       <div class="ml-6">
-        <div class="flex items-center justify-between text-base">
-          <div>{{ __('Choose Existing') }}</div>
-          <Switch v-model="existingContactChecked" />
-        </div>
         <Link
           v-if="existingContactChecked"
           class="form-control mt-2.5"
@@ -249,8 +248,9 @@
           :value="existingContact"
           doctype="FCRM Contact"
           @change="(data) => (existingContact = data)"
+          :emptyText="'No contact'"
         />
-        <div v-else class="mt-2.5 text-base">
+        <div v-else class="mt-2.5 text-base text-gray-600">
           {{ __("New contact will be created based on the person's details") }}
         </div>
       </div>
@@ -335,7 +335,6 @@ const lead = createResource({
     return data
   },
   onSuccess: (data) => {
-    console.log("Dòng 338 ", data)
     setupAssignees(data)
     setupCustomActions(data, {
       doc: data,
@@ -484,7 +483,6 @@ function validateFile(file) {
 const detailSections = computed(() => {
   let data = lead.data
   if (!data) return []
-  console.log("Dòng 476 ", data.doctype_fields)
   return data.doctype_fields
 })
 

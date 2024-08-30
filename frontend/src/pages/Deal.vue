@@ -349,6 +349,16 @@ const deal = createResource({
   url: 'crm.fcrm.doctype.crm_deal.api.get_deal',
   params: { name: props.dealId },
   cache: ['deal', props.dealId],
+  transform(data){
+    for(let i = 0; i < data.doctype_fields.length; i++){
+      for(let j = 0; j < data.doctype_fields[i].fields.length; j++){
+        if(data.doctype_fields[i].fields[j].name == "deal_owner"){
+          data.doctype_fields[i].fields[j]["hidden_delete"] = true
+        }
+      }
+    }
+    return data
+  },
   onSuccess: (data) => {
     setupAssignees(data)
     setupCustomActions(data, {

@@ -4,7 +4,7 @@ import json
 
 import frappe
 from frappe import _
-from frappe.desk.form.assign_to import add as assign
+from frappe.desk.form.assign_to import add as assign, remove
 from frappe.model.document import Document
 
 from crm.fcrm.doctype.crm_service_level_agreement.utils import get_sla
@@ -80,10 +80,9 @@ class CRMDeal(Document):
 
 		assignees = self.get_assigned_users()
 		if assignees:
+			#Xóa toàn bộ những assign cũ
 			for assignee in assignees:
-				if assignee in agents:
-					# the agent is already set as an assignee
-					return
+				remove("CRM Deal", self.name, assignee, ignore_permissions=True)
 
 		assign({"assign_to": agents, "doctype": "CRM Deal", "name": self.name})
 

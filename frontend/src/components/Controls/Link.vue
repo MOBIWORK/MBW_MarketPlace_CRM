@@ -12,6 +12,7 @@
       :placeholder="attrs.placeholder"
       :filterable="false"
       :disabled="disable"
+      :emptyText="emptyText"
     >
       <template #target="{ open, togglePopover }">
         <slot name="target" v-bind="{ open, togglePopover }" />
@@ -85,6 +86,10 @@ const props = defineProps({
   disable: {
     type: Boolean,
     default: false
+  },
+  emptyText: {
+    type: String,
+    default: 'No results found'
   }
 })
 
