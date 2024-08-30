@@ -310,6 +310,18 @@ function getValSelect(f) {
   } else if (['like', 'not like', 'in', 'not in'].includes(operator)) {
     return h(FormControl, { type: 'text' })
   } else if (typeSelect.includes(fieldtype) || typeCheck.includes(fieldtype)) {
+    if(field.fieldname == "rating"){
+      return h(FormControl, {
+        type: 'select',
+        options: [
+          {label: 1, value: 0.2},
+          {label: 2, value: 0.4},
+          {label: 3, value: 0.6},
+          {label: 4, value: 0.8},
+          {label: 5, value: 1}
+        ]
+      })
+    }
     const _options =
       fieldtype == 'Check' ? ['Yes', 'No'] : getSelectOptions(options)
     return h(FormControl, {
@@ -338,8 +350,11 @@ function getValSelect(f) {
 }
 
 function getDefaultValue(field) {
-  if (typeSelect.includes(field.fieldtype)) {
+  if (typeSelect.includes(field.fieldtype) && field.fieldname != "rating") {
     return getSelectOptions(field.options)[0]
+  }
+  if (typeSelect.includes(field.fieldtype) && field.fieldname == "rating") {
+    return 1
   }
   if (typeCheck.includes(field.fieldtype)) {
     return 'Yes'
@@ -368,7 +383,6 @@ function getSelectOptions(options) {
 }
 
 function setfilter(data) {
-  console.log(data)
   if (!data) return
   filters.value.add({
     field: {
@@ -463,7 +477,6 @@ function apply() {
     })
   })
   let configFilter = parseFilters(_filters)
-  console.log("Dòng 466 ", configFilter)
   emit('update', configFilter)
 }
 

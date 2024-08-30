@@ -218,7 +218,7 @@
     v-model:unselectAll="unselectAllAction"
     doctype="CRM Lead"
     :selectedValues="selectedValues"
-    @reload="list.reload()"
+    @reload="list.fetch()"
   />
 </template>
 
@@ -414,13 +414,14 @@ onMounted(() => {
   })
   customBulkActions.value = list.value?.data?.bulkActions || []
   customListActions.value = list.value?.data?.listActions || []
-  props.rows.forEach((row) => calcRate(row))
- 
-  // for (let i = 0; i < props.rows.length; i++) {
-  //       calcRate(props.rows[i]);
-  //     }
-   // Cập nhật giá trị mặc định cho mỗi dòng
 })
+watch(
+  () => props.rows, // Theo dõi props.rows
+  (newVal, oldVal) => {
+    newVal.forEach((row) => calcRate(row));
+  },
+  { deep: true }
+);
 const handleStarClick = (evt,value , row  ) => {
   evt.stopPropagation()
   evt.preventDefault()

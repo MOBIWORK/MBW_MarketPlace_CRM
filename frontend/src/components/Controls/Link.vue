@@ -30,7 +30,7 @@
         <slot name="item-label" v-bind="{ active, selected, option }" />
       </template>
 
-      <template #footer="{ value, close }">
+      <template #footer="{ value, close }" v-if="!hideClear">
         <div v-if="attrs.onCreate">
           <Button
             variant="ghost"

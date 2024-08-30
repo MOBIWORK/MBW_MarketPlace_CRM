@@ -77,7 +77,7 @@ const fields = createResource({
   cache: ['fields', props.doctype],
   params: {
     doctype: props.doctype,
-  },
+  }
 })
 
 onMounted(() => {
@@ -167,7 +167,18 @@ function getValueComponent(f) {
       bubbleMenu: true,
       content: newValue.value,
     })
-  } else {
+  }else if(type == "Rating"){
+    return h(FormControl, {
+      type: 'select',
+      options: [
+        {label: 1, value: 0.2},
+        {label: 2, value: 0.4},
+        {label: 3, value: 0.6},
+        {label: 4, value: 0.8},
+        {label: 5, value: 1}
+      ],
+    })
+  }else {
     return h(FormControl, { type: 'text' })
   }
 }

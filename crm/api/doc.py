@@ -87,9 +87,6 @@ def get_filterable_fields(doctype: str):
 	custom_field_without = ['is_billing_contact']
 	custom_fields = [custom_filed for custom_field in custom_fields if custom_field.fieldname not in custom_field_without]
 	res.extend(custom_fields)
-	res.insert(0, {"fieldname": "name", "fieldtype": "Link", "label": "ID", "options": doctype})
-	if doctype != "CRM Deal" and doctype != "CRM Organization" and doctype != "CRM Contact" and doctype != "FCRM Note" and doctype != "CRM Task" and doctype != "Email Template":
-		res.insert(1, {"fieldname": "first_name", "fieldtype": "Data", "label": "Full Name"})
 	# append standard fields (getting error when using frappe.model.std_fields)
 	standard_fields = [
 		{
@@ -118,10 +115,11 @@ def get_filterable_fields(doctype: str):
 		):
 			field["name"] = field.get("fieldname")
 			res.append(field)
-
+	if doctype != "CRM Deal" and doctype != "CRM Organization" and doctype != "CRM Contact" and doctype != "FCRM Note" and doctype != "CRM Task" and doctype != "Email Template":
+		res.insert(0, {"fieldname": "first_name", "fieldtype": "Data", "label": "Full Name"})
+		#res.append({"fieldname": "rating", "fieldtype": "Select", "label": "Rating"})
 	for field in res:
 		field["label"] = _(field.get("label"))
-	print("Dòng 125 ", res)
 	return res
 
 def get_fields_meta(DocField, doctype, allowed_fieldtypes, restricted_fields):
