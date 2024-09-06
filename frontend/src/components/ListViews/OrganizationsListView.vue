@@ -55,6 +55,9 @@
                 class="text-gray-900"
               />
             </div>
+            <div v-else-if="['modified_by', 'owner'].includes(column.key)">
+              <div>{{getUser(item).first_name}}</div>
+            </div>
             <div
               v-else
               class="truncate text-base"
@@ -112,6 +115,7 @@ import {
 } from 'frappe-ui'
 import { ref, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { usersStore } from '@/stores/users'
 
 const props = defineProps({
   rows: {
@@ -141,7 +145,7 @@ const emit = defineEmits([
   'applyFilter',
   'update:selections'
 ])
-
+const { getUser } = usersStore()
 const pageLengthCount = defineModel()
 const list = defineModel('list')
 

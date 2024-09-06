@@ -100,7 +100,7 @@
                 "
               />
             </div>
-            <div v-else-if="column.key === 'modified_by'">
+            <div v-else-if="['modified_by', 'owner'].includes(column.key)">
               <div>{{getUser(item).first_name}}</div>
             </div>
             <div v-else-if="column.type === 'Check'">

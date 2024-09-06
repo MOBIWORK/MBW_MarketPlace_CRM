@@ -139,8 +139,10 @@ const options = createResource({
   },
   transform: (data) => {
     let allData = data.map((option) => {
+      let label = __(option.value)
+      if(props.doctype == 'User') label = option.description
       return {
-        label: __(option.value),
+        label: label,
         value: option.value,
       }
     })

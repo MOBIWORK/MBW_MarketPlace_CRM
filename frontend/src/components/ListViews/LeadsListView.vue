@@ -120,6 +120,11 @@
             }">
               <VueStarRating :rating="row.rating*5" :starSize="20" :showRating="false" :clearable="true" @update:rating="(evt) => onUpdateRating(evt, row)"></VueStarRating>
             </div>
+            <div v-else-if="['owner', 'modified_by'].includes(column.key)" class="truncate text-base" @click="
+                (event) => applyFilterByCell(event, idx, column, item )
+              ">
+              {{getUser(label).first_name}}
+            </div>
             <div
               v-else
               class="truncate text-base"
@@ -183,6 +188,7 @@ import { onMounted, ref, watch,computed } from 'vue'
 import { useRouter } from 'vue-router'
 import ListSelectBanner from '@/components/frappe-ui/ListSelectBanner.vue'
 import VueStarRating from '@/components/Controls/star-rating.vue'
+import { usersStore } from '@/stores/users'
 
 const props = defineProps({
   rows: {
@@ -212,7 +218,7 @@ const emit = defineEmits([
   'rating',
   'update:selections'
 ])
-
+const { getUser } = usersStore()
 const pageLengthCount = defineModel()
 const list = defineModel('list')
 

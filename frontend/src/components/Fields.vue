@@ -108,7 +108,6 @@
 </template>
 
 <script setup>
-import { TextEditor } from 'frappe-ui'
 import NestedPopover from '@/components/NestedPopover.vue'
 import DropdownItem from '@/components/DropdownItem.vue'
 import IndicatorIcon from '@/components/Icons/IndicatorIcon.vue'

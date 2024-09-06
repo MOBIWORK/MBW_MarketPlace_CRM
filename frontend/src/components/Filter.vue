@@ -478,7 +478,6 @@ function apply() {
     })
   })
   let configFilter = parseFilters(_filters)
-  console.log(configFilter)
   let propertiesName = Object.getOwnPropertyNames(configFilter)
   for(let i = 0; i < propertiesName.length; i++){
     if(propertiesName[i] == "rating"){
