@@ -15,7 +15,7 @@
     "exceljs": "^4.4.0",
     "feather-icons": "^4.28.0",
     "file-saver": "^2.0.5",
-    "frappe-ui": "^0.1.53",
+    "frappe-ui": "^0.1.66",
     "gemoji": "^8.1.0",
     "lodash.debounce": "^4.0.8",
     "mime": "^4.0.1",
