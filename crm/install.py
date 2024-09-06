@@ -148,6 +148,7 @@ def add_email_template_custom_fields():
 		frappe.clear_cache(doctype="Email Template")
 
 def add_default_salutation():
+	click.secho("init default salutation")
 	salutations_sys = ["Prof", "Master", "Miss", "Madam", "Mrs", "Dr", "Mx", "Ms", "Mr"]
 	salutations = frappe.db.get_list('Salutation',
 		fields = ['name', 'salutation']
@@ -160,8 +161,8 @@ def add_default_salutation():
 	if not is_edited:
 		try:
 			for salutation_sys in salutations_sys:
-				print("Dòng 163 ", salutation_sys)
-				print("Dòng 164 ", salutation_sys is not ["Mr", "Madam", "Prof", "Miss"])
+				click.secho("Dòng 163 ", salutation_sys)
+				click.secho("Dòng 164 ", salutation_sys is not ["Mr", "Madam", "Prof", "Miss"])
 				if salutation_sys is not ["Mr", "Madam", "Prof", "Miss"]:
 					salutation_doc = frappe.get_doc('Salutation', salutation_sys)
 					salutation_doc.delete()
@@ -177,6 +178,7 @@ def add_default_salutation():
 			pass
 
 def add_default_gender():
+	click.secho("init default gender")
 	genders_sys = ["Prefer not to say", "Non-Conforming", "Genderqueer", "Transgender", "Other", "Female", "Male"]
 	genders = frappe.db.get_list('Gender',
 		fields = ['name', 'gender']
@@ -189,8 +191,8 @@ def add_default_gender():
 	if not is_edited:
 		try:
 			for gender_sys in genders_sys:
-				print("Dòng 192 ", gender_sys)
-				print("Dòng 193 ", gender_sys is not ["Female", "Male", "Other"])
+				click.secho("Dòng 192 ", gender_sys)
+				click.secho("Dòng 193 ", gender_sys is not ["Female", "Male", "Other"])
 				if gender_sys is not ["Female", "Male", "Other"]:
 					gender_doc = frappe.get_doc('Gender', gender_sys)
 					gender_doc.delete()
