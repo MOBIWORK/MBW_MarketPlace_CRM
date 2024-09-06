@@ -153,7 +153,7 @@ def add_default_salutation():
 	salutations = frappe.db.get_list('Salutation',
 		fields = ['name', 'salutation']
 	)
-	click.secho("Dữ liệu salutations: ", salutations)
+	click.secho("Dữ liệu salutations: ", len(salutations))
 	is_edited = False
 	for salutation in salutations:
 		click.secho("Dòng 159 : ", salutation.salutation)
