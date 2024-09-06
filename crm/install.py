@@ -155,16 +155,16 @@ def add_default_salutation():
 	)
 	is_edited = False
 	for salutation in salutations:
-		click.secho("Dòng 159 : ", salutation.salutation)
-		click.secho("Dòng 160 : ", salutation.salutation is not salutations_sys)
+		click.secho(f"Dòng 159 : {salutation.salutation}")
+		click.secho(f"Dòng 160 : {salutation.salutation is not salutations_sys}")
 		if salutation.salutation is not salutations_sys:
 			is_edited = True
 			break
 	if not is_edited:
 		try:
 			for salutation_sys in salutations_sys:
-				click.secho("Dòng 163 ", salutation_sys)
-				click.secho("Dòng 164 ", salutation_sys is not ["Mr", "Madam", "Prof", "Miss"])
+				click.secho(f"Dòng 163 {salutation_sys}")
+				click.secho("Dòng 164 {salutation_sys is not ["Mr", "Madam", "Prof", "Miss"]}")
 				if salutation_sys is not ["Mr", "Madam", "Prof", "Miss"]:
 					salutation_doc = frappe.get_doc('Salutation', salutation_sys)
 					salutation_doc.delete()
@@ -193,8 +193,7 @@ def add_default_gender():
 	if not is_edited:
 		try:
 			for gender_sys in genders_sys:
-				click.secho("Dòng 192 ", gender_sys)
-				click.secho("Dòng 193 ", gender_sys is not ["Female", "Male", "Other"])
+				click.secho(f"Dòng 192 {gender_sys}")
 				if gender_sys is not ["Female", "Male", "Other"]:
 					gender_doc = frappe.get_doc('Gender', gender_sys)
 					gender_doc.delete()
