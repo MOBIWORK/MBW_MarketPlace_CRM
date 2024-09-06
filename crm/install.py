@@ -148,23 +148,19 @@ def add_email_template_custom_fields():
 		frappe.clear_cache(doctype="Email Template")
 
 def add_default_salutation():
-	click.secho("init default salutation")
 	salutations_sys = ["Prof", "Master", "Miss", "Madam", "Mrs", "Dr", "Mx", "Ms", "Mr"]
 	salutations = frappe.db.get_list('Salutation',
 		fields = ['name', 'salutation']
 	)
 	is_edited = False
 	for salutation in salutations:
-		click.secho(f"Dòng 159 : {salutation.salutation}")
-		click.secho(f"Dòng 160 : {salutation.salutation is not salutations_sys}")
-		if salutation.salutation is not salutations_sys:
+		if salutation.salutation not in salutations_sys:
 			is_edited = True
 			break
 	if not is_edited:
 		try:
 			for salutation_sys in salutations_sys:
-				click.secho(f"Dòng 163 {salutation_sys}")
-				if salutation_sys is not ["Mr", "Madam", "Prof", "Miss"]:
+				if salutation_sys not in ["Mr", "Madam", "Prof", "Miss"]:
 					salutation_doc = frappe.get_doc('Salutation', salutation_sys)
 					salutation_doc.delete()
 			for salutation_sys in ["Mr", "Madam", "Prof", "Miss"]:
@@ -174,26 +170,23 @@ def add_default_salutation():
 				salutation_doc = frappe.new_doc("Salutation")
 				salutation_doc.salutation = salutation_sys
 				salutation_doc.insert()
-			frappe.db.commit()
 		except Exception as e:
 			pass
 
 def add_default_gender():
-	click.secho("init default gender")
 	genders_sys = ["Prefer not to say", "Non-Conforming", "Genderqueer", "Transgender", "Other", "Female", "Male"]
 	genders = frappe.db.get_list('Gender',
 		fields = ['name', 'gender']
 	)
 	is_edited = False
 	for gender in genders:
-		if gender.gender is not genders_sys:
+		if gender.gender not in genders_sys:
 			is_edited = True
 			break
 	if not is_edited:
 		try:
 			for gender_sys in genders_sys:
-				click.secho(f"Dòng 192 {gender_sys}")
-				if gender_sys is not ["Female", "Male", "Other"]:
+				if gender_sys not in ["Female", "Male", "Other"]:
 					gender_doc = frappe.get_doc('Gender', gender_sys)
 					gender_doc.delete()
 			for gender_sys in ["Female", "Male", "Other"]:
@@ -203,6 +196,5 @@ def add_default_gender():
 				gender_doc = frappe.new_doc("Gender")
 				gender_doc.gender = gender_sys
 				gender_doc.insert()
-			frappe.db.commit()
 		except Exception as e:
 			pass
