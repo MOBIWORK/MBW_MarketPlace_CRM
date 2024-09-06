@@ -164,7 +164,6 @@ def add_default_salutation():
 		try:
 			for salutation_sys in salutations_sys:
 				click.secho(f"Dòng 163 {salutation_sys}")
-				click.secho("Dòng 164 {salutation_sys is not ["Mr", "Madam", "Prof", "Miss"]}")
 				if salutation_sys is not ["Mr", "Madam", "Prof", "Miss"]:
 					salutation_doc = frappe.get_doc('Salutation', salutation_sys)
 					salutation_doc.delete()
