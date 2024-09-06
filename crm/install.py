@@ -15,6 +15,8 @@ def after_install():
 	add_default_communication_statuses()
 	add_property_setter()
 	add_email_template_custom_fields()
+	add_default_salutation()
+	add_default_gender()
 	frappe.db.commit()
 
 def add_default_lead_statuses():
@@ -144,3 +146,55 @@ def add_email_template_custom_fields():
 		)
 
 		frappe.clear_cache(doctype="Email Template")
+
+def add_default_salutation():
+	salutations_sys = ["Prof", "Master", "Miss", "Madam", "Mrs", "Dr", "Mx", "Ms", "Mr"]
+	salutations = frappe.db.get_list('Salutation',
+		fields = ['name', 'salutation']
+	)
+	is_edited = False
+	for salutation in salutations:
+		if salutation.salutation is not salutations_sys:
+			is_edited = True
+			break
+	if not is_edited:
+		try:
+			for salutation_sys in salutations_sys:
+				if salutation_sys is not ["Mr", "Madam", "Prof", "Miss"]
+					salutation_doc = frappe.get_doc('Salutation', salutation_sys)
+					salutation_doc.delete()
+			for salutation_sys in ["Mr", "Madam", "Prof", "Miss"]:
+				if frappe.db.exists("Salutation", salutation_sys):
+					continue
+				
+				salutation_doc = frappe.new_doc("Salutation")
+				salutation_doc.salutation = salutation_sys
+				salutation_doc.insert()
+		except Exception as e:
+			pass
+
+def add_default_gender():
+	genders_sys = ["Prefer not to say", "Non-Conforming", "Genderqueer", "Transgender", "Other", "Female", "Male"]
+	genders = frappe.db.get_list('Gender',
+		fields = ['name', 'gender']
+	)
+	is_edited = False
+	for gender in genders:
+		if gender.gender is not genders_sys:
+			is_edited = True
+			break
+	if not is_edited:
+		try:
+			for gender_sys in genders_sys:
+				if gender_sys is not ["Female", "Male", "Other"]:
+					gender_doc = frappe.get_doc('Gender', gender_sys)
+					gender_doc.delete()
+			for gender_sys in ["Female", "Male", "Other"]:
+				if frappe.db.exists("Gender", gender_sys):
+					continue
+				
+				gender_doc = frappe.new_doc("Gender")
+				gender_doc.gender = gender_sys
+				gender_doc.insert()
+		except Exception as e:
+			pass

@@ -115,72 +115,10 @@
               />
             </div>
             <div v-else-if="column.key === 'rating'" class="flex space-x-1" @click="(evt) => {
-              handleStarClick(evt,evt.target.title,row)
               evt.stopPropagation()
               evt.preventDefault()
             }">
-              <div id="rating">
-                <input
-                  type="radio"
-                  :id="row.name + 'star5'"
-                  :name="row.name + 'star5'"
-                  value="5"
-                />
-                <label
-                  class="full"
-                  :for="row.name + 'star5'"
-                  title="5"
-                ></label>
-                <input
-                  type="radio"
-                  :id="row.name + 'star4'"
-                  :name="row.name + 'star4'"
-                  value="4"
-                  
-                />
-                <label
-                  class="full"
-                  :for="row.name + 'star4'"
-                  title="4"
-                ></label>
-                <input
-                  type="radio"
-                  :id="row.name + 'star3'"
-                  :name="row.name + 'star3'"
-                  value="3"
-                  
-                />
-                <label
-                  class="full"
-                  :for="row.name + 'star3'"
-                  title="3"
-                ></label>
-                <input
-                  type="radio"
-                  :id="row.name + 'star2'"
-                  :name="row.name + 'star2'"
-                  value="2"
-                  
-                />
-                <label
-                  class="full"
-                  :for="row.name + 'star2'"
-                  title="2"
-                ></label>
-
-                <input
-                  type="radio"
-                  :id="row.name + 'star1'"
-                  :name="row.name + 'star1'"
-                  value="1"
-                  
-                />
-                <label
-                  class="full"
-                  :for="row.name + 'star1'"
-                  title="1"
-                ></label>
-              </div>
+              <VueStarRating :rating="row.rating*5" :starSize="20" :showRating="false" :clearable="true" @update:rating="(evt) => onUpdateRating(evt, row)"></VueStarRating>
             </div>
             <div
               v-else
@@ -244,6 +182,7 @@ import { globalStore } from '@/stores/global'
 import { onMounted, ref, watch,computed } from 'vue'
 import { useRouter } from 'vue-router'
 import ListSelectBanner from '@/components/frappe-ui/ListSelectBanner.vue'
+import VueStarRating from '@/components/Controls/star-rating.vue'
 
 const props = defineProps({
   rows: {
@@ -265,12 +204,6 @@ const props = defineProps({
     }),
   },
 })
-// watch(props, (newProps) => {
-//   for (let i = 0; i < newProps.rows.length; i++) {
-//         calcRate(newProps.rows[i]);
-//       }
-//   // Perform necessary actions when props change
-// });
 const emit = defineEmits([
   'loadMore',
   'updatePageCount',
@@ -348,6 +281,14 @@ function onRowSelect(evt){
   emit('update:selections', rowSelect)
 }
 
+function onUpdateRating(evt, data){
+  emit('rating', {
+    'fieldname': "rating",
+    'row': data,
+    'newvalue': evt/5
+  })
+}
+
 const customBulkActions = ref([])
 const customListActions = ref([])
 
@@ -379,30 +320,6 @@ function bulkActions(selections, unselectAll) {
   })
   return actions
 }
-const calcRate = (row , value) => {
-  if (value) {
-    row.rating = value;
-  }
-  const r = row.rating * 5;
-  const f = Math.floor(r);
-  const id = row.name + 'star' + `${r}`;
-  // Lấy tất cả các nút radio liên quan đến row.name
-  const radioButtons = document.querySelectorAll(`input[id^='${row.name}star']`);    
-  // Đặt tất cả các nút radio về trạng thái không được chọn
-  radioButtons.forEach(radio => {
-    radio.checked = false;
-  });
-  if(value != 0){
-    // Đánh dấu nút radio đúng
-    if (id) {
-      const radioButton = document.getElementById(id);
-      if (radioButton) {
-        radioButton.checked = true;
-      }
-    }
-  }
-  
-};
 onMounted(() => {
   if (!list.value?.data) return
   setupListActions(list.value.data, {
@@ -415,59 +332,9 @@ onMounted(() => {
   customBulkActions.value = list.value?.data?.bulkActions || []
   customListActions.value = list.value?.data?.listActions || []
 })
-watch(
-  () => props.rows, // Theo dõi props.rows
-  (newVal, oldVal) => {
-    newVal.forEach((row) => calcRate(row));
-  },
-  { deep: true }
-);
-const handleStarClick = (evt,value , row  ) => {
-  evt.stopPropagation()
-  evt.preventDefault()
-  let fieldname = 'rating'
-  let newvalue = parseFloat(value)/5
-  if(row.rating == newvalue) newvalue = 0
-  calcRate(row,newvalue)
-  emit('rating', {fieldname,newvalue,row} )
-
-}
 defineExpose({
   customListActions,
 })
 </script>
 <style scoped>
-@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-#rating {
-  border: none;
-  float: left;
-  cursor: pointer;
-}
-#rating > input {
-  display: none;
-} /*ẩn input radio - vì chúng ta đã có label là GUI*/
-#rating > label:before {
-  margin: 5px;
-  font-size: 1.25em;
-  font-family: FontAwesome;
-  display: inline-block;
-  content: '\f005';
-} /*1 ngôi sao*/
-#rating > label {
-  color: #ddd;
-  float: right;
-} /*float:right để lật ngược các ngôi sao lại đúng theo thứ tự trong thực tế*/
-/*thêm màu cho sao đã chọn và các ngôi sao phía trước*/
-#rating > input:checked ~ label,
-#rating:not(:checked) > label:hover,
-#rating:not(:checked) > label:hover ~ label {
-  color: #ffd700;
-}
-/* Hover vào các sao phía trước ngôi sao đã chọn*/
-#rating > input:checked + label:hover,
-#rating > input:checked ~ label:hover,
-#rating > label:hover ~ input:checked ~ label,
-#rating > input:checked ~ label:hover ~ label {
-  color: #ffed85;
-}
 </style>

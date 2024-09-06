@@ -39,6 +39,7 @@
                   v-model="f.operator"
                   @change="(e) => updateOperator(e, f)"
                   :options="getOperators(f.field.fieldtype, f.field.fieldname)"
+                  class="w-28"
                 />
               </div>
               <div id="value" class="!min-w-[140px]">
@@ -477,6 +478,21 @@ function apply() {
     })
   })
   let configFilter = parseFilters(_filters)
+  console.log(configFilter)
+  let propertiesName = Object.getOwnPropertyNames(configFilter)
+  for(let i = 0; i < propertiesName.length; i++){
+    if(propertiesName[i] == "rating"){
+      if(typeof(configFilter["rating"]) == "string"){
+        configFilter["rating"] = parseFloat(configFilter["rating"])
+      }else if(typeof(configFilter["rating"]) == "object"){
+        let oldValue = configFilter["rating"]
+        if(oldValue.length == 2){
+          if(typeof(oldValue[1]) == "string") oldValue[1] = parseFloat(oldValue[1])
+          configFilter["rating"] = oldValue
+        }
+      }
+    }
+  }
   emit('update', configFilter)
 }
 

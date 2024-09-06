@@ -87,12 +87,8 @@ import {
   createToast,
 } from '@/utils'
 import { createResource, Breadcrumbs } from 'frappe-ui'
-import { useRouter } from 'vue-router'
-import { ref, computed, reactive, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { sessionStore } from '@/stores/session'
-import { globalStore } from '@/stores/global'
-
-const { $socket } = globalStore()
 
 const breadcrumbs = [{ label: __('Leads'), route: { name: 'Leads' } }]
 
@@ -100,8 +96,6 @@ const { getUser } = usersStore()
 const { getOrganization } = organizationsStore()
 const { getLeadStatus } = statusesStore()
 const { roles } = sessionStore()
-
-const router = useRouter()
 
 const showConvertTaskCustomer = ref(false)
 
@@ -211,7 +205,6 @@ const rows = computed(() => {
   })
 })
 const rating = (data) => {
-  console.log(data)
   let error_sum = 1;
   createResource({
     url: 'frappe.client.set_value',
@@ -244,55 +237,6 @@ const rating = (data) => {
     },
   })
   
-}
-let newLead = reactive({
-  salutation: '',
-  first_name: '',
-  last_name: '',
-  lead_name: '',
-  organization: '',
-  status: '',
-  email: '',
-  mobile_no: '',
-  lead_owner: '',
-})
-
-const createLead = createResource({
-  url: 'frappe.client.insert',
-  makeParams(values) {
-    return {
-      doc: {
-        doctype: 'CRM Lead',
-        ...values,
-      },
-    }
-  },
-})
-
-function createNewLead(close) {
-  createLead
-    .submit(newLead, {
-      validate() {
-        if (!newLead.first_name) {
-          createToast({
-            title: __('Error creating lead'),
-            text: __('First name is required'),
-            icon: 'x',
-            iconClasses: 'text-red-600',
-          })
-          return __('First name is required')
-        }
-      },
-      onSuccess(data) {
-        router.push({
-          name: 'Lead',
-          params: {
-            leadId: data.name,
-          },
-        })
-      },
-    })
-    .then(close)
 }
 function show(){
   showImportModal.value = true;    

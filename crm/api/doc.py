@@ -117,7 +117,7 @@ def get_filterable_fields(doctype: str):
 			res.append(field)
 	if doctype != "CRM Deal" and doctype != "CRM Organization" and doctype != "CRM Contact" and doctype != "FCRM Note" and doctype != "CRM Task" and doctype != "Email Template":
 		res.insert(0, {"fieldname": "first_name", "fieldtype": "Data", "label": "Full Name"})
-		#res.append({"fieldname": "rating", "fieldtype": "Select", "label": "Rating"})
+		res.append({"fieldname": "rating", "fieldtype": "Select", "label": "Rating"})
 	for field in res:
 		field["label"] = _(field.get("label"))
 	return res
