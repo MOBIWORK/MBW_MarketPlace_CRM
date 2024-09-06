@@ -160,6 +160,8 @@ def add_default_salutation():
 	if not is_edited:
 		try:
 			for salutation_sys in salutations_sys:
+				print("Dòng 163 ", salutation_sys)
+				print("Dòng 164 ", salutation_sys is not ["Mr", "Madam", "Prof", "Miss"])
 				if salutation_sys is not ["Mr", "Madam", "Prof", "Miss"]:
 					salutation_doc = frappe.get_doc('Salutation', salutation_sys)
 					salutation_doc.delete()
@@ -170,6 +172,7 @@ def add_default_salutation():
 				salutation_doc = frappe.new_doc("Salutation")
 				salutation_doc.salutation = salutation_sys
 				salutation_doc.insert()
+			frappe.db.commit()
 		except Exception as e:
 			pass
 
@@ -186,6 +189,8 @@ def add_default_gender():
 	if not is_edited:
 		try:
 			for gender_sys in genders_sys:
+				print("Dòng 192 ", gender_sys)
+				print("Dòng 193 ", gender_sys is not ["Female", "Male", "Other"])
 				if gender_sys is not ["Female", "Male", "Other"]:
 					gender_doc = frappe.get_doc('Gender', gender_sys)
 					gender_doc.delete()
@@ -196,5 +201,6 @@ def add_default_gender():
 				gender_doc = frappe.new_doc("Gender")
 				gender_doc.gender = gender_sys
 				gender_doc.insert()
+			frappe.db.commit()
 		except Exception as e:
 			pass
