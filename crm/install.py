@@ -160,7 +160,7 @@ def add_default_salutation():
 	if not is_edited:
 		try:
 			for salutation_sys in salutations_sys:
-				if salutation_sys is not ["Mr", "Madam", "Prof", "Miss"]
+				if salutation_sys is not ["Mr", "Madam", "Prof", "Miss"]:
 					salutation_doc = frappe.get_doc('Salutation', salutation_sys)
 					salutation_doc.delete()
 			for salutation_sys in ["Mr", "Madam", "Prof", "Miss"]:
