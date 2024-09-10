@@ -130,7 +130,7 @@ watchDebounced(
 )
 
 const options = createResource({
-  url: 'frappe.desk.search.search_link',
+  url: 'crm.search.search_link',
   cache: [props.doctype, text.value, props.hideMe],
   method: 'POST',
   params: {

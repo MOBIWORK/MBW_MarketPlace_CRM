@@ -144,6 +144,12 @@ const onAutoRepairEmail = (field) => {
   props.data[field] = emailCorrect.value;
   showAutoRepairEmail[field] = false;
   emailCorrect.value = "";
+  const emailRegex = /^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,}$/;
+  if (!emailRegex.test(props.data[field])) {
+    invalid[field] = __('Invalid Email');
+  } else {
+    delete invalid[field];
+  }
 }
 
 const handleBlur = (value, fieldName) => {
@@ -167,7 +173,8 @@ const handleBlur = (value, fieldName) => {
       }
     }
     if (fieldName == 'mobile_no' || fieldName == 'actual_mobile_no') {
-      const cleanedValue = value.replace(/\s+/g, '').replace(/^(\+?84|0|84)/, '0');
+      let cleanedValue = value.replace(/\s+/g, '').replace(/^(\+?84|0|84)/, '0');
+      if(cleanedValue.length > 0 && cleanedValue[0] != "0") cleanedValue= `0${cleanedValue}`
       props.data[fieldName] = cleanedValue
       if (!phoneRegex.test(cleanedValue)) {
         invalid[fieldName] = __('Invalid phone number');
