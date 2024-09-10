@@ -157,7 +157,7 @@ def add_default_salutation():
 		if salutation.salutation not in salutations_sys:
 			is_edited = True
 			break
-	click.secho("is_edited: ", str(is_edited))
+	click.secho(f"is_edited: {str(is_edited)}")
 	if not is_edited:
 		try:
 			click.secho("salutations_sys len: ", str(len(salutations_sys)))
