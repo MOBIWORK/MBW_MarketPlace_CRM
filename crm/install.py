@@ -159,7 +159,9 @@ def add_default_salutation():
 			break
 	click.secho(f"Trạng thái sửa: {str(is_edited)}")
 	if not is_edited:
+		click.secho("Truoc try")
 		try:
+			click.secho("Sau try")
 			for salutation_sys in salutations_sys:
 				if frappe.db.exists('Salutation', salutation_sys):
 					salutation_doc = frappe.get_doc('Salutation', salutation_sys)
