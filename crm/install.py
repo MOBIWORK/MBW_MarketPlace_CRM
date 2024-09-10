@@ -157,7 +157,7 @@ def add_default_salutation():
 		if salutation.salutation not in salutations_sys:
 			is_edited = True
 			break
-	click.secho("Trạng thái sửa: ", is_edited)
+	click.secho(f"Trạng thái sửa: {str(is_edited)}")
 	if not is_edited:
 		try:
 			for salutation_sys in salutations_sys:
