@@ -177,6 +177,7 @@ def add_default_salutation():
 				salutation_doc.salutation = salutation_sys
 				salutation_doc.insert()
 		except Exception as e:
+			click.secho(f"Dòng 180 {str(e)}")
 			pass
 
 def add_default_gender():
