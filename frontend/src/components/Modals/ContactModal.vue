@@ -418,6 +418,7 @@ const sections = computed(() => {
           type: 'link',
           doctype: 'CRM Organization',
           placeholder: __('Select Organization'),
+          emptydata: 'No organization'
         },
       ],
     },

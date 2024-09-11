@@ -136,6 +136,7 @@ const sections = computed(() => {
           type: 'link',
           doctype: 'CRM Territory',
           placeholder: __('Select Territory'),
+          emptydata: 'No territory have been created yet'
         },
         {
           label: 'Annual Revenue',
@@ -148,6 +149,7 @@ const sections = computed(() => {
           type: 'link',
           doctype: 'CRM Industry',
           placeholder: __('Select Industry'),
+          emptydata: 'No industry have been created yet'
         },
       ],
     },

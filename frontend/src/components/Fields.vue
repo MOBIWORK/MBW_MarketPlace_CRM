@@ -23,23 +23,23 @@
           </FormControl>
           <Link v-else-if="field.type === 'link'" class="form-control truncate" :value="data[field.name]"
             :doctype="field.doctype" @change="(v) => (data[field.name] = v)" :placeholder="__(field.placeholder)"
-            :onCreate="field.create" />
+            :onCreate="field.create" :emptyText="field.emptydata != null? field.emptydata : 'No results found'"/>
           <Link v-else-if="field.type === 'user'" class="form-control truncate" :value="getUser(data[field.name]).full_name"
             :doctype="field.doctype" @change="(v) => (data[field.name] = v)" :placeholder="__(field.placeholder)" 
             :hideMe="true" :hideClear="field.hidden_delete">
-          <template #prefix>
-            <UserAvatar class="mr-2" :user="data[field.name]" size="sm" />
-          </template>
-          <template #item-prefix="{ option }">
-            <UserAvatar class="mr-2" :user="option.value" size="sm" />
-          </template>
-          <template #item-label="{ option }">
-            <Tooltip :text="option.value">
-              <div class="cursor-pointer">
-                {{ getUser(option.value).full_name }}
-              </div>
-            </Tooltip>
-          </template>
+            <template #prefix>
+              <UserAvatar class="mr-2" :user="data[field.name]" size="sm" />
+            </template>
+            <template #item-prefix="{ option }">
+              <UserAvatar class="mr-2" :user="option.value" size="sm" />
+            </template>
+            <template #item-label="{ option }">
+              <Tooltip :text="option.value">
+                <div class="cursor-pointer">
+                  {{ getUser(option.value).full_name }}
+                </div>
+              </Tooltip>
+            </template>
           </Link>
           <div v-else-if="field.type === 'dropdown'">
             <NestedPopover>

@@ -195,6 +195,7 @@ def search_widget(
 		filters=filters,
 		fields=formatted_fields,
 		or_filters=or_filters,
+		order_by='creation asc',
 		limit_start=start,
 		limit_page_length=None if meta.translated_doctype else page_length,
 		ignore_permissions=ignore_permissions,
