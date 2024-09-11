@@ -160,17 +160,13 @@ def add_default_salutation():
 	click.secho(f"is_edited: {str(is_edited)}")
 	if not is_edited:
 		for salutation_sys in salutations_sys:
-			click.secho("Dong 163 Xung ho: ", salutation_sys)
 			if frappe.db.exists('Salutation', salutation_sys):
 				salutation_doc = frappe.get_doc('Salutation', salutation_sys)
 				salutation_doc.delete()
-				click.secho("Xoa xung ho: ", salutation_sys)
 		for salutation_sys in ["Mr", "Madam", "Prof", "Miss"]:
-			click.secho("Dong 169 Xung ho: ", salutation_sys)
 			if frappe.db.exists("Salutation", salutation_sys):
 				click.secho("Xung ho ton tai: ", salutation_sys)
 				continue
-			click.secho("Dữ liệu thêm mới: ", salutation_sys)
 			salutation_doc = frappe.new_doc("Salutation")
 			salutation_doc.salutation = salutation_sys
 			salutation_doc.insert()
