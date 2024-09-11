@@ -157,15 +157,16 @@ def add_default_salutation():
 		if salutation.salutation not in salutations_sys:
 			is_edited = True
 			break
-	click.secho(f"is_edited: {str(is_edited)}")
 	if not is_edited:
 		for salutation_sys in salutations_sys:
 			if frappe.db.exists('Salutation', salutation_sys):
-				salutation_doc = frappe.get_doc('Salutation', salutation_sys)
-				salutation_doc.delete()
+				try:
+					salutation_doc = frappe.get_doc('Salutation', salutation_sys)
+					salutation_doc.delete()
+				except Exception as e:
+					pass
 		for salutation_sys in ["Mr", "Madam", "Prof", "Miss"]:
 			if frappe.db.exists("Salutation", salutation_sys):
-				click.secho("Xung ho ton tai: ", salutation_sys)
 				continue
 			salutation_doc = frappe.new_doc("Salutation")
 			salutation_doc.salutation = salutation_sys
@@ -182,17 +183,17 @@ def add_default_gender():
 			is_edited = True
 			break
 	if not is_edited:
-		try:
-			for gender_sys in genders_sys:
-				if frappe.db.exists('Gender', gender_sys):
+		for gender_sys in genders_sys:
+			if frappe.db.exists('Gender', gender_sys):
+				try:
 					gender_doc = frappe.get_doc('Gender', gender_sys)
 					gender_doc.delete()
-			for gender_sys in ["Female", "Male", "Other"]:
-				if frappe.db.exists("Gender", gender_sys):
-					continue
-				
-				gender_doc = frappe.new_doc("Gender")
-				gender_doc.gender = gender_sys
-				gender_doc.insert()
-		except Exception as e:
-			pass
+				except Exception as e:
+					pass
+		for gender_sys in ["Female", "Male", "Other"]:
+			if frappe.db.exists("Gender", gender_sys):
+				continue
+			
+			gender_doc = frappe.new_doc("Gender")
+			gender_doc.gender = gender_sys
+			gender_doc.insert()
