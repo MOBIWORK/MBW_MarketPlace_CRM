@@ -90,7 +90,6 @@ class CRMTask(Document):
 			date_due_date = datetime.strptime(self.due_date, '%Y-%m-%d %H:%M:%S')
 		else:
 			date_due_date = self.due_date
-		
 		if date_remind_task <= date_due_date and date_remind_task > datetime.now():
 			remaining_time = self.calculate_remaining_time(date_remind_task, date_due_date)
 			description = f"Chỉ còn {remaining_time} để hoàn thành công việc {self.title}"
@@ -131,9 +130,19 @@ class CRMTask(Document):
 			else:
 				is_exist_remind = False
 		else:
-			is_exist_remind = False
+			reminders_filter = frappe.db.get_list('CRM Reminder',
+				filters={
+					'reminder_doctype': "CRM Task",
+					'reminder_docname': self.name,
+					'user': self.assigned_to
+				}
+			)
+			if len(reminders_filter) == 0:
+				is_exist_remind = False
+			else:
+				is_exist_remind = True
+				return #Xử lý trong trường hợp không có custom_field nhưng đã có reminder( trong trường hợp thêm mới reminder thì tự động gọi cập nhật)
 		if date_remind_task <= date_due_date and is_exist_remind == True and date_remind_task > datetime.now():
-			
 			obj_customer = json.loads(self.get('custom_fields'))
 			id_reminder = obj_customer.get('id_reminder')
 			doc_reminder = frappe.get_doc('CRM Reminder', id_reminder)

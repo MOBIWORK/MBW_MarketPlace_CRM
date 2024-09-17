@@ -196,6 +196,10 @@ const props = defineProps({
   docSelect: {
     type: Array,
     default: []
+  },
+  applyFilter: {
+    type: Boolean,
+    default: true
   }
 })
 const {showFuncImport, showFuncConvertTaskCustomer} = toRefs(props);
@@ -302,7 +306,7 @@ function getParams() {
     view.value = {
       name: _view.name,
       label: _view.label,
-      filters: _view.filters,
+      filters: props.applyFilter? _view.filters : {},
       order_by: _view.order_by,
       columns: _view.columns,
       rows: _view.rows,
@@ -391,7 +395,6 @@ function hadelClickConvertTask(){
 }
 
 async function exportRows() {
-  console.log(list.value.data)
   if(export_all.value){
     let fields = JSON.stringify(list.value.data.columns.map((f) => f.key))
     let filters = JSON.stringify(list.value.params.filters)

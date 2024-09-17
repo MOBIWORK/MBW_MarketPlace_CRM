@@ -64,6 +64,7 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+
 })
 
 const show = defineModel()
@@ -137,6 +138,10 @@ function changeField(f) {
 function updateValue(v) {
   let value = v.target ? v.target.value : v
   newValue.value = value
+}
+
+function getSelectOptions(options) {
+  return options.split('\n')
 }
 
 function getValueComponent(f) {

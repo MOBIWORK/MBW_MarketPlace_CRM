@@ -508,7 +508,8 @@
                   {{ getUser(activity.data.old_value).full_name }}
                 </div>
                 <div class="truncate" v-else>
-                  {{ activity.data.old_value }}
+                  <span v-if="activity.data.field=='rating'">{{activity.data.old_value*5}}</span>
+                  <span v-else>{{ __(activity.data.old_value) }}</span>
                 </div>
               </span>
               <span v-if="activity.to">{{ __('to') }}</span>
@@ -518,7 +519,8 @@
                   {{ getUser(activity.data.value).full_name }}
                 </div>
                 <div class="truncate" v-else>
-                  {{ activity.data.value }}
+                  <span v-if="activity.data.field=='rating'">{{ activity.data.value *5 }}</span>
+                  <span v-else>{{__(activity.data.value)}}</span>
                 </div>
               </span>
             </div>
@@ -550,7 +552,8 @@
                     {{ getUser(activity.data.old_value).full_name }}
                   </div>
                   <div class="truncate" v-else>
-                    {{ activity.data.old_value }}
+                    <span v-if="activity.data.field == 'rating'">{{activity.data.old_value * 5}}</span>
+                    <span v-else>{{ __(activity.data.old_value) }}</span>
                   </div>
                 </span>
                 <span v-if="activity.to">{{ __('to') }}</span>
@@ -560,7 +563,8 @@
                     {{ getUser(activity.data.value).full_name }}
                   </div>
                   <div class="truncate" v-else>
-                    {{ activity.data.value }}
+                    <span v-if="activity.data.field == 'rating'">{{ activity.data.value * 5 }}</span>
+                    <span v-else>{{ __(activity.data.value) }}</span>
                   </div>
                 </span>
               </div>
@@ -889,7 +893,6 @@ const activities = computed(() => {
       })
     }
   })
-  console.log("Dòng 892 ", activities)
   return sortByCreation(activities)
 })
 

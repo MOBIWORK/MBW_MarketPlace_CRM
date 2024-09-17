@@ -103,6 +103,7 @@
           @change="(data) => emit('update', field.name, data)"
           :onCreate="field.create"
           :hideClear="field.hideClear"
+          :emptyText="field.emptydata != null? field.emptydata : 'No results found'"
         />
         <FormControl
           v-else

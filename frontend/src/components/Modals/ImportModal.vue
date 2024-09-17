@@ -46,7 +46,6 @@
   onMounted(() => {
     nextTick(() => {
     const iframe = document.getElementById('myFrame');
-    console.log(iframe);
   })
 })
  

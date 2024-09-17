@@ -359,10 +359,6 @@ onMounted(() => {
 const reload = ref(false)
 const showAssignmentModal = ref(false)
 
-function onChangeStatusLead(evt){
-  console.log("change lead", evt);
-}
-
 function onUpdateLead(){
   lead.fetch()
 }
@@ -483,7 +479,17 @@ function validateFile(file) {
 const detailSections = computed(() => {
   let data = lead.data
   if (!data) return []
-  return data.doctype_fields
+  let doctype_fields = data.doctype_fields
+  for(let i = 0; i < doctype_fields.length; i++){
+    for(let j = 0; j < doctype_fields[i].fields.length; j++){
+      if(doctype_fields[i].fields[j].name == "territory"){
+        doctype_fields[i].fields[j]["emptydata"] = "No territory have been created yet"
+      }else if(doctype_fields[i].fields[j].name == "industry"){
+        doctype_fields[i].fields[j]["emptydata"] = "No industry have been created yet"
+      }
+    }
+  }
+  return doctype_fields
 })
 
 function updateField(name, value, callback) {

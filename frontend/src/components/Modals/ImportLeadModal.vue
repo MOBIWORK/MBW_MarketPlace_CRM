@@ -424,9 +424,7 @@ async function onFileSelected(event){
                             break
                         }
                     }
-                    let filterField = arrFieldDist.filter(x => x.label == jsonData[0][i]);
-                    console.log("Dòng 428 ", jsonData[0][i])
-                    console.log("Dòng 429", arrFieldDist)
+                    let filterField = arrFieldDist.filter(x => jsonData[0][i] != null && x.label.toLowerCase() == jsonData[0][i].toLowerCase());
                     if(filterField.length > 0) fieldMapping["field_dict"] = filterField[0].field;
                     arrColumnDataPreview.push(itemColumn);
                     arrFieldMapping.push(fieldMapping);
@@ -439,7 +437,6 @@ async function onFileSelected(event){
                         if(jsonData[i][j] != null && jsonData[i][j].toString() != "") isPush = true;
                         if(jsonData[i][j] != null && jsonData[i][j].toString().includes(";")){
                             let arrEmails = jsonData[i][j].split(";");
-                            console.log(arrEmails);
                             for(let t = 0; t < arrEmails.length; t++){
                                 if(arrColumnDataPreview[j].col_obj_email){
                                     if(!regexEmail.test(arrEmails[t])) leadImport[`key_${jsonData[0][j]}`] = true;
@@ -448,7 +445,6 @@ async function onFileSelected(event){
                         }else if(jsonData[i][j] != null){
                             jsonData[i][j] = jsonData[i][j].toString();
                             if(!jsonData[i][j].includes("[")){
-                                console.log(arrColumnDataPreview[j].col_numeric)
                                 if(arrColumnDataPreview[j].col_email){
                                     if(!regexEmail.test(jsonData[i][j])) leadImport[`key_${jsonData[0][j]}`] = true;
                                 }
@@ -559,7 +555,7 @@ function onNextModalPreviewFromDriver(){
                         itemColumn["col_numeric"] = true;
                         itemColumn['key_invalid'] = `key_${itemColumn.key}`;
                     }
-                    let filterField = arrFieldDist.filter(x => x.label == data[0][i]);
+                    let filterField = arrFieldDist.filter(x => data[0][i] != null && x.label.toLowerCase() == data[0][i].toLowerCase());
                     if(filterField.length > 0) fieldMapping["field_dict"] = filterField[0].field;
                     arrColumnDataPreview.push(itemColumn);
                     arrFieldMapping.push(fieldMapping);

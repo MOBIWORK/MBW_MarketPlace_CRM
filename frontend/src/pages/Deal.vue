@@ -494,6 +494,17 @@ const tabs = computed(() => {
 const detailSections = computed(() => {
   let data = deal.data
   if (!data) return []
+  for(let i = 0; i < data.doctype_fields.length; i++){
+    if(data.doctype_fields[i]["fields"] != null){
+      for(let j = 0; j < data.doctype_fields[i]["fields"].length; j++){
+        if(data.doctype_fields[i].fields[j].name == "territory"){
+          data.doctype_fields[i].fields[j]["emptydata"] = "No territory have been created yet"
+        }else if(data.doctype_fields[i].fields[j].name == "organization"){
+          data.doctype_fields[i].fields[j]["emptydata"] = "No organization"
+        }
+      }
+    }
+  }
   return getParsedFields(data.doctype_fields, deal_contacts.data)
 })
 

@@ -229,7 +229,8 @@ class CRMLead(Document):
 					"first_responded_on": self.first_responded_on
 				}
 			)
-
+		if deal.status == "Trình độ":
+			deal.status = "Chất lượng"
 		deal.insert(ignore_permissions=True)
 		return deal.name
 

@@ -590,7 +590,7 @@ Next,Tiếp tục
 Back,Quay lại
 Mapping Columns,Trường ánh xạ
 Select the mapping field,Chọn trường tương ứng
-Map columns from file to fields in Lead, Ánh xạ các trường từ tệp dữ liệu tới các trường trong Lead
+Map columns from file to fields in Lead,Ánh xạ các trường thông tin từ tệp dữ liệu tới các trường thuộc Lead
 Creation,Ngày tạo
 Don't Import,Không nhập
 Name,Họ tên
@@ -712,3 +712,6 @@ Select organization from the list, Chọn tổ chức từ danh sách
 Select contact from the list, Chọn liên hệ từ danh sách
 No territory have been created yet,Chưa có khu vực được tạo
 No industry have been created yet,Chưa có ngành nghề được tạo
+Invalid expiration time,Thời gian hết hạn không hợp lệ
+Invalid reminder time,Thời gian nhắc nhở không hợp lệ
+The title field cannot be blank,Trường tiêu đề không được để trống

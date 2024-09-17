@@ -7,7 +7,7 @@
         {
           label: editMode ? __('Update') : __('Create'),
           variant: 'solid',
-          onClick: () => updateTask(),
+          onClick: () => updateTask()
         },
       ],
     }"
@@ -112,6 +112,7 @@
               @change="(val) => (_task.due_date = val)"
               :placeholder="__('Select Due Date')"
               input-class="border-none"
+              :apply_field="'due_date'"
             />
           </div>
           <div>
@@ -124,6 +125,7 @@
               :placeholder="__('Select Reminder')"
               input-class="border-none"
               :maxDate="_task.due_date"
+              :apply_field="'reminder_date'"
             />
           </div>
         </div>
@@ -143,7 +145,10 @@ import { usersStore } from '@/stores/users'
 import DatetimePicker from '@/components/Controls/DatetimePicker.vue'
 import { TextEditor, Dropdown, Tooltip, call,Dialog } from 'frappe-ui'
 import { ref, watch, nextTick } from 'vue'
-import { useRouter } from 'vue-router'  
+import { useRouter } from 'vue-router'
+import {
+  createToast
+} from '@/utils'
 
 const props = defineProps({
   task: {
@@ -204,6 +209,15 @@ function redirect() {
 }
 
 async function updateTask() {
+  if(_task.value.title == null || _task.value.title == ""){
+    createToast({
+      title: __('Error'),
+      text: __("The title field cannot be blank"),
+      icon: 'x',
+      iconClasses: 'text-red-600',
+    })
+    return
+  }
   if (!_task.value.assigned_to) {
     _task.value.assigned_to = getUser().email
   }

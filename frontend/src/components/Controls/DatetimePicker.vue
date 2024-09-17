@@ -177,7 +177,7 @@ import {
 
 export default {
   name: 'DatePicker',
-  props: ['value', 'placeholder', 'formatter', 'readonly', 'inputClass', 'maxDate'],
+  props: ['value', 'placeholder', 'formatter', 'readonly', 'inputClass', 'maxDate', 'apply_field'],
   emits: ['change'],
   components: {
     Popover,
@@ -275,7 +275,10 @@ export default {
         if (dateOnly <= maxDateOnly && todayOnly <= dateOnly) return true
         return false
       }else{
-        return true
+        const dateOnly = this.toDateOnly(date)
+        const todayOnly = this.toDateOnly(this.today)
+        if(todayOnly <= dateOnly) return true
+        return false
       }
     },
     toDateOnly(date){
@@ -284,12 +287,21 @@ export default {
       return newDate;
     },
     notificationInvalidDatetime(){
-      createToast({
-        title: __('Error'),
-        text: __("Thời gian nhắc nhở không hợp lệ"),
-        icon: 'x',
-        iconClasses: 'text-red-600',
-      })
+      if(this.apply_field == "due_date"){
+        createToast({
+          title: __('Error'),
+          text: __("Invalid expiration time"),
+          icon: 'x',
+          iconClasses: 'text-red-600',
+        })
+      }else if(this.apply_field == "reminder_date"){
+        createToast({
+          title: __('Error'),
+          text: __("Invalid reminder time"),
+          icon: 'x',
+          iconClasses: 'text-red-600',
+        })
+      }
     },
     changeTime() {
       let date = this.value ? this.getDate(this.value) : this.getDate()

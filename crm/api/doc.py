@@ -449,9 +449,10 @@ def get_assigned_users(doctype, name):
 def get_fields(doctype: str):
 	not_allowed_fieldtypes = list(frappe.model.no_value_fields) + ["Read Only"]
 	fields = frappe.get_meta(doctype).fields
-
 	_fields = []
-
+	fields_without = ['salutation', 'last_name', 'naming_series', 'middle_name', 'image', 'converted', 'sla', 'sla_creation', 'sla_status', 'communication_status','response_by','first_response_time',
+		'first_responded_on','full_name','google_contacts_id','sync_with_google_contacts','google_contacts','pulled_from_google_contacts','is_primary_contact','is_billing_contact','unsubscribed','organization_logo',
+		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','first_name','assign_to','probability']
 	for field in fields:
 		if (
 			field.fieldtype not in not_allowed_fieldtypes
@@ -460,6 +461,7 @@ def get_fields(doctype: str):
 			and not field.is_virtual
 			and field.fieldname
 			and field.fieldname != "assign_to"
+			and field.fieldname not in fields_without
 		):
 			_fields.append({
 				"label": _(field.label),

@@ -25,6 +25,7 @@
     v-model:updatedPageCount="updatedPageCount"
     doctype="Email Template"
     :showLayout="false"
+    :applyFilter="false"
   />
   <EmailTemplatesListView
     ref="emailTemplatesListView"

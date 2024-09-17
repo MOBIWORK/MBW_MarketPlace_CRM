@@ -160,8 +160,7 @@ def notify_unasign_contact_owner(self, method):
                 tasker_old = frappe.db.get_value(reference_doctype, self.name, field_tasker_old)
                 user_info = frappe.get_doc('User', name_user_send)
                 user_info_new = frappe.get_doc('User', tasker_new)
-                #Hiện tại chưa bắt được dữ liệu assign cũ
-                if tasker_new != tasker_old or tasker_new == tasker_old:
+                if tasker_new != tasker_old:
                     if tasker_old is not None and tasker_old != "" and tasker_old != frappe.session.user and tasker_new != tasker_old:
                         notify_unasign_owner = f"""
                             <div class="mb-2 leading-5 text-gray-600">
