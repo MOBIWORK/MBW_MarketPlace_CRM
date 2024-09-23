@@ -121,9 +121,7 @@ import {
   ListHeader,
   ListRows,
   ListRow,
-  ListSelectBanner,
   ListRowItem,
-  ListFooter,
   Tooltip,
   Dropdown,
   call,
@@ -131,6 +129,8 @@ import {
 import { ref, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { usersStore } from '@/stores/users'
+import ListFooter from '@/components/frappe-ui/ListFooter.vue'
+import ListSelectBanner from '@/components/frappe-ui/ListSelectBanner.vue'
 
 const props = defineProps({
   rows: {

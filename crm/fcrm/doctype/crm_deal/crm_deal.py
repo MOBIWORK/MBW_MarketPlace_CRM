@@ -134,43 +134,43 @@ class CRMDeal(Document):
 				'type': 'Link',
 				'key': 'organization',
 				'options': 'CRM Organization',
-				'width': '11rem',
+				'width': '11rem'
 			},
 			{
 				'label': 'Amount',
 				'type': 'Currency',
 				'key': 'annual_revenue',
-				'width': '9rem',
+				'width': '9rem'
 			},
 			{
 				'label': 'Status',
 				'type': 'Select',
 				'key': 'status',
-				'width': '10rem',
+				'width': '10rem'
 			},
 			{
 				'label': 'Email',
 				'type': 'Data',
 				'key': 'email',
-				'width': '12rem',
+				'width': '12rem'
 			},
 			{
 				'label': 'Mobile No',
 				'type': 'Data',
 				'key': 'mobile_no',
-				'width': '11rem',
+				'width': '11rem'
 			},
 			{
 				'label': 'Assigned To',
 				'type': 'Text',
 				'key': '_assign',
-				'width': '10rem',
+				'width': '10rem'
 			},
 			{
 				'label': 'Last Modified',
 				'type': 'Datetime',
 				'key': 'modified',
-				'width': '8rem',
+				'width': '8rem'
 			},
 		]
 		rows = [

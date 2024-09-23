@@ -192,43 +192,43 @@ class CRMTask(Document):
 				'label': 'Title',
 				'type': 'Data',
 				'key': 'title',
-				'width': '16rem',
+				'width': '16rem'
 			},
 			{
 				'label': 'Status',
 				'type': 'Select',
 				'key': 'status',
-				'width': '8rem',
+				'width': '8rem'
 			},
 			{
 				'label': 'Priority',
 				'type': 'Select',
 				'key': 'priority',
-				'width': '8rem',
+				'width': '8rem'
 			},
 			{
 				'label': 'Due Date',
 				'type': 'Date',
 				'key': 'due_date',
-				'width': '8rem',
+				'width': '8rem'
 			},
 			{
 				'label': 'Remind Task',
 				'type': 'Date',
 				'key': 'remind_task',
-				'width': '8rem',
+				'width': '8rem'
 			},
 			{
 				'label': 'Assigned To',
 				'type': 'Link',
 				'key': 'assigned_to',
-				'width': '10rem',
+				'width': '10rem'
 			},
 			{
 				'label': 'Last Modified',
 				'type': 'Datetime',
 				'key': 'modified',
-				'width': '8rem',
+				'width': '8rem'
 			},
 		]
 

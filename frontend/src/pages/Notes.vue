@@ -116,9 +116,9 @@ import {
   call,
   Dropdown,
   Tooltip,
-  Breadcrumbs,
-  ListFooter,
+  Breadcrumbs
 } from 'frappe-ui'
+import ListFooter from '@/components/frappe-ui/ListFooter.vue'
 import { ref, watch } from 'vue'
 
 const { getUser } = usersStore()

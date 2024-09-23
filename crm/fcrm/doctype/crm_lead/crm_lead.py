@@ -267,50 +267,50 @@ class CRMLead(Document):
 				'label': 'Name',
 				'type': 'Data',
 				'key': 'lead_name',
-				'width': '12rem',
+				'width': '12rem'
 			},
 			{
 				'label': 'Organization',
 				'type': 'Link',
 				'key': 'organization',
 				'options': 'CRM Organization',
-				'width': '10rem',
+				'width': '10rem'
 			},
 			{
 				'label': 'Status',
 				'type': 'Select',
 				'key': 'status',
-				'width': '8rem',
+				'width': '8rem'
 			},
 			{
 				'label': 'Email',
 				'type': 'Data',
 				'key': 'email',
-				'width': '12rem',
+				'width': '12rem'
 			},
 			{
 				'label': 'Mobile No',
 				'type': 'Data',
 				'key': 'mobile_no',
-				'width': '11rem',
+				'width': '11rem'
 			},
 			{
 				'label': 'Assigned To',
 				'type': 'Text',
 				'key': '_assign',
-				'width': '10rem',
+				'width': '10rem'
 			},
 			{
 				'label': 'Last Modified',
 				'type': 'Datetime',
 				'key': 'modified',
-				'width': '8rem',
+				'width': '8rem'
 			},
 			{
 				'label': 'Rating',
 				'type': 'Rating',
 				'key': 'rating',
-				'width': '11rem',
+				'width': '11rem'
 			}
 		]
 		rows = [

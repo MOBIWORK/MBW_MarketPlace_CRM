@@ -13,32 +13,32 @@ class CRMOrganization(Document):
 					'label': 'Organization',
 					'type': 'Data',
 					'key': 'organization_name',
-					'width': '16rem',
+					'width': '16rem'
 				},
 				{
 					'label': 'Website',
 					'type': 'Data',
 					'key': 'website',
-					'width': '14rem',
+					'width': '14rem'
 				},
 				{
 					'label': 'Industry',
 					'type': 'Link',
 					'key': 'industry',
 					'options': 'CRM Industry',
-					'width': '14rem',
+					'width': '14rem'
 				},
 				{
 					'label': 'Annual Revenue',
 					'type': 'Currency',
 					'key': 'annual_revenue',
-					'width': '14rem',
+					'width': '14rem'
 				},
 				{
 					'label': 'Last Modified',
 					'type': 'Datetime',
 					'key': 'modified',
-					'width': '8rem',
+					'width': '8rem'
 				},
 			]
 			rows = [

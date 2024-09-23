@@ -177,7 +177,6 @@ import {
   ListRows,
   ListRow,
   ListRowItem,
-  ListFooter,
   Dropdown,
   call,
   Tooltip,
@@ -187,6 +186,7 @@ import { globalStore } from '@/stores/global'
 import { onMounted, ref, watch,computed } from 'vue'
 import { useRouter } from 'vue-router'
 import ListSelectBanner from '@/components/frappe-ui/ListSelectBanner.vue'
+import ListFooter from '@/components/frappe-ui/ListFooter.vue'
 import VueStarRating from '@/components/Controls/star-rating.vue'
 import { usersStore } from '@/stores/users'
 

@@ -193,7 +193,6 @@ const rows = computed({
 const fields = computed(() => {
   let allFields = list.value?.data?.fields
   if (!allFields) return []
-
   return allFields.filter((field) => {
     return !columns.value.find((column) => column.key === field.value)
   })

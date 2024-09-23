@@ -204,11 +204,6 @@ def get_list_data(
 			rows = _list.default_list_data().get("rows")
 
 	columns = [column for column in columns if column.get('key') != 'assign_to']
-	# check if rows has all keys from columns if not add them
-	for column in columns:
-		if column.get("key") not in rows:
-			rows.append(column.get("key"))
-		column["label"] = _(column.get("label"))
 	
 	data = frappe.get_list(
 		doctype,
@@ -257,6 +252,17 @@ def get_list_data(
 
 	if not is_default and custom_view_name:
 		is_default = frappe.db.get_value("CRM View Settings", custom_view_name, "load_default_columns")
+	
+	# check if rows has all keys from columns if not add them
+	for column in columns:
+		if column.get("key") not in rows:
+			rows.append(column.get("key"))
+		exist_field = filter(lambda field: field.get('value') == column.get("key"), fields)
+		fisrt_exist_field = next(exist_field, None)
+		if fisrt_exist_field is not None:
+			column["label"] = _(fisrt_exist_field.get('label'))
+		else:
+			column["label"] = _(column.get("label"))
 
 	return {
 		"data": data,
@@ -452,7 +458,7 @@ def get_fields(doctype: str):
 	_fields = []
 	fields_without = ['salutation', 'last_name', 'naming_series', 'middle_name', 'image', 'converted', 'sla', 'sla_creation', 'sla_status', 'communication_status','response_by','first_response_time',
 		'first_responded_on','full_name','google_contacts_id','sync_with_google_contacts','google_contacts','pulled_from_google_contacts','is_primary_contact','is_billing_contact','unsubscribed','organization_logo',
-		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','first_name','assign_to','probability']
+		'reference_doctype','reference_docname','custom_fields','id','recording_url','job_title','lead_name','assign_to','probability']
 	for field in fields:
 		if (
 			field.fieldtype not in not_allowed_fieldtypes
