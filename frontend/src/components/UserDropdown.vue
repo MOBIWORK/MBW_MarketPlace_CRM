@@ -56,6 +56,7 @@ import { sessionStore } from '@/stores/session'
 import { usersStore } from '@/stores/users'
 import { getSettings } from '@/stores/settings'
 import { showSettings, isMobileView } from '@/composables/settings'
+import { showLanguage } from '@/composables/language'
 import { confirmLoginToFrappeCloud } from '@/composables/frappecloud'
 import { Dropdown } from 'frappe-ui'
 import { theme, toggleTheme } from '@/stores/theme'
@@ -78,6 +79,8 @@ const dropdownItems = computed(() => {
   if (!settings.value?.dropdown_items) return []
 
   let items = settings.value.dropdown_items
+  // add item change language
+  addItemLanguage(items)
 
   let _dropdownItems = [
     {
@@ -125,6 +128,31 @@ function dropdownItemObj(item) {
   }
 }
 
+function addItemLanguage(items) {
+  let index_item = items.findIndex((item) => item.name1 === 'language')
+  let index = items.findIndex((item) => item.name1 === 'toggle_theme')
+  let newElement = {
+    name1: 'language',
+    label: 'Language',
+    type: 'Route',
+    route: '#',
+    open_in_new_window: 1,
+    hidden: 0,
+    is_standard: 1,
+    icon: 'globe',
+  }
+
+  if (index_item == -1) {
+    if (index !== -1) {
+      items.splice(index + 1, 0, newElement)
+    } else {
+      items.unshift(newElement)
+    }
+  }
+
+  return items
+}
+
 function getStandardItem(item) {
   switch (item.name1) {
     case 'app_selector':
@@ -170,6 +198,12 @@ function getStandardItem(item) {
         icon: item.icon,
         label: __(item.label),
         onClick: () => logout.submit(),
+      }
+    case 'language':
+      return {
+        icon: item.icon,
+        label: __(item.label),
+        onClick: () => (showLanguage.value = true),
       }
   }
 }

@@ -2,8 +2,9 @@
 # For license information, please see license.txt
 
 import frappe
+from frappe import _
 from frappe.model.document import Document
-
+from crm.api.language import get_language
 
 class CRMInvitation(Document):
 	def before_insert(self):
@@ -17,16 +18,21 @@ class CRMInvitation(Document):
 		self.invite_via_email()
 
 	def invite_via_email(self):
+		lang = get_language()
+		lang = lang if lang in ['vi', 'en'] else 'vi'
+			
 		invite_link = frappe.utils.get_url(f"/api/method/crm.api.accept_invitation?key={self.key}")
 		if frappe.local.dev_server:
 			print(f"Invite link for {self.email}: {invite_link}")
 
 		title = f"Frappe CRM"
-		template = "crm_invitation"
+		subject = _("You have been invited to join {0}").format(title)
+		template = f"{lang}_" + "crm_invitation"
+		
 
 		frappe.sendmail(
 			recipients=self.email,
-			subject=f"You have been invited to join {title}",
+			subject=subject,
 			template=template,
 			args={"title": title, "invite_link": invite_link},
 			now=True,

@@ -3,10 +3,12 @@
     <div id="app-header" class="flex-1"></div>
     <div class="flex items-center justify-center">
       <CallUI />
+      <ChangeLanguage />
     </div>
   </div>
 </template>
 
 <script setup>
 import CallUI from '@/components/Telephony/CallUI.vue'
+import ChangeLanguage from '@/components/Settings/ChangeLanguage.vue'
 </script>

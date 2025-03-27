@@ -59,7 +59,7 @@
                 "
                 :value="query"
                 autocomplete="off"
-                placeholder="Search"
+                :placeholder="__('Search')"
               />
               <button
                 class="absolute right-1.5 inline-flex h-7 w-7 items-center justify-center"
@@ -116,7 +116,7 @@
                 v-if="groups.length == 0"
                 class="my-1.5 rounded-md px-2.5 py-1.5 text-base text-ink-gray-5"
               >
-                No results found
+                {{ __('No results found') }}
               </li>
             </ComboboxOptions>
             <div

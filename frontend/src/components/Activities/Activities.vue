@@ -704,6 +704,7 @@ const emptyText = computed(() => {
   } else if (title.value == 'WhatsApp') {
     text = 'No WhatsApp Messages'
   }
+  text = __(text)
   return text
 })
 

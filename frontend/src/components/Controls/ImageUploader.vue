@@ -15,8 +15,8 @@
             uploading
               ? `Uploading ${progress}%`
               : image_url
-                ? 'Change'
-                : 'Upload'
+                ? __('Change')
+                : __('Upload')
           }}
         </Button>
         <Button v-if="image_url" @click="$emit('remove')">Remove</Button>

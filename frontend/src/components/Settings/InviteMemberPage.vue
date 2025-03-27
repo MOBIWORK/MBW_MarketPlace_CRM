@@ -95,10 +95,12 @@ const error = ref(null)
 
 const description = computed(() => {
   return {
-    'Sales Manager':
+    'Sales Manager': __(
       'Can manage and invite new members, and create public & private views (reports).',
-    'Sales User':
+    ),
+    'Sales User': __(
       'Can work with leads and deals and create private views (reports).',
+    ),
   }[role.value]
 })
 
