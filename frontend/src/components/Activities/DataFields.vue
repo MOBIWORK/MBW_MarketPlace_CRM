@@ -88,14 +88,14 @@ const data = createDocumentResource({
     onSuccess: () => {
       data.reload()
       createToast({
-        title: 'Data Updated',
+        title: __('Data Updated'),
         icon: 'check',
         iconClasses: 'text-ink-green-3',
       })
     },
     onError: (err) => {
       createToast({
-        title: 'Error',
+        title: __('Error'),
         text: err.messages[0],
         icon: 'x',
         iconClasses: 'text-red-600',

@@ -61,7 +61,7 @@
         </div>
         <div class="flex flex-wrap items-center gap-2">
           <Dropdown :options="taskStatusOptions(updateTaskStatus)">
-            <Button :label="_task.status" class="w-full justify-between">
+            <Button :label="__(_task.status)" class="w-full justify-between">
               <template #prefix>
                 <TaskStatusIcon :status="_task.status" />
               </template>
@@ -97,7 +97,7 @@
             input-class="border-none"
           />
           <Dropdown :options="taskPriorityOptions(updateTaskPriority)">
-            <Button :label="_task.priority" class="w-full justify-between">
+            <Button :label="__(_task.priority)" class="w-full justify-between">
               <template #prefix>
                 <TaskPriorityIcon :priority="_task.priority" />
               </template>

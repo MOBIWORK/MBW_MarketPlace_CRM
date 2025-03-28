@@ -414,7 +414,7 @@ function makeOutgoingCall(number) {
     },
     onError(err) {
       createToast({
-        title: 'Error',
+        title: __('Error'),
         text: err.messages[0],
         icon: 'x',
         iconClasses: 'text-red-600',

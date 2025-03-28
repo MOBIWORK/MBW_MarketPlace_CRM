@@ -498,7 +498,7 @@ async function setAsPrimary(field, value) {
   if (d) {
     contact.reload()
     createToast({
-      title: 'Contact updated',
+      title: __('Contact updated'),
       icon: 'check',
       iconClasses: 'text-ink-green-3',
     })
@@ -515,7 +515,7 @@ async function createNew(field, value) {
   if (d) {
     contact.reload()
     createToast({
-      title: 'Contact updated',
+      title: __('Contact updated'),
       icon: 'check',
       iconClasses: 'text-ink-green-3',
     })
@@ -532,7 +532,7 @@ async function editOption(doctype, name, fieldname, value) {
   if (d) {
     contact.reload()
     createToast({
-      title: 'Contact updated',
+      title: __('Contact updated'),
       icon: 'check',
       iconClasses: 'text-ink-green-3',
     })
@@ -546,7 +546,7 @@ async function deleteOption(doctype, name) {
   })
   await contact.reload()
   createToast({
-    title: 'Contact updated',
+    title: __('Contact updated'),
     icon: 'check',
     iconClasses: 'text-ink-green-3',
   })
@@ -560,7 +560,7 @@ async function updateField(fieldname, value) {
     value,
   })
   createToast({
-    title: 'Contact updated',
+    title: __('Contact updated'),
     icon: 'check',
     iconClasses: 'text-ink-green-3',
   })
